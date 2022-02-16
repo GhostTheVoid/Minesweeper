@@ -1,0 +1,158 @@
+/** Required package class namespace */
+package collections;
+
+ 
+/**
+ * Node.java - a representation of a generic node for use with
+ * a LinkedList object, and could be "visualized" as:
+ * 
+ *                      NODE
+ *                +--------------+
+ * previous <---- |              |
+ *                |     data     |
+ *                |   (generic)  |
+ *                |              |----> next
+ *                +--------------+
+ *
+ * @param <T> Generic data type used in the class
+ * -----------------------
+ * @author Marissa Rowles
+ * @since 8-Dec-2021
+ */
+public class Node <T> {
+    
+    /** The generic data type stored */
+    public T data;
+    
+    /** 
+     * Self reference (pointer,link) to the next node that 'will' be
+     * in a 'chain' (linked list)
+     */
+    public Node next;
+    
+    /** Link / pointer / reference to the previous (back) node */
+    public Node previous;
+    
+    /**
+     * Default constructor, set class properties
+     */
+    public Node() {
+        // As an option, you can have one constructor call another constructor
+        // (methods can other methods) - but constructors, in Java we use the
+        // keyword "this"
+        this(null,null,null);
+    }
+    
+    /**
+     * Class constructor, sets the class properties
+     * 
+     * @param data the node data (generic)
+     */
+    public Node (T data) {
+        this.data     = data;
+        this.next     = null;
+        this.previous = null;
+        
+        // OR: this(data,null,null);
+    }
+    
+    /**
+     * Class constructor, sets the class properties
+     * 
+     * @param data the node data (generic)
+     * @param next reference to the next Node object
+     */
+    public Node (T data, Node next) {
+        this.data     = data;
+        this.next     = next;
+        this.previous = null;
+        
+        // OR: this(data,next,null);
+    }
+    
+    /**
+     * Class constructor, sets the class properties
+     * 
+     * @param data the node data (generic)
+     * @param next reference to the next Node object
+     * @param previous reference to the previous Node object
+     */
+    public Node (T data, Node next, Node previous) {
+        this.data     = data;
+        this.next     = next;
+        this.previous = previous;
+        // We assign the parameters of this method to the properties of this 
+        // class (the global variables of the class)    
+    }
+     
+    /**
+     * String representation of this object
+     *
+     * @return The object represented as a String
+     */
+    @Override
+    public String toString() {
+        // Invalid data ↓
+        if (data == null) return "null \tMemory Address: " + super.toString(); 
+        // Generic has .toString() method ↓
+        return data.toString() + "\tMemory Address: " + super.toString();          
+    }
+   
+    /**
+     * Deep comparison, determines if two objects are "equal" in this context
+     *
+     * @param object the object to compare to
+     * @return the objects are "equal" (true) or not (false)
+     */
+    @Override
+    public boolean equals(Object object) {
+        // Error check first for null's appearing which could cause crashes
+        if (this.data == null) return false; // The data inside this object 
+        if (object    == null) return false; // Parameter sent to this method
+        // Convert (cast) the object into a "Node"
+        Node that = (Node)object;
+        if (that.data == null) return false; // The data inside this Parameter
+        // Now compare both data properties
+        return this.data.equals(that.data);
+        // Same kind of code as...
+            //T dataFromThisClass = (T)this.data;
+            //T dataFromParameter = (T)that.data;        
+            //if (dataFromThisClass.equals(dataFromParameter)) {
+            //  return true;
+            //}
+            //else {
+            //  return false;
+            //}
+    }
+       
+    /**
+     * a Deep clone, creates a duplicate object using new memory
+     *
+     * @return a "clone" of the object using new memory
+     */
+    @Override
+    public Node clone() {
+        return new Node(this.data, this.next, this.previous);
+        // Annoynmous clone object created and returned
+    }
+    
+    /**
+     * Frees up all memory used by this object, and it is called when this 
+     * object is "deleted" or "removed" or "destroyed"
+     */
+    @Override
+    public void finalize() {
+        data = null;
+        next = previous = null;     // Simplified line of code
+        System.gc();                // Runs the garbage collector in Java
+        // The 'garbage collector' is how Java manages memory. References to 
+        // 'memory' locations (e.g. variables, objects, etc.) that do not 
+        // contain actual data (for example a null) can be considered 'garbage'
+        // wastes of memory and should be 'cleaned up'. This means the memory 
+        // can be 'freed up' so other parts of the program could use that 
+        // memory and the memory isn't wasted. Java does do this automatically
+        // (like C# it has "automatic garbage collection") when it 'finds the 
+        // time' in the execution cycle, but you can make Java do it 
+        // explicitly by running the line above.
+    }
+}
