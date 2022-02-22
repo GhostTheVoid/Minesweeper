@@ -12,11 +12,14 @@ package iaminesweeper;
 public class Constants {
 
     public final static int    CELL_MOVE_AMOUNT         = 0;
+    public final static int    FACE_MOVE_AMOUNT         = 0;
     
     public final static int    GAME_TIMER_DELAY         = 1000;
     public final static int    CELL_TIMER_DELAY         = 100;
+    public final static int    FACE_TIMER_DELAY         = 100;
     
     public final static int    CELL_ANIMATION_DELAY        = 1000;
+    public final static int    FACE_ANIMATION_DELAY        = 1000;
     
     public final static String PLAYER_DATA_FILE    = "/media/data.txt";
     public final static String SETTINGS_DATA_FILE  = "/media/settings.txt";

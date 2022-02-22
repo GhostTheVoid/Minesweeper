@@ -50,10 +50,7 @@ public class GridCell extends GameCharacter{
     
     @Override
     public void action() {
-        if (detector.isOverLapping(gridCells.get(i))) {
-                if(isBomb) gridCells.get(i).despawn();
-                else            loseGame();
-            }
+        
     }
     
     /** Pacman has lost the game (captured by a ghost) */
@@ -76,39 +73,7 @@ public class GridCell extends GameCharacter{
         if (sprite == null) return;
         if (sprite.hasAnimations() == false) return;
         if (isBomb) {
-            if (isClicked)  {
-                
-            }
-            else if (coordinates.direction == Directions.DOWN)    {
-                if (sprite.isRunning(ANIMATE_CLICK) == false) 
-                    sprite.animate(ANIMATE_BOMB);
-            }
-            else if (coordinates.direction == Directions.LEFT)    {
-                if (sprite.isRunning(ANIMATE_FLAG) == false) 
-                    sprite.animate(ANIMATE_BOMB_HIT);
-            }
-            else if (coordinates.direction == Directions.UP)    {
-                if (sprite.isRunning(ANIMATE_UNKNOWN) == false) 
-                    sprite.animate(ANIMATE_BOMB CHECKED);
-            }
-        }
-        else {
-            if (coordinates.direction == Directions.RIGHT)  {
-                if (sprite.isRunning(ANIMATE_BLANK) == false) 
-                    sprite.animate(ANIMATE_BLANK);
-            }
-            else if (coordinates.direction == Directions.DOWN)    {
-                if (sprite.isRunning(ANIMATE_CLICK) == false) 
-                    sprite.animate(ANIMATE_CLICK);
-            }
-            else if (coordinates.direction == Directions.LEFT)    {
-                if (sprite.isRunning(ANIMATE_FLAG) == false) 
-                    sprite.animate(ANIMATE_FLAG);
-            }
-            else if (coordinates.direction == Directions.UP)    {
-                if (sprite.isRunning(ANIMATE_UNKNOWN) == false) 
-                    sprite.animate(ANIMATE_UNKNOWN);
-            }
+            
         }
     }
     
