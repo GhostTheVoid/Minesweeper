@@ -10,14 +10,14 @@ import javax.swing.Timer;
 
 
 /**
- * Animations.java - represents an animation of images (GameImage objects) with
- * useful methods 
- *
- * -----------------------
+ * Animation.java - represents an animation of images (GameImage objects) with
+ useful methods 
+
+ -----------------------
  * @author Marissa Rowles
  * @since 16-Feb-2022
  */
-public class Animations {
+public class Animation {
 
     
 
@@ -39,7 +39,7 @@ public class Animations {
      * @param delay the delay (in milliseconds) for the entire animation
      * @param shouldLoop should the animation loop (true) or not (false)
      */
-    public Animations(JLabel label, 
+    public Animation(JLabel label, 
                      LinkedList<String> imageFiles, 
                      int delay, 
                      boolean shouldLoop) {
@@ -63,7 +63,7 @@ public class Animations {
      * @param delay the delay (in milliseconds) for the entire animation
      * @param shouldLoop should the animation loop (true) or not (false)
      */
-    public Animations(JLabel label, 
+    public Animation(JLabel label, 
                      String spriteSheet,
                      LinkedList<Integer> imageX,
                      LinkedList<Integer> imageY,
