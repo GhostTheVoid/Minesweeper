@@ -15,7 +15,7 @@ public class Coordinates {
     public int x, y, width, height,
                left, right, top, bottom,
                centerX, centerY,
-               amount, direction;
+               amount;
     
     
     /**
@@ -26,20 +26,17 @@ public class Coordinates {
      * @param width the width value coordinate
      * @param height the height value coordinate 
      * @param amount the starting amount of movement
-     * @param direction the starting direction of movement
      */
     public Coordinates(int x,
                        int y,
                        int width,
                        int height,
-                       int amount,
-                       int direction) {
+                       int amount) {
         this.x         = x;
         this.y         = y;
         this.width     = width;
         this.height    = height;
         this.amount    = amount;
-        this.direction = direction;
         recalculate();
     }
     
@@ -55,7 +52,7 @@ public class Coordinates {
                        int y,
                        int width,
                        int height) {
-        this(x,y,width,height,0,0);
+        this(x,y,width,height,0);
     }
     
     /**
@@ -64,14 +61,13 @@ public class Coordinates {
      * @param amount the starting amount of movement
      * @param direction the starting direction of movement
      */
-    public Coordinates(int amount,
-                       int direction) {
-        this(0,0,0,0,amount,direction);
+    public Coordinates(int amount) {
+        this(0,0,0,0,amount);
     }
     
     /** Default constructor for the class, sets class properties */
     public Coordinates() {
-        this(0,0,0,0,0,0);
+        this(0,0,0,0,0);
     }
         
     /** Recalculates needed movement data */

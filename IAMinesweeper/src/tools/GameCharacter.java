@@ -30,17 +30,13 @@ public abstract class GameCharacter extends GameObject
      * 
      * @param image the label associated with the image for the game character
      * @param amount the amount the game character will move
-     * @param direction the direction the game character will move
      * @param delay the delay in milliseconds of the character's timer
-     * @param numberOfDirections the number of directions defined
      */
     public GameCharacter(JLabel image, 
-                         int amount, 
-                         int direction, 
-                         int delay, 
-                         int numberOfDirections) {
-        super(image, amount, direction, numberOfDirections);
-        input = new UserInput(super.coordinates, numberOfDirections);
+                         int amount,
+                         int delay) {
+        super(image, amount);
+        input = new UserInput(super.coordinates);
         timer = new Timer(delay, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

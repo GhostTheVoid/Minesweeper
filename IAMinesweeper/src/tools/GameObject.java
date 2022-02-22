@@ -17,8 +17,6 @@ public class GameObject {
     public Coordinates coordinates;
     /** The image used for this game object */
     public Sprite sprite;
-    /** Various methods to move the game object */
-    public Mover mover;
     /** Various methods to detect collision for the game object */
     public Detector detector;
     /** Various methods to react to collision for the game object */
@@ -33,7 +31,7 @@ public class GameObject {
      * @param image picture image used on a user interface
      */
     public GameObject(JLabel image) {
-        this(image,0,Directions.STOP,0);
+        this(image,0);
     }
     
     /**
@@ -41,19 +39,14 @@ public class GameObject {
      * 
      * @param image picture image used on a user interface
      * @param amount the amount the game character will move
-     * @param direction the direction the game character will move
-     * @param numberOfDirections the number of directions defined
      */
     public GameObject(JLabel image, 
-                      int amount, 
-                      int direction, 
-                      int numberOfDirections) {
-        coordinates = new Coordinates(amount, direction);        
+                      int amount) {
+        coordinates = new Coordinates(amount);        
         sprite      = new Sprite(image);
         sprite.update(coordinates);
-        mover       = new Mover(coordinates,numberOfDirections);
         detector    = new Detector(coordinates);
-        reactor     = new Reactor(coordinates,numberOfDirections,detector); 
+        reactor     = new Reactor(coordinates,detector); 
         spawn();
     } 
         

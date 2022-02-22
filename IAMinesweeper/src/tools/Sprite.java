@@ -16,7 +16,7 @@ import javax.swing.JLabel;
  */
 public class Sprite {
 
-    private LinkedList<Animations> animations;
+    private LinkedList<Animation> animations;
     private GameImage             gameImage;
     private int                   currentIndex;
     
@@ -27,9 +27,9 @@ public class Sprite {
      * @param label the label hitbox used to display the image
      * @param animations the animations associated with the object
      */
-    public Sprite(JLabel label, LinkedList<Animations> animations) {
+    public Sprite(JLabel label, LinkedList<Animation> animations) {
         gameImage  = new GameImage(label);                  // set picturebox
-        if (animations != null) setAnimationss(animations);  // set animations
+        if (animations != null) setAnimations(animations);  // set animations
     }
     
     /**
@@ -82,7 +82,7 @@ public class Sprite {
      * 
      * @param animations the animation objects for this game image
      */
-    public void setAnimationss(LinkedList<Animations> animations) {
+    public void setAnimations(LinkedList<Animation> animations) {
         this.animations = animations;                   // assign to property
         for (int i = 0; i < animations.size(); i++) {   // traverse array
             animations.get(i).stop();                   // stop each animation
@@ -363,7 +363,7 @@ public class Sprite {
      * 
      * @return the sprite has animations (true) or not (false) 
      */
-    public boolean hasAnimationss() {
+    public boolean hasAnimations() {
         if (animations == null) return false;
         return true;
     }
