@@ -3,17 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/media/settings.txt</file>
+            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/Status.java</file>
             <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/Timer.java</file>
             <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/Constants.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/tools/UserInput.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/UserInterface.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/GameEngine.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/Player.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/iaminesweeper/GridCell.java</file>
+            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/tools/GameObject.java</file>
             <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/media/minesweeper.png</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/tools/GameCharacter.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/tools/Directions.java</file>
-            <file>file:/C:/Users/m.rowles/Desktop/Work%20Files/IAMinesweeper/src/tools/Sprite.java</file>
         </group>
     </open-files>
 </project-private>
