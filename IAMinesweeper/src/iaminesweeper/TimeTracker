@@ -2,31 +2,77 @@
 package iaminesweeper;
 
 import collections.LinkedList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 import tools.Animation;
 import tools.GameObject;
 
  
 /**
- * Timer.java - representation of a timer in minesweeper
- *
- * -----------------------
+ * TimeTracker.java - representation of a timer in minesweeper
+
+ -----------------------
  * @author Marissa Rowles
  * @since 16-Feb-2022
  */
-public class Timer extends GameObject{
+public class TimeTracker extends GameObject{
     
+    private Timer timer;
+    private final int DELAY = 1000;
     
+    private JLabel label1;
+    private JLabel label2;
+    private JLabel label3;
 
     /**
      * Default constructor, set class properties
      * 
-     * @param timerLabel
+     * @param label
+     * @param label2
+     * @param label3
      * @param settings
      */
-    public Timer(JLabel timerLabel, LinkedList<String> settings) {
-        super(timerLabel);
-        setAnimations(timerLabel, settings); // build all animations
+    public TimeTracker(JLabel label, JLabel label2, JLabel label3, LinkedList<String> settings) {
+        super(label);
+        this.label1 = label;
+        this.label2 = label2;
+        this.label3 = label3;
+        
+        timer = new Timer(DELAY, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tick();
+            }
+        });
+        
+        setAnimations(label, settings); // build all animations
+    }
+    
+    private void start(){
+        timer.start();
+        ones = 0;
+        tens = 0;
+        hundreds = 0;
+    }
+    
+    private int ones;
+    private int tens;
+    private int hundreds;
+    
+    private void tick(){
+        ones++;
+        if (ones == 10){
+            ones = 0;
+            tens++;
+            if (tens == 10){
+                tens = 0;
+                hundreds++;
+            }
+        }
+        
+        
     }
     
     /**
