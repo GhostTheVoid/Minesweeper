@@ -4,6 +4,11 @@
  */
 package iaminesweeper;
 
+import collections.LinkedList;
+import java.awt.Color;
+import java.awt.Dimension;
+import javax.swing.JLabel;
+
 /**
  *
  * @author m.rowles
@@ -11,12 +16,23 @@ package iaminesweeper;
 public class UserInterface extends javax.swing.JFrame {
     
     GameEngine engine;
+    Dimension screenSize;
+    
+    Color backgroundColor = new Color(195, 187, 184);
 
     /**
      * Creates new form UserInterface
      */
     public UserInterface() {
+        screenSize = new Dimension(162, 204);
         initComponents();
+        
+        LinkedList<JLabel> cellLabels = new LinkedList<>();
+        LinkedList<JLabel> timerLabels = new LinkedList<>();
+        LinkedList<JLabel> flagLabels = new LinkedList<>();
+        
+        engine = new GameEngine(statusBtn,cellLabels,
+                                timerLabels,flagLabels,this);
     }
 
     /**
@@ -28,17 +44,142 @@ public class UserInterface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgPnl = new javax.swing.JPanel();
+        dataPnl = new javax.swing.JPanel();
+        timerLbl1 = new javax.swing.JLabel();
+        timerLbl2 = new javax.swing.JLabel();
+        timerLbl3 = new javax.swing.JLabel();
+        flagLbl1 = new javax.swing.JLabel();
+        flagLbl2 = new javax.swing.JLabel();
+        flagLbl3 = new javax.swing.JLabel();
+        statusBtn = new javax.swing.JButton();
+        gamePnl = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Minesweeper");
+        setName("minesweeper"); // NOI18N
+        setResizable(false);
+        setSize(new java.awt.Dimension(162, 204));
+
+        bgPnl.setBackground(new java.awt.Color(189, 189, 189));
+        bgPnl.setPreferredSize(screenSize);
+
+        dataPnl.setBackground(new java.awt.Color(189, 189, 189));
+        dataPnl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        dataPnl.setLayout(null);
+
+        timerLbl1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        timerLbl1.setForeground(java.awt.Color.black);
+        timerLbl1.setToolTipText("");
+        timerLbl1.setAlignmentY(0.0F);
+        timerLbl1.setMaximumSize(new java.awt.Dimension(13, 23));
+        timerLbl1.setMinimumSize(new java.awt.Dimension(13, 23));
+        timerLbl1.setOpaque(true);
+        timerLbl1.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(timerLbl1);
+        timerLbl1.setBounds(14, 12, 13, 23);
+
+        timerLbl2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
+        timerLbl2.setForeground(java.awt.Color.black);
+        timerLbl2.setToolTipText("");
+        timerLbl2.setMaximumSize(new java.awt.Dimension(13, 23));
+        timerLbl2.setMinimumSize(new java.awt.Dimension(13, 23));
+        timerLbl2.setOpaque(true);
+        timerLbl2.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(timerLbl2);
+        timerLbl2.setBounds(27, 12, 13, 23);
+
+        timerLbl3.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
+        timerLbl3.setForeground(java.awt.Color.black);
+        timerLbl3.setToolTipText("");
+        timerLbl3.setMaximumSize(new java.awt.Dimension(13, 23));
+        timerLbl3.setMinimumSize(new java.awt.Dimension(13, 23));
+        timerLbl3.setOpaque(true);
+        timerLbl3.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(timerLbl3);
+        timerLbl3.setBounds(40, 12, 13, 23);
+
+        flagLbl1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        flagLbl1.setForeground(java.awt.Color.black);
+        flagLbl1.setToolTipText("");
+        flagLbl1.setMaximumSize(new java.awt.Dimension(13, 23));
+        flagLbl1.setMinimumSize(new java.awt.Dimension(13, 23));
+        flagLbl1.setOpaque(true);
+        flagLbl1.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(flagLbl1);
+        flagLbl1.setBounds(107, 12, 13, 23);
+
+        flagLbl2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
+        flagLbl2.setForeground(java.awt.Color.black);
+        flagLbl2.setToolTipText("");
+        flagLbl2.setMaximumSize(new java.awt.Dimension(13, 23));
+        flagLbl2.setMinimumSize(new java.awt.Dimension(13, 23));
+        flagLbl2.setOpaque(true);
+        flagLbl2.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(flagLbl2);
+        flagLbl2.setBounds(120, 12, 13, 23);
+
+        flagLbl3.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
+        flagLbl3.setForeground(java.awt.Color.black);
+        flagLbl3.setToolTipText("");
+        flagLbl3.setMaximumSize(new java.awt.Dimension(13, 23));
+        flagLbl3.setMinimumSize(new java.awt.Dimension(13, 23));
+        flagLbl3.setOpaque(true);
+        flagLbl3.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(flagLbl3);
+        flagLbl3.setBounds(133, 12, 13, 23);
+
+        statusBtn.setBackground(new java.awt.Color(187, 187, 187));
+        statusBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        dataPnl.add(statusBtn);
+        statusBtn.setBounds(67, 11, 26, 26);
+
+        gamePnl.setBackground(new java.awt.Color(189, 189, 189));
+        gamePnl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        gamePnl.setForeground(new java.awt.Color(189, 189, 189));
+        gamePnl.setMinimumSize(new java.awt.Dimension(148, 140));
+
+        javax.swing.GroupLayout gamePnlLayout = new javax.swing.GroupLayout(gamePnl);
+        gamePnl.setLayout(gamePnlLayout);
+        gamePnlLayout.setHorizontalGroup(
+            gamePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 144, Short.MAX_VALUE)
+        );
+        gamePnlLayout.setVerticalGroup(
+            gamePnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 144, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout bgPnlLayout = new javax.swing.GroupLayout(bgPnl);
+        bgPnl.setLayout(bgPnlLayout);
+        bgPnlLayout.setHorizontalGroup(
+            bgPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgPnlLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(bgPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dataPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(gamePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+        bgPnlLayout.setVerticalGroup(
+            bgPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgPnlLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(dataPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(gamePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(bgPnl, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 442, Short.MAX_VALUE)
+            .addComponent(bgPnl, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
         );
 
         pack();
@@ -47,5 +188,15 @@ public class UserInterface extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel bgPnl;
+    private javax.swing.JPanel dataPnl;
+    private javax.swing.JLabel flagLbl1;
+    private javax.swing.JLabel flagLbl2;
+    private javax.swing.JLabel flagLbl3;
+    private javax.swing.JPanel gamePnl;
+    private javax.swing.JButton statusBtn;
+    private javax.swing.JLabel timerLbl1;
+    private javax.swing.JLabel timerLbl2;
+    private javax.swing.JLabel timerLbl3;
     // End of variables declaration//GEN-END:variables
 }
