@@ -38,19 +38,24 @@ public class GameEngine {
     public GameEngine(JButton statusButton, LinkedList<JLabel> cellLabels,
             LinkedList<JLabel> timerLabels, LinkedList<JLabel> flagLabels, 
             UserInterface ui) {
-//        playerData   = new FileHandler(Constants.PLAYER_DATA_FILE);
-//        settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
-//        //check for game settings
-//        LinkedList<String> settings = settingsFile.read();
-//        
-//        gridCells = new LinkedList<>();
-//        
-//        // check for saved data
+        //playerData   = new FileHandler(Constants.PLAYER_DATA_FILE);
+        settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
+        //check for game settings
+        LinkedList<String> settings = settingsFile.read();
+        
+        gridCells = new LinkedList<>();
+        
+        // check for saved data
 //        LinkedList<String> data = playerData.read();
 //        if (data != null) {
 //            JOptionPane.showMessageDialog(ui, "Previous score for " +
 //                    data.get(0) + " was " + data.get(1) + " points!");
 //        }
+
+        for (int i = 0; i < cellLabels.size(); i++) {
+            gridCells.add(new GridCell(cellLabels.get(i), settings));
+        }
+        timeTracker = new TimeTracker(timerLabels.get(1), timerLabels.get(2), timerLabels.get(3), settings);
         
         // set UI properties
         ui.getContentPane().setSize(new Dimension(162, 204));

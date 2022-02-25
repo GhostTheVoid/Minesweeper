@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package iaminesweeper;
 
 import collections.LinkedList;
@@ -28,8 +24,17 @@ public class UserInterface extends javax.swing.JFrame {
         initComponents();
         
         LinkedList<JLabel> cellLabels = new LinkedList<>();
+        for (int i = 0; i < 10; i++) {
+            cellLabels.add(null);
+        }
         LinkedList<JLabel> timerLabels = new LinkedList<>();
+        timerLabels.add(timerLbl1);
+        timerLabels.add(timerLbl2);
+        timerLabels.add(timerLbl3);
         LinkedList<JLabel> flagLabels = new LinkedList<>();
+        flagLabels.add(flagLbl1);
+        flagLabels.add(flagLbl2);
+        flagLabels.add(flagLbl3);
         
         engine = new GameEngine(statusBtn,cellLabels,
                                 timerLabels,flagLabels,this);
@@ -185,6 +190,7 @@ public class UserInterface extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
