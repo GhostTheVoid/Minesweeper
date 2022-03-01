@@ -46,7 +46,7 @@ public class Animator {
             imageY.add(Integer.parseInt(values[1]));        // y coordinate
             imageWidth.add(Integer.parseInt(values[2]));    // width coordinate
             imageHeight.add(Integer.parseInt(values[3]));   // height coordinate
-        }        
+        } 
         return new Animation(label, sheet, imageX, imageY, 
                              imageWidth, imageHeight, delay, true); // animation
     }

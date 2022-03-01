@@ -22,6 +22,7 @@ public class GridCell extends GameCharacter{
     private LinkedList<GridCell> gridCells;
     
     public boolean isBomb;
+    public boolean isFlagged;
     public boolean isClicked;
     
     private final int ANIMATE_BLANK         = 0;
@@ -74,6 +75,20 @@ public class GridCell extends GameCharacter{
         if (sprite.hasAnimations() == false) return;
         if (isBomb) {
             
+        }
+    }
+    
+    public void showBombs(){
+        if (isBomb){
+            if(isFlagged){
+                sprite.animate(ANIMATE_BOMB_CHECKED);
+            }
+            else if (isClicked){
+                sprite.animate(ANIMATE_BOMB_HIT);
+            }
+            else {
+                sprite.animate(ANIMATE_BOMB);
+            }
         }
     }
     

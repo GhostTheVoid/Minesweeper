@@ -13,6 +13,8 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -42,13 +44,18 @@ public class FileHandler
      * @return a string array of all the lines from the file 
      */
     public LinkedList<String> read() {
-        try {                                                   // error trap
+        try {   
             //File           file   = convertToFile(filename);    // create file
-            File file = new File (filename);
+            URL url = getClass().getResource(filename);
+            URI uri = url.toURI();
+            File file = new File (uri);
+            //File file = new File (filename);
+            System.out.println(filename);
             FileReader     reader = new FileReader(file);       // create reader
             BufferedReader buffer = new BufferedReader(reader); // create buffer
             LinkedList<String> lines = new LinkedList<>();            
             String line   = buffer.readLine();                  // read a line
+            
             while (line != null) {
                 lines.add(line);
                 line = buffer.readLine(); 
@@ -61,6 +68,8 @@ public class FileHandler
         }
         catch (NullPointerException e) {                        // read a null
             System.out.println("Read Null error");
+        } catch (URISyntaxException ex) {
+            System.out.println("URISyntaxException");
         }
         return null;                                            // error caught
     }

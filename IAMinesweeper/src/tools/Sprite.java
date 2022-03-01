@@ -367,4 +367,8 @@ public class Sprite {
         if (animations == null) return false;
         return true;
     }
+    
+    public int getAnimationCount(){
+        return animations.size();
+    }
 }
