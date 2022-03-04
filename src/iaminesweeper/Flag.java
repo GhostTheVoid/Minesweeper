@@ -12,11 +12,33 @@ import javax.swing.JLabel;
  * @since 18-Feb-2022
  */
 public class Flag extends Counter{
+    
+    private int count;
 
     /**
      * Default constructor, set class properties
      */
     public Flag(LinkedList<JLabel> flagLabels,  LinkedList<String> settings) {
         super(flagLabels, settings);
+    }
+    
+    private void setCount(){
+        
+    }
+    
+    /**
+     * The logic associated with each update of the label object
+     */
+    private void updateCount(){
+        ones++;                     // Increase ones
+        if (ones == 10) {           // Roll over to next digit
+            ones = 0;               // Rest ones
+            tens++;                 // Increase tens
+            if (tens == 10) {       // Roll over to next digit
+                tens = 0;           // Reset tens
+                hundreds++;         // Increase hundreds
+            }
+        }
+        updateAllLabels(ones, tens, hundreds);
     }
 }
