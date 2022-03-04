@@ -2,9 +2,13 @@
 package iaminesweeper;
  
 import collections.LinkedList;
+import java.awt.event.MouseEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import tools.Animation;
 import tools.GameCharacter;
+import tools.GameObject;
 
 /**
  * Status.java - description
@@ -14,6 +18,9 @@ import tools.GameCharacter;
  * @since 18-Feb-2022
  */
 public class Status extends GameCharacter{
+    
+    JLabel statusLabel;
+    Boolean isClicked;
 
     /**
      * Default constructor, set class properties
@@ -21,12 +28,37 @@ public class Status extends GameCharacter{
     public Status(JLabel statusLabel, LinkedList<String> settings) {
         super(statusLabel, Constants.FACE_MOVE_AMOUNT,
                 Constants.FACE_TIMER_DELAY);
+        this.statusLabel = statusLabel;
         setAnimations(statusLabel, settings); // build all animations
     }
     
-    @Override
-    public void action() {
+    public void restartGame(MouseEvent evt) {                                       
+        try {
+            if (!evt.getSource().equals(statusLabel)) {
+                System.out.println("NO!!!");
+            }
+            else {
+                System.out.println("Click");
+                sprite.animate(1);
+            
+                Thread.sleep(500);
+            
+                sprite.animate(0);
+            }
+        } catch (InterruptedException ex) {
+            System.out.println("InterruptedException");
+        }
     }
+    
+    /** changes the animation set to the appropriate animation based on direction */
+    public void animate() {
+        if (isClicked){
+            
+        }
+        
+        
+    }
+    
      
     /**
      * Set up all the animations for this character
@@ -59,6 +91,10 @@ public class Status extends GameCharacter{
         statusAnimations.add(faceWin);
         statusAnimations.add(faceLose);
         sprite.setAnimations(statusAnimations);             
+    }
+
+    @Override
+    public void action() {
     }
 
     

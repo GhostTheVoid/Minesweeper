@@ -28,15 +28,15 @@ public class UserInterface extends javax.swing.JFrame {
             cellLabels.add(null);
         }
         LinkedList<JLabel> timerLabels = new LinkedList<>();
-        timerLabels.add(timerLbl1);
-        timerLabels.add(timerLbl2);
-        timerLabels.add(timerLbl3);
+        timerLabels.add(timerLblOne);
+        timerLabels.add(timerLblTen);
+        timerLabels.add(timerLblHundred);
         LinkedList<JLabel> flagLabels = new LinkedList<>();
-        flagLabels.add(flagLbl1);
-        flagLabels.add(flagLbl2);
-        flagLabels.add(flagLbl3);
+        flagLabels.add(flagLblOne);
+        flagLabels.add(flagLblTen);
+        flagLabels.add(flagLblHundred);
         
-        engine = new GameEngine(statusBtn,cellLabels,
+        engine = new GameEngine(statusLbl,cellLabels,
                                 timerLabels,flagLabels,this);
     }
 
@@ -51,13 +51,13 @@ public class UserInterface extends javax.swing.JFrame {
 
         bgPnl = new javax.swing.JPanel();
         dataPnl = new javax.swing.JPanel();
-        timerLbl1 = new javax.swing.JLabel();
-        timerLbl2 = new javax.swing.JLabel();
-        timerLbl3 = new javax.swing.JLabel();
-        flagLbl1 = new javax.swing.JLabel();
-        flagLbl2 = new javax.swing.JLabel();
-        flagLbl3 = new javax.swing.JLabel();
-        statusBtn = new javax.swing.JButton();
+        timerLblHundred = new javax.swing.JLabel();
+        timerLblTen = new javax.swing.JLabel();
+        timerLblOne = new javax.swing.JLabel();
+        flagLblHundred = new javax.swing.JLabel();
+        flagLblTen = new javax.swing.JLabel();
+        flagLblOne = new javax.swing.JLabel();
+        statusLbl = new javax.swing.JLabel();
         gamePnl = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -73,71 +73,101 @@ public class UserInterface extends javax.swing.JFrame {
         dataPnl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         dataPnl.setLayout(null);
 
-        timerLbl1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        timerLbl1.setForeground(java.awt.Color.black);
-        timerLbl1.setToolTipText("");
-        timerLbl1.setAlignmentY(0.0F);
-        timerLbl1.setMaximumSize(new java.awt.Dimension(13, 23));
-        timerLbl1.setMinimumSize(new java.awt.Dimension(13, 23));
-        timerLbl1.setOpaque(true);
-        timerLbl1.setPreferredSize(new java.awt.Dimension(13, 23));
-        dataPnl.add(timerLbl1);
-        timerLbl1.setBounds(14, 12, 13, 23);
+        timerLblHundred.setBackground(new java.awt.Color(0, 0, 0));
+        timerLblHundred.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        timerLblHundred.setForeground(new java.awt.Color(255, 51, 51));
+        timerLblHundred.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timerLblHundred.setText("0");
+        timerLblHundred.setToolTipText("");
+        timerLblHundred.setAlignmentY(0.0F);
+        timerLblHundred.setMaximumSize(new java.awt.Dimension(13, 23));
+        timerLblHundred.setMinimumSize(new java.awt.Dimension(13, 23));
+        timerLblHundred.setOpaque(true);
+        timerLblHundred.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(timerLblHundred);
+        timerLblHundred.setBounds(14, 12, 13, 23);
 
-        timerLbl2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
-        timerLbl2.setForeground(java.awt.Color.black);
-        timerLbl2.setToolTipText("");
-        timerLbl2.setMaximumSize(new java.awt.Dimension(13, 23));
-        timerLbl2.setMinimumSize(new java.awt.Dimension(13, 23));
-        timerLbl2.setOpaque(true);
-        timerLbl2.setPreferredSize(new java.awt.Dimension(13, 23));
-        dataPnl.add(timerLbl2);
-        timerLbl2.setBounds(27, 12, 13, 23);
+        timerLblTen.setBackground(new java.awt.Color(0, 0, 0));
+        timerLblTen.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        timerLblTen.setForeground(new java.awt.Color(255, 51, 51));
+        timerLblTen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timerLblTen.setText("0");
+        timerLblTen.setToolTipText("");
+        timerLblTen.setMaximumSize(new java.awt.Dimension(13, 23));
+        timerLblTen.setMinimumSize(new java.awt.Dimension(13, 23));
+        timerLblTen.setOpaque(true);
+        timerLblTen.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(timerLblTen);
+        timerLblTen.setBounds(27, 12, 13, 23);
 
-        timerLbl3.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
-        timerLbl3.setForeground(java.awt.Color.black);
-        timerLbl3.setToolTipText("");
-        timerLbl3.setMaximumSize(new java.awt.Dimension(13, 23));
-        timerLbl3.setMinimumSize(new java.awt.Dimension(13, 23));
-        timerLbl3.setOpaque(true);
-        timerLbl3.setPreferredSize(new java.awt.Dimension(13, 23));
-        dataPnl.add(timerLbl3);
-        timerLbl3.setBounds(40, 12, 13, 23);
+        timerLblOne.setBackground(new java.awt.Color(0, 0, 0));
+        timerLblOne.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        timerLblOne.setForeground(new java.awt.Color(255, 51, 51));
+        timerLblOne.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timerLblOne.setText("0");
+        timerLblOne.setToolTipText("");
+        timerLblOne.setMaximumSize(new java.awt.Dimension(13, 23));
+        timerLblOne.setMinimumSize(new java.awt.Dimension(13, 23));
+        timerLblOne.setOpaque(true);
+        timerLblOne.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(timerLblOne);
+        timerLblOne.setBounds(40, 12, 13, 23);
 
-        flagLbl1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        flagLbl1.setForeground(java.awt.Color.black);
-        flagLbl1.setToolTipText("");
-        flagLbl1.setMaximumSize(new java.awt.Dimension(13, 23));
-        flagLbl1.setMinimumSize(new java.awt.Dimension(13, 23));
-        flagLbl1.setOpaque(true);
-        flagLbl1.setPreferredSize(new java.awt.Dimension(13, 23));
-        dataPnl.add(flagLbl1);
-        flagLbl1.setBounds(107, 12, 13, 23);
+        flagLblHundred.setBackground(new java.awt.Color(0, 0, 0));
+        flagLblHundred.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        flagLblHundred.setForeground(new java.awt.Color(255, 51, 51));
+        flagLblHundred.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        flagLblHundred.setText("0");
+        flagLblHundred.setToolTipText("");
+        flagLblHundred.setMaximumSize(new java.awt.Dimension(13, 23));
+        flagLblHundred.setMinimumSize(new java.awt.Dimension(13, 23));
+        flagLblHundred.setOpaque(true);
+        flagLblHundred.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(flagLblHundred);
+        flagLblHundred.setBounds(107, 12, 13, 23);
 
-        flagLbl2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Green"));
-        flagLbl2.setForeground(java.awt.Color.black);
-        flagLbl2.setToolTipText("");
-        flagLbl2.setMaximumSize(new java.awt.Dimension(13, 23));
-        flagLbl2.setMinimumSize(new java.awt.Dimension(13, 23));
-        flagLbl2.setOpaque(true);
-        flagLbl2.setPreferredSize(new java.awt.Dimension(13, 23));
-        dataPnl.add(flagLbl2);
-        flagLbl2.setBounds(120, 12, 13, 23);
+        flagLblTen.setBackground(new java.awt.Color(0, 0, 0));
+        flagLblTen.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        flagLblTen.setForeground(new java.awt.Color(255, 51, 51));
+        flagLblTen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        flagLblTen.setText("0");
+        flagLblTen.setToolTipText("");
+        flagLblTen.setMaximumSize(new java.awt.Dimension(13, 23));
+        flagLblTen.setMinimumSize(new java.awt.Dimension(13, 23));
+        flagLblTen.setOpaque(true);
+        flagLblTen.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(flagLblTen);
+        flagLblTen.setBounds(120, 12, 13, 23);
 
-        flagLbl3.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
-        flagLbl3.setForeground(java.awt.Color.black);
-        flagLbl3.setToolTipText("");
-        flagLbl3.setMaximumSize(new java.awt.Dimension(13, 23));
-        flagLbl3.setMinimumSize(new java.awt.Dimension(13, 23));
-        flagLbl3.setOpaque(true);
-        flagLbl3.setPreferredSize(new java.awt.Dimension(13, 23));
-        dataPnl.add(flagLbl3);
-        flagLbl3.setBounds(133, 12, 13, 23);
+        flagLblOne.setBackground(new java.awt.Color(0, 0, 0));
+        flagLblOne.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        flagLblOne.setForeground(new java.awt.Color(255, 51, 51));
+        flagLblOne.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        flagLblOne.setText("0");
+        flagLblOne.setToolTipText("");
+        flagLblOne.setMaximumSize(new java.awt.Dimension(13, 23));
+        flagLblOne.setMinimumSize(new java.awt.Dimension(13, 23));
+        flagLblOne.setOpaque(true);
+        flagLblOne.setPreferredSize(new java.awt.Dimension(13, 23));
+        dataPnl.add(flagLblOne);
+        flagLblOne.setBounds(133, 12, 13, 23);
 
-        statusBtn.setBackground(new java.awt.Color(187, 187, 187));
-        statusBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        dataPnl.add(statusBtn);
-        statusBtn.setBounds(67, 11, 26, 26);
+        statusLbl.setBackground(new java.awt.Color(187, 187, 187));
+        statusLbl.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        statusLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusLbl.setToolTipText("");
+        statusLbl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        statusLbl.setMaximumSize(new java.awt.Dimension(26, 26));
+        statusLbl.setMinimumSize(new java.awt.Dimension(26, 26));
+        statusLbl.setOpaque(true);
+        statusLbl.setPreferredSize(new java.awt.Dimension(26, 26));
+        statusLbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                statusLblMouseClicked(evt);
+            }
+        });
+        dataPnl.add(statusLbl);
+        statusLbl.setBounds(67, 11, 26, 26);
 
         gamePnl.setBackground(new java.awt.Color(189, 189, 189));
         gamePnl.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -190,19 +220,24 @@ public class UserInterface extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void statusLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseClicked
+        // TODO add your handling code here:
+        engine.mouseClick(evt);
+    }//GEN-LAST:event_statusLblMouseClicked
+
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPnl;
     private javax.swing.JPanel dataPnl;
-    private javax.swing.JLabel flagLbl1;
-    private javax.swing.JLabel flagLbl2;
-    private javax.swing.JLabel flagLbl3;
+    private javax.swing.JLabel flagLblHundred;
+    private javax.swing.JLabel flagLblOne;
+    private javax.swing.JLabel flagLblTen;
     private javax.swing.JPanel gamePnl;
-    private javax.swing.JButton statusBtn;
-    private javax.swing.JLabel timerLbl1;
-    private javax.swing.JLabel timerLbl2;
-    private javax.swing.JLabel timerLbl3;
+    private javax.swing.JLabel statusLbl;
+    private javax.swing.JLabel timerLblHundred;
+    private javax.swing.JLabel timerLblOne;
+    private javax.swing.JLabel timerLblTen;
     // End of variables declaration//GEN-END:variables
 }

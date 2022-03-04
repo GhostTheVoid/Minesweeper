@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.Timer;
-import tools.Animation;
-import tools.GameObject;
 
  
 /**
@@ -34,7 +32,6 @@ public class TimeTracker extends Counter{
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateDigits();
-                System.out.println(hundreds + tens + ones);
             }
         });
     }

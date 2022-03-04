@@ -41,13 +41,14 @@ public class Counter {
      */
     public Counter(LinkedList<JLabel> jLabels, LinkedList<String> settings) {
         this.jLabels = jLabels;
-        sprite1      = new Sprite(jLabels.get(0));
-        sprite2      = new Sprite(jLabels.get(1));
-        sprite3      = new Sprite(jLabels.get(2));
+//        sprite1      = new Sprite(jLabels.get(0));
+//        sprite2      = new Sprite(jLabels.get(1));
+//        sprite3      = new Sprite(jLabels.get(2));
+//        
+//        setAnimations(jLabels.get(0), settings, sprite1, animations1);  // build label animations
+//        setAnimations(jLabels.get(1), settings, sprite2, animations2); // build label2 animations
+//        setAnimations(jLabels.get(2), settings, sprite3, animations3); // build label3 animations
         
-        setAnimations(jLabels.get(0), settings, sprite1, animations1);  // build label animations
-        setAnimations(jLabels.get(1), settings, sprite2, animations2); // build label2 animations
-        setAnimations(jLabels.get(2), settings, sprite3, animations3); // build label3 animations
     }
     
     /**
@@ -63,28 +64,59 @@ public class Counter {
                 hundreds++;         // Increase hundreds
             }
         }
-        updateLabel(ones, tens, hundreds);
+        updateLabel(ones, jLabels.get(0));
+        updateLabel(tens, jLabels.get(1));
+        updateLabel(hundreds, jLabels.get(2));
+    }
+
+    protected void giveNums() {
+        System.out.println(hundreds + "" + tens + "" + ones);
     }
     
     /**
      * Update all the label objects to match with the data in updateDigits
      */
-    private void updateLabel(int ones, int tens, int hundreds) {
-        if (ones == 0) {
-            System.out.println("BLANK");
-            sprite1.animate(sprite1.getAnimationCount()-1);
-        }
-        if (tens == 0) {
-            System.out.println("BLANK");
-            sprite2.animate(sprite2.getAnimationCount()-1);
-        }
-        if (hundreds == 0) {
-            System.out.println("BLANK");
-            sprite3.animate(sprite3.getAnimationCount() -1 );
-        }
-        sprite1.animate(ones);
-        sprite2.animate(tens);
-        sprite3.animate(hundreds);
+    private void updateLabel(int num, JLabel label) {
+        label.setText(num+"");
+        
+//        switch(num) {
+//            case 0:
+//              label.animate(10);
+//              break;
+//            case 1:
+//              label.animate(1);
+//              break;
+//            case 2:
+//              label.animate(2);
+//              break;
+//            case 3:
+//              label.animate(3);
+//              break;
+//            case 4:
+//              label.animate(4);
+//              break;
+//            case 5:
+//              label.animate(5);
+//              break;
+//            case 6:
+//              label.animate(6);
+//              break;
+//            case 7:
+//              label.animate(7);
+//              break;
+//            case 8:
+//              label.animate(8);
+//              break;
+//            case 9:
+//              label.animate(9);
+//              break;
+//            case 10:
+//              label.animate(11);
+//              break;
+//            default: // ones = 0
+//              label.animate(10);
+//          }
+//        label.animate(num);
     }
     
     /**
@@ -178,4 +210,41 @@ public class Counter {
     public Counter clone() {
         return this;
     }
+    
+//    num1
+//    1
+//    0,0,13,23
+//    num2
+//    1
+//    7,0,13,23
+//    num3
+//    1
+//    18,0,13,23
+//    num4
+//    1
+//    42,0,13,23
+//    num5
+//    1
+//    56,0,13,23
+//    num6
+//    1
+//    70,0,13,23
+//    num7
+//    1
+//    84,0,13,23
+//    num8
+//    1
+//    98,0,13,23
+//    num9
+//    1
+//    112,0,13,23
+//    num0
+//    1
+//    126,0,13,23
+//    numDash
+//    1
+//    140,0,13,23
+//    numBlank
+//    1
+//    140,0,13,23
 }

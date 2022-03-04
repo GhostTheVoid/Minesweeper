@@ -7,10 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import tools.FileHandler;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.Timer;
 
 /**
  * GameEngine.java -  the logic connected to the user interface that runs game 
@@ -37,7 +36,7 @@ public class GameEngine {
     /**
      * Default constructor, set class properties
      */
-    public GameEngine(JButton statusButton, LinkedList<JLabel> cellLabels,
+    public GameEngine(JLabel statusLabel, LinkedList<JLabel> cellLabels,
             LinkedList<JLabel> timerLabels, LinkedList<JLabel> flagLabels, 
             UserInterface ui) {
         playerData   = new FileHandler(Constants.PLAYER_DATA_FILE);
@@ -59,6 +58,7 @@ public class GameEngine {
         }
         timeTracker = new TimeTracker(timerLabels, settings);
         flag        = new Flag(flagLabels, settings);
+        status      = new Status(statusLabel, settings);
         
         timeTracker.start();
         
@@ -96,6 +96,10 @@ public class GameEngine {
      */
     public void keypress(KeyEvent event) {
         player.keypress(event);
+    }
+    
+    public void mouseClick (MouseEvent evt){
+        status.restartGame(evt);
     }
      
     
