@@ -98,8 +98,21 @@ public class GameEngine {
         player.keypress(event);
     }
     
-    public void mouseClick (MouseEvent evt){
-        status.restartGame(evt);
+    /**
+     * When statusLabel is clicked on, envolks this method, 
+     * restarting the timer, remaking the board, and creating a small animation.
+     * 
+     * @param evt the event type
+     */
+    public void restartGame(MouseEvent evt){
+        status.clickLbl(evt);
+        
+        // Check for new game board
+        // Create new game board
+        
+        // Reset timer to zero
+        
+        // Reset Flags to default
     }
      
     

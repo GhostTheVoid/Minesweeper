@@ -3,7 +3,9 @@ package iaminesweeper;
 import collections.LinkedList;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -162,8 +164,11 @@ public class UserInterface extends javax.swing.JFrame {
         statusLbl.setOpaque(true);
         statusLbl.setPreferredSize(new java.awt.Dimension(26, 26));
         statusLbl.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                statusLblMouseClicked(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                statusLblMouseEvent(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                statusLblMouseEvent(evt);
             }
         });
         dataPnl.add(statusLbl);
@@ -220,14 +225,17 @@ public class UserInterface extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void statusLblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseClicked
+    private void statusLblMouseEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseEvent
         // TODO add your handling code here:
-        engine.mouseClick(evt);
-    }//GEN-LAST:event_statusLblMouseClicked
+        if (evt.getID() == MouseEvent.MOUSE_PRESSED) {
+            engine.restartGame(evt);
+        }
+        else if (evt.getID() == MouseEvent.MOUSE_RELEASED){
+            engine.restartGame(evt);
+        } 
+    }//GEN-LAST:event_statusLblMouseEvent
 
     
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPnl;
     private javax.swing.JPanel dataPnl;

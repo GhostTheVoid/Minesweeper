@@ -46,4 +46,20 @@ public class TimeTracker extends Counter{
     public void stop(){
         timer.stop();
     }
+    
+    /**
+     * The logic associated with each update of the label object
+     */
+    private void updateTime(){
+        ones++;                     // Increase ones
+        if (ones == 10) {           // Roll over to next digit
+            ones = 0;               // Rest ones
+            tens++;                 // Increase tens
+            if (tens == 10) {       // Roll over to next digit
+                tens = 0;           // Reset tens
+                hundreds++;         // Increase hundreds
+            }
+        }
+        updateAllLabels(ones, tens, hundreds);
+    }
 }

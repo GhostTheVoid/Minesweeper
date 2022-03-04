@@ -64,59 +64,42 @@ public class Counter {
                 hundreds++;         // Increase hundreds
             }
         }
+        updateAllLabels(ones, tens, hundreds);
+    }
+
+    protected void getInt() {
+        System.out.println(hundreds + "" + tens + "" + ones);
+    }
+    
+    protected void setInt(int ones, int tens, int hundreds){
+        this.ones = ones;
+        this.tens = tens;
+        this.hundreds = hundreds;
+        
+        updateAllLabels(ones, tens, hundreds);
+    }
+    
+    /**
+     * Update all the label objects to match with the data provided
+     * 
+     * @param ones the int that will be put into the ones spot
+     * @param tens the int that will be put into the tens spot
+     * @param hundreds the int that will be put into the hundreds spot
+     */
+    protected void updateAllLabels(int ones, int tens, int hundreds) {
         updateLabel(ones, jLabels.get(0));
         updateLabel(tens, jLabels.get(1));
         updateLabel(hundreds, jLabels.get(2));
     }
-
-    protected void giveNums() {
-        System.out.println(hundreds + "" + tens + "" + ones);
-    }
     
     /**
-     * Update all the label objects to match with the data in updateDigits
+     * Update one of the label objects to match with the data provided
+     * 
+     * @param num the int that will replace the current label
+     * @param label 
      */
     private void updateLabel(int num, JLabel label) {
         label.setText(num+"");
-        
-//        switch(num) {
-//            case 0:
-//              label.animate(10);
-//              break;
-//            case 1:
-//              label.animate(1);
-//              break;
-//            case 2:
-//              label.animate(2);
-//              break;
-//            case 3:
-//              label.animate(3);
-//              break;
-//            case 4:
-//              label.animate(4);
-//              break;
-//            case 5:
-//              label.animate(5);
-//              break;
-//            case 6:
-//              label.animate(6);
-//              break;
-//            case 7:
-//              label.animate(7);
-//              break;
-//            case 8:
-//              label.animate(8);
-//              break;
-//            case 9:
-//              label.animate(9);
-//              break;
-//            case 10:
-//              label.animate(11);
-//              break;
-//            default: // ones = 0
-//              label.animate(10);
-//          }
-//        label.animate(num);
     }
     
     /**

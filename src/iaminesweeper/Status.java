@@ -2,10 +2,13 @@
 package iaminesweeper;
  
 import collections.LinkedList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 import tools.Animation;
 import tools.GameCharacter;
 import tools.GameObject;
@@ -19,8 +22,12 @@ import tools.GameObject;
  */
 public class Status extends GameCharacter{
     
-    JLabel statusLabel;
-    Boolean isClicked;
+    private JLabel statusLabel;
+    private Timer clickDelay;
+    
+    public Boolean isClicked;
+    
+    
 
     /**
      * Default constructor, set class properties
@@ -29,34 +36,43 @@ public class Status extends GameCharacter{
         super(statusLabel, Constants.FACE_MOVE_AMOUNT,
                 Constants.FACE_TIMER_DELAY);
         this.statusLabel = statusLabel;
+        
+        ActionListener delayAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clickDelayAction();
+            }
+        };
+        clickDelay = new Timer(50, delayAction);
+        
         setAnimations(statusLabel, settings); // build all animations
     }
     
-    public void restartGame(MouseEvent evt) {                                       
-        try {
-            if (!evt.getSource().equals(statusLabel)) {
-                System.out.println("NO!!!");
-            }
-            else {
-                System.out.println("Click");
-                sprite.animate(1);
-            
-                Thread.sleep(500);
-            
-                sprite.animate(0);
-            }
-        } catch (InterruptedException ex) {
-            System.out.println("InterruptedException");
+    /**
+     * When this label is clicked on, envolks this method, 
+     * creating a short clicking animation
+     * 
+     * @param evt the event type
+     */
+    public void clickLbl(MouseEvent evt) {
+        if (evt.getID() == MouseEvent.MOUSE_PRESSED) {
+            sprite.animate(1);
         }
+        else if (evt.getID() == MouseEvent.MOUSE_RELEASED){
+            clickDelay.start();
+        } 
     }
     
     /** changes the animation set to the appropriate animation based on direction */
     public void animate() {
-        if (isClicked){
-            
-        }
         
         
+        
+    }
+    
+    private void clickDelayAction() {
+        sprite.animate(0);
+        clickDelay.stop();
     }
     
      
