@@ -60,6 +60,8 @@ public class GameEngine {
         flag        = new Flag(flagLabels, settings);
         status      = new Status(statusLabel, settings);
         
+        startGame();
+        
         timeTracker.start();
         
         // set UI properties
@@ -85,6 +87,11 @@ public class GameEngine {
 //        file.write(data);                               // save array to file
 //        System.exit(0);                                 // exit application
 //    }
+    
+    private void startGame() {
+        
+        
+    }
     
     
     
@@ -123,4 +130,6 @@ public class GameEngine {
         // If user selected a new size, game will reload with new grid
         // Set All to blank
     }
+
+    
 }

@@ -22,8 +22,23 @@ public class Flag extends Counter{
         super(flagLabels, settings);
     }
     
+    private void findCount(){
+        
+    }
+    
     private void setCount(){
         
+        ones++;                     // Increase ones
+        if (ones == 10) {           // Roll over to next digit
+            ones = 0;               // Rest ones
+            tens++;                 // Increase tens
+            if (tens == 10) {       // Roll over to next digit
+                tens = 0;           // Reset tens
+                hundreds++;         // Increase hundreds
+            }
+        }
+        
+        updateAllLabels(ones, tens, hundreds);
     }
     
     /**
