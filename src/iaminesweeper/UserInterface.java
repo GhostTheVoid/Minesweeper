@@ -51,6 +51,7 @@ public class UserInterface extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        gridBtnGrp = new javax.swing.ButtonGroup();
         bgPnl = new javax.swing.JPanel();
         dataPnl = new javax.swing.JPanel();
         timerLblHundred = new javax.swing.JLabel();
@@ -61,6 +62,12 @@ public class UserInterface extends javax.swing.JFrame {
         flagLblOne = new javax.swing.JLabel();
         statusLbl = new javax.swing.JLabel();
         gamePnl = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuGame = new javax.swing.JMenu();
+        easyMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
+        medMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
+        hardMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
+        menuHelp = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minesweeper");
@@ -199,7 +206,7 @@ public class UserInterface extends javax.swing.JFrame {
                 .addGroup(bgPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dataPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(gamePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         bgPnlLayout.setVerticalGroup(
             bgPnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,18 +215,50 @@ public class UserInterface extends javax.swing.JFrame {
                 .addComponent(dataPnl, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(gamePnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jMenuBar1.setBackground(javax.swing.UIManager.getDefaults().getColor("EditorTab.selectedForeground"));
+        jMenuBar1.setForeground(javax.swing.UIManager.getDefaults().getColor("text"));
+
+        menuGame.setText("Game");
+        gridBtnGrp.add(menuGame);
+
+        easyMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
+        gridBtnGrp.add(easyMenuRdBtn);
+        easyMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
+        easyMenuRdBtn.setSelected(true);
+        easyMenuRdBtn.setText("Beginner");
+        menuGame.add(easyMenuRdBtn);
+
+        medMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
+        gridBtnGrp.add(medMenuRdBtn);
+        medMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
+        medMenuRdBtn.setText("Intermediate");
+        menuGame.add(medMenuRdBtn);
+
+        hardMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
+        gridBtnGrp.add(hardMenuRdBtn);
+        hardMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
+        hardMenuRdBtn.setText("Expert");
+        menuGame.add(hardMenuRdBtn);
+
+        jMenuBar1.add(menuGame);
+
+        menuHelp.setText("Help");
+        jMenuBar1.add(menuHelp);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPnl, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+            .addComponent(bgPnl, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPnl, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+            .addComponent(bgPnl, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
         );
 
         pack();
@@ -239,10 +278,17 @@ public class UserInterface extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPnl;
     private javax.swing.JPanel dataPnl;
+    private javax.swing.JRadioButtonMenuItem easyMenuRdBtn;
     private javax.swing.JLabel flagLblHundred;
     private javax.swing.JLabel flagLblOne;
     private javax.swing.JLabel flagLblTen;
     private javax.swing.JPanel gamePnl;
+    private javax.swing.ButtonGroup gridBtnGrp;
+    private javax.swing.JRadioButtonMenuItem hardMenuRdBtn;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JRadioButtonMenuItem medMenuRdBtn;
+    private javax.swing.JMenu menuGame;
+    private javax.swing.JMenu menuHelp;
     private javax.swing.JLabel statusLbl;
     private javax.swing.JLabel timerLblHundred;
     private javax.swing.JLabel timerLblOne;
