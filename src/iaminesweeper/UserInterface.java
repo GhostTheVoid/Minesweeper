@@ -52,6 +52,12 @@ public class UserInterface extends javax.swing.JFrame {
     private void initComponents() {
 
         gridBtnGrp = new javax.swing.ButtonGroup();
+        menuPopup = new javax.swing.JPopupMenu();
+        graphItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        easyMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
+        medMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
+        hardMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
         bgPnl = new javax.swing.JPanel();
         dataPnl = new javax.swing.JPanel();
         timerLblHundred = new javax.swing.JLabel();
@@ -64,10 +70,36 @@ public class UserInterface extends javax.swing.JFrame {
         gamePnl = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuGame = new javax.swing.JMenu();
-        easyMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
-        medMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
-        hardMenuRdBtn = new javax.swing.JRadioButtonMenuItem();
         menuHelp = new javax.swing.JMenu();
+
+        menuPopup.setBackground(javax.swing.UIManager.getDefaults().getColor("Menu.foreground"));
+        menuPopup.setForeground(javax.swing.UIManager.getDefaults().getColor("Menu.background"));
+
+        graphItem.setText("jfkdjfljsdfklsd");
+        graphItem.setToolTipText("");
+        graphItem.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        graphItem.setVerifyInputWhenFocusTarget(false);
+        menuPopup.add(graphItem);
+        menuPopup.add(jSeparator1);
+
+        easyMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
+        gridBtnGrp.add(easyMenuRdBtn);
+        easyMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
+        easyMenuRdBtn.setSelected(true);
+        easyMenuRdBtn.setText("Beginner");
+        menuPopup.add(easyMenuRdBtn);
+
+        medMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
+        gridBtnGrp.add(medMenuRdBtn);
+        medMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
+        medMenuRdBtn.setText("Intermediate");
+        menuPopup.add(medMenuRdBtn);
+
+        hardMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
+        gridBtnGrp.add(hardMenuRdBtn);
+        hardMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
+        hardMenuRdBtn.setText("Expert");
+        menuPopup.add(hardMenuRdBtn);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Minesweeper");
@@ -223,26 +255,12 @@ public class UserInterface extends javax.swing.JFrame {
 
         menuGame.setText("Game");
         gridBtnGrp.add(menuGame);
-
-        easyMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
-        gridBtnGrp.add(easyMenuRdBtn);
-        easyMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
-        easyMenuRdBtn.setSelected(true);
-        easyMenuRdBtn.setText("Beginner");
-        menuGame.add(easyMenuRdBtn);
-
-        medMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
-        gridBtnGrp.add(medMenuRdBtn);
-        medMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
-        medMenuRdBtn.setText("Intermediate");
-        menuGame.add(medMenuRdBtn);
-
-        hardMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
-        gridBtnGrp.add(hardMenuRdBtn);
-        hardMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
-        hardMenuRdBtn.setText("Expert");
-        menuGame.add(hardMenuRdBtn);
-
+        menuGame.setComponentPopupMenu(menuPopup);
+        menuGame.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuGameMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(menuGame);
 
         menuHelp.setText("Help");
@@ -274,6 +292,11 @@ public class UserInterface extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_statusLblMouseEvent
 
+    private void menuGameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGameMouseClicked
+        // TODO add your handling code here:
+        menuPopup.show(this, 10, this.getHeight() / 2);
+    }//GEN-LAST:event_menuGameMouseClicked
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPnl;
@@ -283,12 +306,15 @@ public class UserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel flagLblOne;
     private javax.swing.JLabel flagLblTen;
     private javax.swing.JPanel gamePnl;
+    private javax.swing.JMenuItem graphItem;
     private javax.swing.ButtonGroup gridBtnGrp;
     private javax.swing.JRadioButtonMenuItem hardMenuRdBtn;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JRadioButtonMenuItem medMenuRdBtn;
     private javax.swing.JMenu menuGame;
     private javax.swing.JMenu menuHelp;
+    private javax.swing.JPopupMenu menuPopup;
     private javax.swing.JLabel statusLbl;
     private javax.swing.JLabel timerLblHundred;
     private javax.swing.JLabel timerLblOne;
