@@ -303,17 +303,12 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void statusLblMouseEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseEvent
         // TODO add your handling code here:
-        if (evt.getID() == MouseEvent.MOUSE_PRESSED) {
-            engine.restartGame(evt);
-        }
-        else if (evt.getID() == MouseEvent.MOUSE_RELEASED){
-            engine.restartGame(evt);
-        } 
+        engine.mouseClick(evt, "Status");
     }//GEN-LAST:event_statusLblMouseEvent
 
     private void menuGameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGameMouseClicked
         // TODO add your handling code here:
-        menuPopup.show(this, 10, this.getHeight() / 2);
+        menuPopup.show(this, 10, 55);
     }//GEN-LAST:event_menuGameMouseClicked
 
     private void menuHelpMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuHelpMenuSelected
@@ -325,8 +320,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void gamePnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gamePnlMouseClicked
         // TODO add your handling code here:
-        engine.mouseClick(evt, true);
-        
+        engine.mouseClick(evt, "Grid");
         
         
     }//GEN-LAST:event_gamePnlMouseClicked

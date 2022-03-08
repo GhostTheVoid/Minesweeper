@@ -93,13 +93,32 @@ public class GameEngine {
 //    }
     
     /**
+     * Envolks an action if the user clicks their mouse
+     * 
+     * @param evt       The MouseEvent envoked
+     * @param object    The name of the object put through
+     */
+    public void mouseClick(MouseEvent evt, String object){
+        //If on grid
+        if (object.equals("Grid")){
+            if (!gameStarted){
+                gameStarted = true;
+                timeTracker.start();
+            }
+        }
+        else if (object.equals("Status")){
+            restartGame(evt);
+        }
+    }
+    
+    /**
      * Opens a webpage in the default browser
      * 
      * @return If the file opening was sucessful, return true. If unsucessful,
      *          return false.
      */
     public boolean openURI(String uri){
-        Desktop desktop = Desktop.isDesktopSupported()? Desktop.getDesktop() : null;
+        Desktop desktop = Desktop.isDesktopSupported()?Desktop.getDesktop():null;
         if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
             try {
                 desktop.browse(new URI(uri));
@@ -144,17 +163,5 @@ public class GameEngine {
         player.keypress(event);
     }
     
-    public void mouseClick(MouseEvent evt, Object gridObject){
-        //If on grid
-        if (evt.getSource() == gridObject){
-            if (!gameStarted){
-                gameStarted = true;
-                timeTracker.start();
-            }
-        }
-        
-        
-    }
-
     
 }
