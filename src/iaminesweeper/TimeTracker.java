@@ -31,26 +31,41 @@ public class TimeTracker extends Counter{
         timer = new Timer(DELAY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateDigits();
+                updateCounter();
             }
         });
     }
     
+    /**
+     * Checks if timer is already started, if not, resets the counter integers,
+     * and then starts the timer.
+     */
     public void start(){
-        timer.start();
-        ones = 0;
-        tens = 0;
-        hundreds = 0;
+        if (!timer.isRunning()) {
+            setInt(0, 0, 0);
+            timer.start();
+            System.out.println("Timer Started!");
+        }
+        else System.out.println("Timer is already running!");
     }
     
+    /**
+     * Checks if timer is already stopped, if not, stops the timer
+     */
     public void stop(){
-        timer.stop();
+        if (timer.isRunning()) {
+            timer.stop();
+            setInt(0, 0, 0);
+            System.out.println("Timer Stopped!");
+        }
+        else System.out.println("Timer is already stopped!");
     }
     
     /**
      * The logic associated with each update of the label object
      */
-    private void updateTime(){
+    @Override
+    protected void updateCounter(){
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones

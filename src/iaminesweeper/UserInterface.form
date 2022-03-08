@@ -20,13 +20,16 @@
       <SubComponents>
         <MenuItem class="javax.swing.JMenuItem" name="graphItem">
           <Properties>
-            <Property name="text" type="java.lang.String" value="jfkdjfljsdfklsd"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp;&amp;emsp; &amp;nbsp; Height&amp;ensp; Width&amp;ensp; Mines&lt;/html&gt;"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="contentAreaFilled" type="boolean" value="false"/>
             <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="horizontalTextPosition" type="int" value="4"/>
+            <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator">
         </Component>
         <MenuItem class="javax.swing.JRadioButtonMenuItem" name="easyMenuRdBtn">
           <Properties>
@@ -40,7 +43,7 @@
               <Color blue="34" green="32" id="MenuItem.background" palette="3" red="30" type="palette"/>
             </Property>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="text" type="java.lang.String" value="Beginner"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Beginner:&lt;/b&gt; &amp;nbsp;&amp;emsp;&amp;emsp; 9 &amp;emsp;&amp;emsp;&amp;ensp; 9 &amp;emsp;&amp;emsp;&amp;ensp; 10&lt;/html&gt;"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JRadioButtonMenuItem" name="medMenuRdBtn">
@@ -54,7 +57,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="34" green="32" id="MenuItem.background" palette="3" red="30" type="palette"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Intermediate"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Intermediate:&lt;/b&gt;&amp;nbsp;&amp;ensp; 16 &amp;emsp;&amp;emsp;16 &amp;emsp;&amp;emsp;&amp;nbsp; 40&lt;/html&gt;"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JRadioButtonMenuItem" name="hardMenuRdBtn">
@@ -68,12 +71,12 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="34" green="32" id="MenuItem.background" palette="3" red="30" type="palette"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Expert"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;b&gt;Expert:&lt;/b&gt; &amp;nbsp;&amp;emsp;&amp;emsp;&amp;emsp; 16 &amp;emsp;&amp;emsp; 30 &amp;emsp;&amp;emsp; 99&lt;/html&gt;"/>
           </Properties>
         </MenuItem>
       </SubComponents>
     </Container>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
+    <Menu class="javax.swing.JMenuBar" name="jMenuBar">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="d5" green="d5" id="EditorTab.selectedForeground" palette="3" red="d5" type="palette"/>
@@ -101,6 +104,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
+          <Events>
+            <EventHandler event="menuSelected" listener="javax.swing.event.MenuListener" parameters="javax.swing.event.MenuEvent" handler="menuHelpMenuSelected"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>
@@ -115,7 +121,7 @@
     </Property>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
@@ -438,6 +444,9 @@
               <Dimension value="[148, 140]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="gamePnlMouseClicked"/>
+          </Events>
 
           <Layout>
             <DimensionLayout dim="0">

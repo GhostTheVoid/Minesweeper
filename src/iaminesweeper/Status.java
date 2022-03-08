@@ -63,10 +63,12 @@ public class Status extends GameCharacter{
         } 
     }
     
+    public void leftMouseBtnDown(){
+        
+    }
+    
     /** changes the animation set to the appropriate animation based on direction */
     public void animate() {
-        
-        
         
     }
     

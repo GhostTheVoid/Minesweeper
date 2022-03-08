@@ -2,12 +2,14 @@
 package iaminesweeper;
  
 import collections.LinkedList;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import tools.FileHandler;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -31,6 +33,8 @@ public class GameEngine {
     
     private int rows, columns;
     
+    public boolean gameStarted;
+    
     
 
     /**
@@ -43,6 +47,8 @@ public class GameEngine {
         settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
         //check for game settings
         LinkedList<String> settings = settingsFile.read();
+        
+        
         
         gridCells = new LinkedList<>();
         
@@ -60,9 +66,7 @@ public class GameEngine {
         flag        = new Flag(flagLabels, settings);
         status      = new Status(statusLabel, settings);
         
-        startGame();
         
-        timeTracker.start();
         
         // set UI properties
         ui.getContentPane().setSize(new Dimension(162, 204));
@@ -88,21 +92,24 @@ public class GameEngine {
 //        System.exit(0);                                 // exit application
 //    }
     
-    private void startGame() {
-        
-        
-    }
-    
-    
-    
-    
     /**
-     * The user's keyboard event of pressing a key to respond to
+     * Opens a webpage in the default browser
      * 
-     * @param event the keyboard event registered
+     * @return If the file opening was sucessful, return true. If unsucessful,
+     *          return false.
      */
-    public void keypress(KeyEvent event) {
-        player.keypress(event);
+    public boolean openURI(String uri){
+        Desktop desktop = Desktop.isDesktopSupported()? Desktop.getDesktop() : null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(new URI(uri));
+                System.out.println("File Opening Sucessful!");
+                return true;
+            } catch (Exception e) {
+                System.out.println("File Opening Unsucsessful: " + e.toString());
+            }
+        }
+        return false;
     }
     
     /**
@@ -113,6 +120,7 @@ public class GameEngine {
      */
     public void restartGame(MouseEvent evt){
         status.clickLbl(evt);
+        timeTracker.stop();
         
         // Check for new game board
         // Create new game board
@@ -121,14 +129,31 @@ public class GameEngine {
         
         // Reset Flags to default
     }
-     
     
+    public void lostGame(){
+        timeTracker.stop();
+        gameStarted = false;
+    }
     
-    /** User has reset the game (clicked on the status button) */
-    private void resetGame() {
-        // generate new map
-        // If user selected a new size, game will reload with new grid
-        // Set All to blank
+    /**
+     * The user's keyboard event of pressing a key to respond to
+     * 
+     * @param event the keyboard event registered
+     */
+    public void keypress(KeyEvent event) {
+        player.keypress(event);
+    }
+    
+    public void mouseClick(MouseEvent evt, Object gridObject){
+        //If on grid
+        if (evt.getSource() == gridObject){
+            if (!gameStarted){
+                gameStarted = true;
+                timeTracker.start();
+            }
+        }
+        
+        
     }
 
     

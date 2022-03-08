@@ -51,10 +51,32 @@ public class Counter {
         
     }
     
+    
+
+    protected void getInt() {
+        System.out.println(hundreds + "" + tens + "" + ones);
+    }
+    
+    /**
+     * Change the data of each spot in the counter, then update the associated
+     * labels
+     * 
+     * @param ones     int representing the ones spot
+     * @param tens     int representing the tens spot
+     * @param hundreds int representing the hundreds spot
+     */
+    protected void setInt(int ones, int tens, int hundreds){
+        this.ones = ones;
+        this.tens = tens;
+        this.hundreds = hundreds;
+        
+        updateAllLabels(ones, tens, hundreds);
+    }
+    
     /**
      * The logic associated with each update of the label object
      */
-    protected void updateDigits(){
+    protected void updateCounter(){
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones
@@ -66,17 +88,15 @@ public class Counter {
         }
         updateAllLabels(ones, tens, hundreds);
     }
-
-    protected void getInt() {
-        System.out.println(hundreds + "" + tens + "" + ones);
-    }
     
-    protected void setInt(int ones, int tens, int hundreds){
-        this.ones = ones;
-        this.tens = tens;
-        this.hundreds = hundreds;
-        
-        updateAllLabels(ones, tens, hundreds);
+    /**
+     * Update one of the label objects to match with the data provided
+     * 
+     * @param num the int that will replace the current label
+     * @param label 
+     */
+    private void updateLabel(int num, JLabel label) {
+        label.setText(num+"");
     }
     
     /**
@@ -90,16 +110,6 @@ public class Counter {
         updateLabel(ones, jLabels.get(0));
         updateLabel(tens, jLabels.get(1));
         updateLabel(hundreds, jLabels.get(2));
-    }
-    
-    /**
-     * Update one of the label objects to match with the data provided
-     * 
-     * @param num the int that will replace the current label
-     * @param label 
-     */
-    private void updateLabel(int num, JLabel label) {
-        label.setText(num+"");
     }
     
     /**
