@@ -4,6 +4,7 @@ package iaminesweeper;
 import collections.LinkedList;
 import javax.swing.JLabel;
 import iaminesweeper.Constants;
+import javax.swing.JPanel;
 import tools.Animation;
 import tools.GameCharacter;
 
@@ -21,20 +22,32 @@ public class GridCell extends GameCharacter{
     
     private LinkedList<GridCell> gridCells;
     
+    // GLOBAL VARIABLES
+    // ================
+        
+    private JLabel[][] matrix;          // the 2D array of JLabel objects
+    private final int WIDTH  = 6;
+    private final int HEIGHT = WIDTH;   // the set sizes of the labels
+    
     public boolean isBomb;
     public boolean isFlagged;
     public boolean isClicked;
     
-    private final int ANIMATE_BLANK         = 0;
-    private final int ANIMATE_CLICK         = 1;
-    private final int ANIMATE_FLAG          = 2;
-    private final int ANIMATE_UNKNOWN       = 3;  
-    private final int ANIMATE_UNKNOWN_CLICK = 4;
-    private final int ANIMATE_BOMB          = 5;
-    private final int ANIMATE_BOMB_HIT      = 6;
-    private final int ANIMATE_BOMB_CHECKED = 7;            
-    private final int RIGHT_PORTAL         = 0;
-    private final int LEFT_PORTAL          = 1;
+    private final int CELL_DEFAULT_TAG       = 0;
+    private final int CELL_1_TAG             = 1;
+    private final int CELL_2_TAG             = 2;
+    private final int CELL_3_TAG             = 3;  
+    private final int CELL_4_TAG             = 4;
+    private final int CELL_5_TAG             = 5;
+    private final int CELL_7_TAG             = 6;
+    private final int CELL_8_TAG             = 7;            
+    private final int CELL_CLICK_TAG         = 8;            
+    private final int CELL_FLAG_TAG          = 9;            
+    private final int CELL_UNKNOWN_TAG       = 10;            
+    private final int CELL_UNKNOWN_CLICK_TAG = 11;            
+    private final int CELL_BOMB_TAG          = 12;            
+    private final int CELL_BOMB_HIT_TAG      = 13;            
+    private final int CELL_BOMB_CHECKED_TAG  = 14;    
     
 
     /**
@@ -81,13 +94,13 @@ public class GridCell extends GameCharacter{
     public void showBombs(){
         if (isBomb){
             if(isFlagged){
-                sprite.animate(ANIMATE_BOMB_CHECKED);
+                sprite.animate(CELL_FLAG_TAG);
             }
             else if (isClicked){
-                sprite.animate(ANIMATE_BOMB_HIT);
+                sprite.animate(CELL_BOMB_HIT_TAG);
             }
             else {
-                sprite.animate(ANIMATE_BOMB);
+                sprite.animate(CELL_BOMB_TAG);
             }
         }
     }

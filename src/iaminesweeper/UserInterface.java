@@ -27,10 +27,6 @@ public class UserInterface extends javax.swing.JFrame {
         screenSize = new Dimension(162, 204);
         initComponents();
         
-        LinkedList<JLabel> cellLabels = new LinkedList<>();
-        for (int i = 0; i < 10; i++) {
-            cellLabels.add(null);
-        }
         LinkedList<JLabel> timerLabels = new LinkedList<>();
         timerLabels.add(timerLblOne);
         timerLabels.add(timerLblTen);
@@ -40,7 +36,7 @@ public class UserInterface extends javax.swing.JFrame {
         flagLabels.add(flagLblTen);
         flagLabels.add(flagLblHundred);
         
-        engine = new GameEngine(statusLbl,cellLabels,
+        engine = new GameEngine(statusLbl, gamePnl,
                                 timerLabels,flagLabels,this);
     }
 
@@ -321,8 +317,6 @@ public class UserInterface extends javax.swing.JFrame {
     private void gamePnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gamePnlMouseClicked
         // TODO add your handling code here:
         engine.mouseClick(evt, "Grid");
-        
-        
     }//GEN-LAST:event_gamePnlMouseClicked
 
     
