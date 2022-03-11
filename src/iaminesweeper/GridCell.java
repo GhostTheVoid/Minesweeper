@@ -4,7 +4,12 @@ package iaminesweeper;
 import collections.LinkedList;
 import javax.swing.JLabel;
 import iaminesweeper.Constants;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import static javax.swing.SwingConstants.CENTER;
 import tools.Animation;
 import tools.GameCharacter;
 
@@ -24,14 +29,24 @@ public class GridCell extends GameCharacter{
     
     // GLOBAL VARIABLES
     // ================
-        
-    private JLabel[][] matrix;          // the 2D array of JLabel objects
-    private final int WIDTH  = 6;
-    private final int HEIGHT = WIDTH;   // the set sizes of the labels
     
+    private JPanel          gamePanel;      // Reference to the panel for labels
+        
+    private final int    WIDTH  = 50;                   // Width of each label
+    private final int    HEIGHT = WIDTH;                // Size of the labels
+    private final double RATIO = 4.85;                  // Ratio of labels
+    private final Color  CELL_BACKGROUND = Color.white; // Label background
+    private final Color  CELL_BORDER     = Color.gray;  // Label border
+    private final Color  CELL_BOMB       = Color.red;   // Bomb fill color
+    private final String BOMB = "X";                    // Bomb text
+    
+    private JLabel label;
+            
     public boolean isBomb;
     public boolean isFlagged;
     public boolean isClicked;
+    
+    
     
     private final int CELL_DEFAULT_TAG       = 0;
     private final int CELL_1_TAG             = 1;
@@ -180,5 +195,45 @@ public class GridCell extends GameCharacter{
         cellAnimations.add(cellBombHit);
         cellAnimations.add(cellBombChecked);
         sprite.setAnimations(cellAnimations);             
+    }
+    
+    
+    /**
+     * Creates a label object at this location in the matrix on the panel
+     * of the passed size
+     * 
+     * @param row the row in the matrix for the label
+     * @param column the column in the matrix for the label
+     * @param x the x coordinate to draw the label in the panel
+     * @param y the y coordinate to draw the label in the panel 
+     */
+    private void createLabel(int row, int column, int x, int y) {
+        grid[row][column] = new JLabel();             // Create label
+        gamePanel.add(grid[row][column]);             // Add label to panel
+        grid[row][column].setOpaque(true);            // Make color fillable
+        grid[row][column].setBackground(CELL_BACKGROUND); // Starting color
+        grid[row][column].setHorizontalAlignment(CENTER); // Align text
+        grid[row][column].setBorder(BorderFactory.createLineBorder(
+                CELL_BORDER, 1));                           // Label border
+        grid[row][column].addMouseListener(new MouseListener() {
+            public void mouseClicked(MouseEvent e) {
+                mouseClick(row, column);                // Mouse click event
+            }
+            public void mousePressed(MouseEvent e)  { }
+            public void mouseReleased(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e)  { }
+            public void mouseExited(MouseEvent e)   { }
+        });
+        grid[row][column].setBounds(x, y, WIDTH, HEIGHT); // Position label
+    }
+    
+    /**
+     * Creates a label object on the panel of the passed size
+     * 
+     * @param x
+     * @param y 
+     */
+    private void makeLabel(int x, int y){
+        
     }
 }
