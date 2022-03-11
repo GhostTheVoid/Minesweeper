@@ -12,9 +12,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URI;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import static javax.swing.SwingConstants.CENTER;
+import tools.Numbers;
 
 /**
  * GameEngine.java -  the logic connected to the user interface that runs game 
@@ -34,14 +37,17 @@ public class GameEngine {
     private FileHandler             playerData;
     private FileHandler             settingsFile;
     
-    private int rows, columns;
+    private UserInterface   userInteface;   // Reference to the "view" (user interface)
+    private JLabel          statusLabel;    // Reference to the label to update status
+    private JPanel          gamePanel;      // Reference to the panel for labels
+    
+    
+    private JLabel[][] grid;        // A 2D array of JLabel objects
+    
+    private int rows;               // The number of rows for the matrix
+    private int columns;            // The number of columns for the matrix
     
     public boolean gameStarted;
-    
-    private JLabel[][] matrix;          // the 2D array of JLabel objects
-    private final int WIDTH  = 6;
-    private final int HEIGHT = WIDTH;   // the set sizes of the labels
-    
     
 
     /**
@@ -49,7 +55,15 @@ public class GameEngine {
      */
     public GameEngine(JLabel statusLabel, JPanel gamePanel,
             LinkedList<JLabel> timerLabels, LinkedList<JLabel> flagLabels, 
-            UserInterface ui) {
+            UserInterface userInteface) {
+        
+        this.userInteface   = userInteface;     // Connect this class (engine)
+        this.statusLabel    = statusLabel;      // or "form" references
+        this.gamePanel      = gamePanel;
+        setGrid(); 
+        
+        
+        
         playerData   = new FileHandler(Constants.PLAYER_DATA_FILE);
         settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
         //check for game settings
@@ -71,10 +85,10 @@ public class GameEngine {
         
         
         // set UI properties
-        ui.getContentPane().setSize(new Dimension(162, 204));
-        ui.setResizable(false);
-        ui.setLocationRelativeTo(null);
-        ui.setVisible(true);
+        userInteface.getContentPane().setSize(new Dimension(162, 204));
+        userInteface.setResizable(false);
+        userInteface.setLocationRelativeTo(null);
+        userInteface.setVisible(true);
         
         System.out.println("SHOW");
     }
@@ -154,81 +168,165 @@ public class GameEngine {
         player.keypress(event);
     }
     
-    public void generate(){
-        
-    }
     
     /**
-     * Sets the frame user interface properties
-     * 
-     * @param userInterface the user interface frame 
-     * @param panel the panel to draw labels inside of
+     * Method connected to the UI button to generate a new matrix
      */
-    private void setFrame(UserInterface userInterface, JPanel panel) {
-        // get the size of the panel to draw inside of, and adjust the frame 
-        // size to match that with a few pixels as a buffer
-        int frameWidth  = panel.getWidth()  + 40;
-        int frameHeight = panel.getHeight() + 60;
-        // set the frame look and feel
-        userInterface.setSize(frameWidth, frameHeight);
-        userInterface.setResizable(false);
-        userInterface.setLocationRelativeTo(null);
-    }
-    
-    /**
-     * Initialize all objects in the solution
-     */
-    private void setGrid(JPanel panel) {        
-        // calculate how many rows and columns we can draw of that size
-        int rows   = panel.getHeight() / HEIGHT;
-        int colums = panel.getWidth()  / WIDTH;
-        // instantiate the matrix
-        matrix = new JLabel[rows][colums];
-        // now loop through and build all the labels
-        int y = 0;
-        // traverse all the rows
-        for (int row = 0; row < matrix.length; row++) {
-            int x = 0;
-            // traverse all the columns
-            for (int column = 0; column < matrix[row].length; column++) {
-                createLabel(matrix, row, column, x, y, WIDTH, HEIGHT, panel);
-                // move x location past this label
-                x += WIDTH;
-            }
-            // move y location past this row for the next row
-            y += HEIGHT;
-        }        
+    public void generate() {
+        clearGrid();                                    // Clear the design
+        // Calculate the number of bombs based on the size of the matrix
+        int numberOfBombs = (int)(((double)(rows * columns)) / RATIO);
+        Numbers numbers = new Numbers();    // Class to generate randoms
+        int randomRow    = 0;               // Variables for random locations
+        int randomColumn = 0;
+        for (int i = 0; i < numberOfBombs; i++) {   // Traverse all bombs
+            do {                                    // Loop while spot occupied
+                randomRow    = numbers.random(0, rows-1);       // Random row
+                randomColumn = numbers.random(0, columns-1);    // and column
+            } while (grid[randomRow][randomColumn].getText().equals(BOMB));
+            grid[randomRow][randomColumn].setText(BOMB);     // Set bomb spot
+            grid[randomRow][randomColumn].setBackground(CELL_BOMB);
+        }
+        statusLabel.setText("Rows " + rows + " by Columns " + columns + 
+                " with " + (rows * columns) + " cells, generated " + 
+                numberOfBombs + " bombs");              // Update status
+        countNeighbours();                              // Count all neighbors
     }
 
+    /**
+     * Initialize all label objects in the matrix
+     */
+    private void setGrid() {
+        // Get the size of the panel to draw inside of, and calculate how many
+        // labels (based on their sizes) we can have in each row/column
+        rows   = gamePanel.getHeight() / HEIGHT;
+        columns = gamePanel.getWidth()  / WIDTH;
+        // Instantiate the matrix
+        grid = new JLabel[rows][columns];
+        // Now loop through and build all the labels each at a (x,y) location
+        int y = 0;                                      
+        // Traverse all the rows
+        for (int row = 0; row < grid.length; row++) {
+            int x = 0;
+            // Traverse all the columns
+            for (int column = 0; column < grid[row].length; column++) {
+                createLabel(row, column, x, y);
+                // Move x location past this label
+                x += WIDTH;
+            }
+            // Move y location past this row for the next row
+            y += HEIGHT;
+        }  
+    }
+    
     /**
      * Creates a label object at this location in the matrix on the panel
      * of the passed size
      * 
-     * @param matrix the matrix to add the label to
      * @param row the row in the matrix for the label
      * @param column the column in the matrix for the label
      * @param x the x coordinate to draw the label in the panel
-     * @param y the y coordinate to draw the label in the panel
-     * @param width the width to draw the label to
-     * @param height the height to draw the label to 
-     * @param panel the panel to draw labels inside of
+     * @param y the y coordinate to draw the label in the panel 
      */
-    private void createLabel(JLabel[][] matrix, int row, int column, 
-                             int x, int y, int width, 
-                             int height, JPanel panel) {
-        matrix[row][column] = new JLabel();             // create label
-        panel.add(matrix[row][column]);                 // add label to panel
-        matrix[row][column].setOpaque(true);            // make color fillable
-        matrix[row][column].setBackground(Color.white); // starting color
-        matrix[row][column].addMouseListener(new MouseListener() {
+    private void createLabel(int row, int column, int x, int y) {
+        grid[row][column] = new JLabel();             // Create label
+        gamePanel.add(grid[row][column]);             // Add label to panel
+        grid[row][column].setOpaque(true);            // Make color fillable
+        grid[row][column].setBackground(CELL_BACKGROUND); // Starting color
+        grid[row][column].setHorizontalAlignment(CENTER); // Align text
+        grid[row][column].setBorder(BorderFactory.createLineBorder(
+                CELL_BORDER, 1));                           // Label border
+        grid[row][column].addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                mouseClick(e, "Cell");          // mouse click event
+                mouseClick(row, column);                // Mouse click event
             }
-            public void mousePressed(MouseEvent e) { }
+            public void mousePressed(MouseEvent e)  { }
             public void mouseReleased(MouseEvent e) { }
-            public void mouseEntered(MouseEvent e) { }
-            public void mouseExited(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e)  { }
+            public void mouseExited(MouseEvent e)   { }
         });
-        matrix[row][column].setBounds(x, y, width, height); // position label
+        grid[row][column].setBounds(x, y, WIDTH, HEIGHT); // Position label
+    }
+    
+    /**
+     * Clears the label matrix for a new generation
+     */
+    private void clearGrid() {
+        for (int row = 0; row < rows; row++) {                  // Traverse rows
+            for (int column = 0; column < columns; column++) {  // and columns
+                grid[row][column].setText("");                  // Remove text
+                grid[row][column].setBackground(CELL_BACKGROUND);   // Color
+            }
+        }
+    }
+
+    /**
+     * Traverse the matrix and count the number of neighbors that are bombs 
+     * around each cell
+     */
+    private void countNeighbours() {
+        for (int row = 0; row < rows; row++) {                  // Traverse rows
+            for (int column = 0; column < columns; column++) {  // and columns
+                int bombCount = count(row,column);              // Count bombs
+                if (bombCount > 0) {                            // Not zero
+                    grid[row][column].setText("" + bombCount);  // Display
+                }
+            }
+        }
+    }
+
+    /**
+     * Counts the number of neighbors that are bombs around this cell
+     * 
+     * @param row the row in the matrix for the label
+     * @param column the column in the matrix for the label
+     * @return the count of bombs around this cell
+     */
+    private int count(int row, int column) {
+        int count = 0;                              // Start a count
+        // Check the row above
+        if (row-1 > 0) {                            // Not outside grid
+            if (column-1 > 0)  {                    // Not outside grid
+                if (grid[row-1][column-1].getText().equals(BOMB)) {
+                    count++;                        // Increase count
+                }
+            }
+            if (grid[row-1][column].getText().equals(BOMB)) {
+                count++;                            // Increase count
+            }
+            if (column+1 < columns)  {              // Not outside grid
+                if (grid[row-1][column+1].getText().equals(BOMB)) {
+                    count++;                        // Increase count
+                }
+            }      
+        }
+        // Check the same row        
+        if (column-1 > 0)  {                        // Not outside grid
+            if (grid[row][column-1].getText().equals(BOMB)) {
+                count++;                            // Increase count
+            }
+        }
+        if (column+1 < columns)  {                  // Not outside grid
+            if (grid[row][column+1].getText().equals(BOMB)) {
+                count++;                            // Increase count
+            }
+        }
+        // Check the row below
+        if (row+1 < rows) {                         // Not outside grid
+            if (column-1 > 0)  {                    // Not outside grid
+                if (grid[row+1][column-1].getText().equals(BOMB)) {
+                    count++;                        // Increase count
+                }
+            }
+            if (grid[row+1][column].getText().equals(BOMB)) {
+                count++;                            // Increase count
+            }
+            if (column+1 < columns)  {              // Not outside grid
+                if (grid[row+1][column+1].getText().equals(BOMB)) {
+                    count++;                        // Increase count
+                }
+            }
+        }  
+        return count;                               /// Send back final count
     }
 }
