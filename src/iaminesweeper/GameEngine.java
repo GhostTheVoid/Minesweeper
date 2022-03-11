@@ -226,6 +226,7 @@ public class GameEngine {
                              LinkedList<String> settings) {
         grid[row][column] = new GridCell(new JLabel(), settings);// Create label
         gamePanel.add(grid[row][column].label);    // Add label to panel
+        grid[row][column].makeLabel(x+2, y+2);
     }
     
     /**

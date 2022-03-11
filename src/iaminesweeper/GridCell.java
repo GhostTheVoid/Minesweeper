@@ -25,7 +25,6 @@ import tools.GameObject;
  */
 public class GridCell extends GameObject{
     
-    private LinkedList<GridCell> gridCells;
     
     // GLOBAL VARIABLES
     // ================
@@ -35,7 +34,7 @@ public class GridCell extends GameObject{
     private final static int    WIDTH  = 16;                   // Width of each label
     private final static int    HEIGHT = WIDTH;                // Size of the labels
     private final double RATIO = 4.85;                  // Ratio of labels
-    private final Color  CELL_BACKGROUND = Color.white; // Label background
+    private final Color  CELL_BACKGROUND = new Color(189,189,189); // Label background
     private final Color  CELL_BORDER     = Color.gray;  // Label border
     private final Color  CELL_BOMB       = Color.red;   // Bomb fill color
     private final String BOMB = "X";                    // Bomb text
@@ -65,15 +64,11 @@ public class GridCell extends GameObject{
 
     /**
      * Default constructor, set class properties
-     * @param label the label associated with the image for the character
-     * @param settings the list of setting values for the images 
+     * @param label the label associated with the image for the character 
      */
     public GridCell(JLabel label, LinkedList<String> settings) {
         super(label);
         this.label = label;
-        
-        //setAnimations(label, settings); // build all animations
-        spawn();
     }
     
     /**
@@ -119,38 +114,8 @@ public class GridCell extends GameObject{
         return WIDTH;
     }
     
-    /**
-     * Associates the gridCells list parameter with the class encapsulated 
-     * property
-     * 
-     * @param gridCells the ghost list to associate with
-     */
-    public void setAllCells(LinkedList<GridCell> gridCells) {
-        this.gridCells = gridCells;
-    }
     
-    /** changes the animation set to the appropriate animation based on direction */
-    public void animate() {
-        if (sprite == null) return;
-        if (sprite.hasAnimations() == false) return;
-        if (isBomb) {
-            
-        }
-    }
     
-    public void showBombs(){
-        if (isBomb){
-            if(isFlagged){
-                sprite.animate(CELL_FLAG_TAG);
-            }
-            else if (isClicked){
-                sprite.animate(CELL_BOMB_HIT_TAG);
-            }
-            else {
-                sprite.animate(CELL_BOMB_TAG);
-            }
-        }
-    }
     
     /**
      * Creates a label object on the panel of the passed size
@@ -158,11 +123,11 @@ public class GridCell extends GameObject{
      * @param x the x coordinate to draw the label in the panel
      * @param y the y coordinate to draw the label in the panel 
      */
-    private void makeLabel(int x, int y){
+    public void makeLabel(int x, int y){
         label.setOpaque(true);            // Make color fillable
         label.setBackground(CELL_BACKGROUND); // Starting color
         label.setHorizontalAlignment(CENTER); // Align text
-        label.setBorder(BorderFactory.createLineBorder(CELL_BORDER, 1)); 
+        label.setBorder(BorderFactory.createBevelBorder(0)); 
         label.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
                 mouseClick();
