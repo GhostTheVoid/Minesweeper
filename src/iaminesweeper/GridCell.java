@@ -11,7 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
 import tools.Animation;
-import tools.GameCharacter;
+import tools.GameObject;
 
  
 /**
@@ -23,7 +23,7 @@ import tools.GameCharacter;
  * @author Marissa Rowles
  * @since 17-Feb-2022
  */
-public class GridCell extends GameCharacter{
+public class GridCell extends GameObject{
     
     private LinkedList<GridCell> gridCells;
     
@@ -32,21 +32,19 @@ public class GridCell extends GameCharacter{
     
     private JPanel          gamePanel;      // Reference to the panel for labels
         
-    private final int    WIDTH  = 50;                   // Width of each label
-    private final int    HEIGHT = WIDTH;                // Size of the labels
+    private final static int    WIDTH  = 16;                   // Width of each label
+    private final static int    HEIGHT = WIDTH;                // Size of the labels
     private final double RATIO = 4.85;                  // Ratio of labels
     private final Color  CELL_BACKGROUND = Color.white; // Label background
     private final Color  CELL_BORDER     = Color.gray;  // Label border
     private final Color  CELL_BOMB       = Color.red;   // Bomb fill color
     private final String BOMB = "X";                    // Bomb text
     
-    private JLabel label;
+    public JLabel label;
             
     public boolean isBomb;
     public boolean isFlagged;
     public boolean isClicked;
-    
-    
     
     private final int CELL_DEFAULT_TAG       = 0;
     private final int CELL_1_TAG             = 1;
@@ -67,26 +65,60 @@ public class GridCell extends GameCharacter{
 
     /**
      * Default constructor, set class properties
-     * @param gridLabel the label associated with the image for the character
+     * @param label the label associated with the image for the character
      * @param settings the list of setting values for the images 
      */
-    public GridCell(JLabel gridLabel, LinkedList<String> settings) {
-        super(gridLabel, Constants.CELL_MOVE_AMOUNT,
-                Constants.CELL_TIMER_DELAY);
-        setAnimations(gridLabel, settings); // build all animations
+    public GridCell(JLabel label, LinkedList<String> settings) {
+        super(label);
+        this.label = label;
+        
+        //setAnimations(label, settings); // build all animations
         spawn();
     }
     
-    @Override
-    public void action() {
-        
+    /**
+     * Clears the label for a new matrix generation
+     */
+    public void clearCell() {
+        label.setText("");                  // Remove text
+        label.setBackground(CELL_BACKGROUND);   // Color
     }
     
-    /** Pacman has lost the game (captured by a ghost) */
-    private void loseGame() {
-        
+    /**
+     * Sets this GridCell to act as a bomb
+     */
+    public void setBomb(){
+        label.setText(BOMB);     // Set bomb spot
+        label.setBackground(CELL_BOMB);
+        isBomb = true;
     }
      
+    /**
+     * Sets this GridCell to act as a bomb
+     * @return if text = BOMB return true, if not, return false
+     */
+    public boolean isItBomb(){
+        return label.getText().equals(BOMB);
+    }
+    
+    /**
+     * Gets the height of the labels
+     * 
+     * @return the height of the label
+     */
+    public static int getHeight(){
+        return HEIGHT;
+    }
+    
+    /**
+     * Gets the Width of the labels
+     * 
+     * @return the Width of the label
+     */
+    public static int getWidth(){
+        return WIDTH;
+    }
+    
     /**
      * Associates the gridCells list parameter with the class encapsulated 
      * property
@@ -118,6 +150,36 @@ public class GridCell extends GameCharacter{
                 sprite.animate(CELL_BOMB_TAG);
             }
         }
+    }
+    
+    /**
+     * Creates a label object on the panel of the passed size
+     * 
+     * @param x the x coordinate to draw the label in the panel
+     * @param y the y coordinate to draw the label in the panel 
+     */
+    private void makeLabel(int x, int y){
+        label.setOpaque(true);            // Make color fillable
+        label.setBackground(CELL_BACKGROUND); // Starting color
+        label.setHorizontalAlignment(CENTER); // Align text
+        label.setBorder(BorderFactory.createLineBorder(CELL_BORDER, 1)); 
+        label.addMouseListener(new MouseListener() {
+            public void mouseClicked(MouseEvent e) {
+                mouseClick();
+            }
+            public void mousePressed(MouseEvent e)  { }
+            public void mouseReleased(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e)  { }
+            public void mouseExited(MouseEvent e)   { }
+        });
+        label.setBounds(x, y, WIDTH, HEIGHT); // Position label
+    }
+    
+    /**
+     * When the user clicks on a spot of the grid, react
+     */
+    private void mouseClick() {
+        
     }
     
     /**
@@ -195,45 +257,5 @@ public class GridCell extends GameCharacter{
         cellAnimations.add(cellBombHit);
         cellAnimations.add(cellBombChecked);
         sprite.setAnimations(cellAnimations);             
-    }
-    
-    
-    /**
-     * Creates a label object at this location in the matrix on the panel
-     * of the passed size
-     * 
-     * @param row the row in the matrix for the label
-     * @param column the column in the matrix for the label
-     * @param x the x coordinate to draw the label in the panel
-     * @param y the y coordinate to draw the label in the panel 
-     */
-    private void createLabel(int row, int column, int x, int y) {
-        grid[row][column] = new JLabel();             // Create label
-        gamePanel.add(grid[row][column]);             // Add label to panel
-        grid[row][column].setOpaque(true);            // Make color fillable
-        grid[row][column].setBackground(CELL_BACKGROUND); // Starting color
-        grid[row][column].setHorizontalAlignment(CENTER); // Align text
-        grid[row][column].setBorder(BorderFactory.createLineBorder(
-                CELL_BORDER, 1));                           // Label border
-        grid[row][column].addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-                mouseClick(row, column);                // Mouse click event
-            }
-            public void mousePressed(MouseEvent e)  { }
-            public void mouseReleased(MouseEvent e) { }
-            public void mouseEntered(MouseEvent e)  { }
-            public void mouseExited(MouseEvent e)   { }
-        });
-        grid[row][column].setBounds(x, y, WIDTH, HEIGHT); // Position label
-    }
-    
-    /**
-     * Creates a label object on the panel of the passed size
-     * 
-     * @param x
-     * @param y 
-     */
-    private void makeLabel(int x, int y){
-        
     }
 }

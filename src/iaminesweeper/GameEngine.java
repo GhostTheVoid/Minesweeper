@@ -20,8 +20,8 @@ import static javax.swing.SwingConstants.CENTER;
 import tools.Numbers;
 
 /**
- * GameEngine.java -  the logic connected to the user interface that runs game 
- * logic
+ * GameEngine.java -  this class runs all the logic for this game. It received
+ * references from the other class to modify those objects from this class.
  *
  * -----------------------
  * @author Marissa Rowles
@@ -36,19 +36,18 @@ public class GameEngine {
     private LinkedList<GridCell>    gridCells;
     private FileHandler             playerData;
     private FileHandler             settingsFile;
-    
     private UserInterface   userInteface;   // Reference to the "view" (user interface)
     private JLabel          statusLabel;    // Reference to the label to update status
     private JPanel          gamePanel;      // Reference to the panel for labels
     
-    
-    private JLabel[][] grid;        // A 2D array of JLabel objects
+    private GridCell[][] grid;        // A 2D array of JLabel objects
     
     private int rows;               // The number of rows for the matrix
     private int columns;            // The number of columns for the matrix
     
-    public boolean gameStarted;
+    private final double RATIO = 4.85;      // Ratio of labels
     
+    public boolean gameStarted;
 
     /**
      * Default constructor, set class properties
@@ -60,15 +59,12 @@ public class GameEngine {
         this.userInteface   = userInteface;     // Connect this class (engine)
         this.statusLabel    = statusLabel;      // or "form" references
         this.gamePanel      = gamePanel;
-        setGrid(); 
-        
-        
         
         playerData   = new FileHandler(Constants.PLAYER_DATA_FILE);
         settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
         //check for game settings
         LinkedList<String> settings = settingsFile.read();
-        
+        setGrid(settings); 
         
         
         // check for saved data
@@ -81,8 +77,6 @@ public class GameEngine {
         timeTracker = new TimeTracker(timerLabels, settings);
         flag        = new Flag(flagLabels, settings);
         status      = new Status(statusLabel, settings);
-        
-        
         
         // set UI properties
         userInteface.getContentPane().setSize(new Dimension(162, 204));
@@ -173,21 +167,20 @@ public class GameEngine {
      * Method connected to the UI button to generate a new matrix
      */
     public void generate() {
-        clearGrid();                                    // Clear the design
+        clearGrid(); // Clear the design
         // Calculate the number of bombs based on the size of the matrix
         int numberOfBombs = (int)(((double)(rows * columns)) / RATIO);
         Numbers numbers = new Numbers();    // Class to generate randoms
-        int randomRow    = 0;               // Variables for random locations
-        int randomColumn = 0;
+        int ranRow    = 0;               // Variables for random locations
+        int ranCol = 0;
         for (int i = 0; i < numberOfBombs; i++) {   // Traverse all bombs
             do {                                    // Loop while spot occupied
-                randomRow    = numbers.random(0, rows-1);       // Random row
-                randomColumn = numbers.random(0, columns-1);    // and column
-            } while (grid[randomRow][randomColumn].getText().equals(BOMB));
-            grid[randomRow][randomColumn].setText(BOMB);     // Set bomb spot
-            grid[randomRow][randomColumn].setBackground(CELL_BOMB);
+                ranRow = numbers.random(0, rows-1);       // Random row
+                ranCol = numbers.random(0, columns-1);    // and column
+            } while (grid[ranRow][ranCol].isItBomb());
+            grid[ranRow][ranCol].setBomb();
         }
-        statusLabel.setText("Rows " + rows + " by Columns " + columns + 
+        System.out.println("Rows " + rows + " by Columns " + columns + 
                 " with " + (rows * columns) + " cells, generated " + 
                 numberOfBombs + " bombs");              // Update status
         countNeighbours();                              // Count all neighbors
@@ -196,13 +189,13 @@ public class GameEngine {
     /**
      * Initialize all label objects in the matrix
      */
-    private void setGrid() {
+    private void setGrid(LinkedList<String> settings) {
         // Get the size of the panel to draw inside of, and calculate how many
         // labels (based on their sizes) we can have in each row/column
-        rows   = gamePanel.getHeight() / HEIGHT;
-        columns = gamePanel.getWidth()  / WIDTH;
+        rows   = gamePanel.getHeight() / GridCell.getHeight();
+        columns = gamePanel.getWidth()  / GridCell.getWidth();
         // Instantiate the matrix
-        grid = new JLabel[rows][columns];
+        grid = new GridCell[rows][columns];
         // Now loop through and build all the labels each at a (x,y) location
         int y = 0;                                      
         // Traverse all the rows
@@ -210,12 +203,12 @@ public class GameEngine {
             int x = 0;
             // Traverse all the columns
             for (int column = 0; column < grid[row].length; column++) {
-                createLabel(row, column, x, y);
+                createLabel(row, column, x, y, settings);
                 // Move x location past this label
-                x += WIDTH;
+                x += GridCell.getWidth();
             }
             // Move y location past this row for the next row
-            y += HEIGHT;
+            y += GridCell.getHeight();
         }  
     }
     
@@ -227,25 +220,12 @@ public class GameEngine {
      * @param column the column in the matrix for the label
      * @param x the x coordinate to draw the label in the panel
      * @param y the y coordinate to draw the label in the panel 
+     * @param settings the list of setting values for the images
      */
-    private void createLabel(int row, int column, int x, int y) {
-        grid[row][column] = new JLabel();             // Create label
-        gamePanel.add(grid[row][column]);             // Add label to panel
-        grid[row][column].setOpaque(true);            // Make color fillable
-        grid[row][column].setBackground(CELL_BACKGROUND); // Starting color
-        grid[row][column].setHorizontalAlignment(CENTER); // Align text
-        grid[row][column].setBorder(BorderFactory.createLineBorder(
-                CELL_BORDER, 1));                           // Label border
-        grid[row][column].addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-                mouseClick(row, column);                // Mouse click event
-            }
-            public void mousePressed(MouseEvent e)  { }
-            public void mouseReleased(MouseEvent e) { }
-            public void mouseEntered(MouseEvent e)  { }
-            public void mouseExited(MouseEvent e)   { }
-        });
-        grid[row][column].setBounds(x, y, WIDTH, HEIGHT); // Position label
+    private void createLabel(int row, int column, int x, int y, 
+                             LinkedList<String> settings) {
+        grid[row][column] = new GridCell(new JLabel(), settings);// Create label
+        gamePanel.add(grid[row][column].label);    // Add label to panel
     }
     
     /**
@@ -254,8 +234,7 @@ public class GameEngine {
     private void clearGrid() {
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
-                grid[row][column].setText("");                  // Remove text
-                grid[row][column].setBackground(CELL_BACKGROUND);   // Color
+                grid[row][column].clearCell();
             }
         }
     }
@@ -269,7 +248,7 @@ public class GameEngine {
             for (int column = 0; column < columns; column++) {  // and columns
                 int bombCount = count(row,column);              // Count bombs
                 if (bombCount > 0) {                            // Not zero
-                    grid[row][column].setText("" + bombCount);  // Display
+                    grid[row][column].label.setText("" + bombCount);  // Display
                 }
             }
         }
@@ -287,42 +266,42 @@ public class GameEngine {
         // Check the row above
         if (row-1 > 0) {                            // Not outside grid
             if (column-1 > 0)  {                    // Not outside grid
-                if (grid[row-1][column-1].getText().equals(BOMB)) {
+                if (grid[row-1][column-1].isItBomb()) {
                     count++;                        // Increase count
                 }
             }
-            if (grid[row-1][column].getText().equals(BOMB)) {
+            if (grid[row-1][column].isItBomb()) {
                 count++;                            // Increase count
             }
             if (column+1 < columns)  {              // Not outside grid
-                if (grid[row-1][column+1].getText().equals(BOMB)) {
+                if (grid[row-1][column+1].isItBomb()) {
                     count++;                        // Increase count
                 }
             }      
         }
         // Check the same row        
         if (column-1 > 0)  {                        // Not outside grid
-            if (grid[row][column-1].getText().equals(BOMB)) {
+            if (grid[row][column-1].isItBomb()) {
                 count++;                            // Increase count
             }
         }
         if (column+1 < columns)  {                  // Not outside grid
-            if (grid[row][column+1].getText().equals(BOMB)) {
+            if (grid[row][column+1].isItBomb()) {
                 count++;                            // Increase count
             }
         }
         // Check the row below
         if (row+1 < rows) {                         // Not outside grid
             if (column-1 > 0)  {                    // Not outside grid
-                if (grid[row+1][column-1].getText().equals(BOMB)) {
+                if (grid[row+1][column-1].isItBomb()) {
                     count++;                        // Increase count
                 }
             }
-            if (grid[row+1][column].getText().equals(BOMB)) {
+            if (grid[row+1][column].isItBomb()) {
                 count++;                            // Increase count
             }
             if (column+1 < columns)  {              // Not outside grid
-                if (grid[row+1][column+1].getText().equals(BOMB)) {
+                if (grid[row+1][column+1].isItBomb()) {
                     count++;                        // Increase count
                 }
             }

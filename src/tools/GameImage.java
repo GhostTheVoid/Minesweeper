@@ -118,6 +118,7 @@ public class GameImage {
     public void resizeToContainer() {
         int       width         = label.getWidth();     // get label width
         int       height        = label.getHeight();    // get label height
+        
         ImageIcon originalIcon  = (ImageIcon)label.getIcon();   // get icon
         if (originalIcon == null) return;               // error trap
         Image     originalImage = originalIcon.getImage();      // get image
@@ -187,6 +188,7 @@ public class GameImage {
             int y, 
             int width, 
             int height) {
+        
         this.imageFile = spriteSheet;             // set property to parameter
         try {
             URL           url      = getClass().getResource(spriteSheet); // URL
