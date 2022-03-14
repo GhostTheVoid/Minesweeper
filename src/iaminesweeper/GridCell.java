@@ -38,6 +38,7 @@ public class GridCell extends GameObject{
     private final Color  CELL_BORDER     = Color.gray;  // Label border
     private final Color  CELL_BOMB       = Color.red;   // Bomb fill color
     private final String BOMB = "X";                    // Bomb text
+    private LinkedList<String> settings;
     
     public JLabel label;
             
@@ -54,10 +55,10 @@ public class GridCell extends GameObject{
     private final int CELL_7_TAG             = 6;
     private final int CELL_8_TAG             = 7;            
     private final int CELL_CLICK_TAG         = 8;            
-    private final int CELL_FLAG_TAG          = 9;            
-    private final int CELL_UNKNOWN_TAG       = 10;            
+    private final int CELL_BOMB_TAG          = 9;            
+    private final int CELL_FLAG_TAG          = 10;            
     private final int CELL_UNKNOWN_CLICK_TAG = 11;            
-    private final int CELL_BOMB_TAG          = 12;            
+    private final int CELL_UNKNOWN_TAG       = 12;            
     private final int CELL_BOMB_HIT_TAG      = 13;            
     private final int CELL_BOMB_CHECKED_TAG  = 14;    
     
@@ -65,9 +66,11 @@ public class GridCell extends GameObject{
     /**
      * Default constructor, set class properties
      * @param label the label associated with the image for the character 
+     * @param settings the list of setting values for the images
      */
     public GridCell(JLabel label, LinkedList<String> settings) {
         super(label);
+        this.settings = settings;
         this.label = label;
     }
     
@@ -75,16 +78,16 @@ public class GridCell extends GameObject{
      * Clears the label for a new matrix generation
      */
     public void clearCell() {
-        label.setText("");                  // Remove text
-        label.setBackground(CELL_BACKGROUND);   // Color
+        sprite.animate(CELL_DEFAULT_TAG);
     }
     
     /**
      * Sets this GridCell to act as a bomb
      */
     public void setBomb(){
-        label.setText(BOMB);     // Set bomb spot
-        label.setBackground(CELL_BOMB);
+        sprite.animate(CELL_BOMB_TAG);
+        //label.setText(BOMB);     // Set bomb spot
+        //label.setBackground(CELL_BOMB);
         isBomb = true;
     }
      
@@ -114,9 +117,6 @@ public class GridCell extends GameObject{
         return WIDTH;
     }
     
-    
-    
-    
     /**
      * Creates a label object on the panel of the passed size
      * 
@@ -125,26 +125,34 @@ public class GridCell extends GameObject{
      */
     public void makeLabel(int x, int y){
         label.setOpaque(true);            // Make color fillable
-        label.setBackground(CELL_BACKGROUND); // Starting color
+        System.out.print("Opaque || ");
+        //label.setBackground(CELL_BACKGROUND); // Starting color
         label.setHorizontalAlignment(CENTER); // Align text
-        label.setBorder(BorderFactory.createBevelBorder(0)); 
+        System.out.print("Center || ");
+        //label.setBorder(BorderFactory.createBevelBorder(0)); 
         label.addMouseListener(new MouseListener() {
-            public void mouseClicked(MouseEvent e) {
-                mouseClick();
+            public void mouseClicked(MouseEvent e) {}
+            /** When the user clicks on a spot of the grid, react */
+            public void mousePressed(MouseEvent e)  { 
+                if(e.getButton() == MouseEvent.BUTTON1){ // Left Click
+                    System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
+                }
+                if(e.getButton() == MouseEvent.BUTTON2) { // Middle Click
+                    System.out.println("Button 2");
+                }
+                if(e.getButton() == MouseEvent.BUTTON3) { // Right Click
+                    System.out.println("Button 3");
+                }
             }
-            public void mousePressed(MouseEvent e)  { }
             public void mouseReleased(MouseEvent e) { }
             public void mouseEntered(MouseEvent e)  { }
             public void mouseExited(MouseEvent e)   { }
         });
+        System.out.print("Listen || ");
         label.setBounds(x, y, WIDTH, HEIGHT); // Position label
-    }
-    
-    /**
-     * When the user clicks on a spot of the grid, react
-     */
-    private void mouseClick() {
-        
+        System.out.print("Bounds || ");
+        setAnimations();
+        System.out.println("Animations");
     }
     
     /**
@@ -153,7 +161,8 @@ public class GridCell extends GameObject{
      * @param label the label to associate the animation with
      * @param settings the list of animation settings
      */
-    private void setAnimations(JLabel label, LinkedList<String> settings) {
+    private void setAnimations() {
+        System.out.print("(START)");
         String sheet = Constants.SPRITE_SHEET;
         int    delay = Constants.CELL_ANIMATION_DELAY; 
         String tag   = Constants.CELL_DEFAULT_TAG;        
@@ -204,6 +213,7 @@ public class GridCell extends GameObject{
         tag = Constants.CELL_BOMB_CHECKED_TAG;        
         Animation cellBombChecked = Animator.getAnimation(sheet, label, 
                                                        delay, settings, tag);
+        System.out.print("(TAGS)");
         LinkedList<Animation> cellAnimations = new LinkedList<>(); 
         cellAnimations.add(cellDefault);
         cellAnimations.add(cell1);
@@ -221,6 +231,7 @@ public class GridCell extends GameObject{
         cellAnimations.add(cellBomb);
         cellAnimations.add(cellBombHit);
         cellAnimations.add(cellBombChecked);
-        sprite.setAnimations(cellAnimations);             
+        sprite.setAnimations(cellAnimations); 
+        System.out.print("(SETS) ");
     }
 }

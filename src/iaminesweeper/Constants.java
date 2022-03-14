@@ -10,16 +10,19 @@ package iaminesweeper;
  * @since 16-Feb-2022
  */
 public class Constants {
+    
+    public final static int    WIDTH  = 16;                   // Width of each label
+    public final static int    HEIGHT = WIDTH;                // Size of the labels
 
-    public final static int    TIMER_MOVE_AMOUNT         = 0;
+    public final static int    TIMER_MOVE_AMOUNT        = 0;
     public final static int    FACE_MOVE_AMOUNT         = 0;
     public final static int    CELL_MOVE_AMOUNT         = 0;
     
-    public final static int    TIMER_TIMER_DELAY         = 1000;
+    public final static int    TIMER_TIMER_DELAY        = 1000;
     public final static int    FACE_TIMER_DELAY         = 100;
     public final static int    CELL_TIMER_DELAY         = 100;
     
-    public final static int    TIMER_ANIMATION_DELAY     = 1000;
+    public final static int    TIMER_ANIMATION_DELAY    = 1000;
     public final static int    FACE_ANIMATION_DELAY     = 1000;
     public final static int    CELL_ANIMATION_DELAY     = 1000;
     
