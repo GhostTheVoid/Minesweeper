@@ -26,7 +26,7 @@ import tools.GameObject;
 public class GridCell extends GameObject{
     
     
-    // GLOBAL VARIABLES
+    // GLOBAL VARIABLES THIS IS A TEST
     // ================
     
     private JPanel          gamePanel;      // Reference to the panel for labels
