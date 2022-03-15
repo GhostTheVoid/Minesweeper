@@ -30,8 +30,8 @@ import tools.Numbers;
 public class GameEngine {
     
     private Player                  player;
-    private Status                  status;
-    private TimeTracker             timeTracker;
+    private static Status                  status;
+    private static TimeTracker      timeTracker;
     private Flag                    flag;
     private LinkedList<GridCell>    gridCells;
     private FileHandler             playerData;
@@ -40,14 +40,14 @@ public class GameEngine {
     private JLabel          statusLabel;    // Reference to the label to update status
     private JPanel          gamePanel;      // Reference to the panel for labels
     
-    private GridCell[][] grid;        // A 2D array of JLabel objects
+    private static GridCell[][] grid;        // A 2D array of JLabel objects
     
-    private int rows;               // The number of rows for the matrix
-    private int columns;            // The number of columns for the matrix
+    private static int rows;               // The number of rows for the matrix
+    private static int columns;            // The number of columns for the matrix
     
     private final double RATIO = 4.85;      // Ratio of labels
     
-    public boolean gameStarted;
+    public static boolean gameStarted;
 
     /**
      * Default constructor, set class properties
@@ -148,9 +148,16 @@ public class GameEngine {
         // Reset Flags to default
     }
     
-    public void lostGame(){
+    
+    public static void lostGame(){
         timeTracker.stop();
         gameStarted = false;
+        for (int row = 0; row < rows; row++) {                  // Traverse rows
+            for (int column = 0; column < columns; column++) {  // and columns
+                grid[row][column].showBomb();
+                grid[row][column].setClickable(false);
+            }
+        }  
     }
     
     /**
@@ -169,7 +176,8 @@ public class GameEngine {
     public void generate() {
         clearGrid(); // Clear the design
         // Calculate the number of bombs based on the size of the matrix
-        int numberOfBombs = (int)(((double)(rows * columns)) / RATIO);
+//        int numberOfBombs = (int)(((double)(rows * columns)) / RATIO);
+        int numberOfBombs = 10; //TEMPORARY
         Numbers numbers = new Numbers();    // Class to generate randoms
         int ranRow    = 0;               // Variables for random locations
         int ranCol = 0;
@@ -249,7 +257,9 @@ public class GameEngine {
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
                 int bombCount = count(row,column);              // Count bombs
+                System.out.println(bombCount);
                 if (bombCount > 0) {                            // Not zero
+                    System.out.println(bombCount);
                     grid[row][column].setNeighbours(bombCount);
                 }
             }

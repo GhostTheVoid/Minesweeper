@@ -54,6 +54,7 @@ public class GridCell extends GameObject{
     public boolean isBomb;
     public boolean isFlagged;
     public boolean isClicked;
+    public boolean canClick;
              
       
     
@@ -67,6 +68,7 @@ public class GridCell extends GameObject{
         super(label);
         this.settings = settings;
         this.label = label;
+        canClick = true;
     }
     
     /**
@@ -74,6 +76,7 @@ public class GridCell extends GameObject{
      */
     public void clearCell() {
         //sprite.animate(CELL_DEFAULT_TAG);
+        label.setText("");     // Set bomb spot
         label.setBackground(CELL_BACKGROUND); // Starting color
         label.setBorder(BorderFactory.createBevelBorder(0)); 
     }
@@ -83,8 +86,16 @@ public class GridCell extends GameObject{
      */
     public void setBomb(){
         //sprite.animate(CELL_BOMB_TAG);
-        label.setBackground(CELL_BOMB);
+        //label.setBackground(CELL_BOMB);
         isBomb = true;
+    }
+    
+    public void showBomb(){
+        if (isBomb) {
+            label.setText(BOMB);     // Set bomb spot
+            label.setForeground(Color.BLACK);
+            label.setBorder(BorderFactory.createBevelBorder(1));
+        }
     }
     
     /**
@@ -94,6 +105,7 @@ public class GridCell extends GameObject{
      */
     public void setNeighbours(int num){
         neighbours = num;
+        System.out.println(neighbours);
     }
      
     /**
@@ -101,7 +113,7 @@ public class GridCell extends GameObject{
      * @return if text = BOMB return true, if not, return false
      */
     public boolean isItBomb(){
-        return label.getText().equals(BOMB);
+        return isBomb;
     }
     
     /**
@@ -122,59 +134,68 @@ public class GridCell extends GameObject{
         return WIDTH;
     }
     
+    public void setClickable(boolean click){
+        canClick = click;
+    }
+    
     
     /**
      * Sets the design of the labels for when it is either clicked or not
      */
-    public void setText(){
+    public void clickedOn(){
         if (isClicked) {
+            canClick = false;
             label.setBackground(CELL_BACKGROUND); // Starting color
-            label.setBorder(BorderFactory.createBevelBorder(1)); 
+            label.setBorder(BorderFactory.createBevelBorder(1));
             if (isBomb) {
                 //sprite.animate(CELL_BOMB_TAG);
                 label.setText(BOMB);     // Set bomb spot
                 label.setForeground(Color.BLACK);
-                label.setBackground(CELL_BOMB);
+                label.setBackground(Color.RED);
+                GameEngine.lostGame();
 
             } else {
                 switch (neighbours) {
-                case 0:
-                  label.setText("");     // Set bomb spot
-                  //Find Blank Neighbours
-                  break;
-                case 1:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(new Color(0, 0, 255));
-                  break;
-                case 2:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(new Color(0, 128, 0));
-                  break;
-                case 3:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(new Color(128, 0, 0));
-                  break;
-                case 4:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(new Color(0, 0, 128));
-                  break;
-                case 5:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(new Color(128, 0, 0));
-                  break;
-                case 6:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(new Color(0, 128, 128));
-                  break;
-                case 7:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(Color.BLACK);
-                  break;
-                case 8:
-                  label.setText("" + neighbours);     // Set bomb spot
-                  label.setForeground(Color.DARK_GRAY);
-                  break;
-              }
+                    case 0:
+                        label.setText("");     // Set bomb spot
+                        //Find Blank Neighbours
+                        break;
+                    case 1:
+                        System.out.println("1");
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(new Color(0, 0, 255));
+                        break;
+                    case 2:
+                        System.out.println("2");
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(new Color(0, 128, 0));
+                        break;
+                    case 3:
+                        System.out.println("4");
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(new Color(128, 0, 0));
+                        break;
+                    case 4:
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(new Color(0, 0, 128));
+                        break;
+                    case 5:
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(new Color(128, 0, 0));
+                        break;
+                    case 6:
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(new Color(0, 128, 128));
+                        break;
+                    case 7:
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(Color.BLACK);
+                        break;
+                    case 8:
+                        label.setText("" + neighbours);     // Set bomb spot
+                        label.setForeground(Color.DARK_GRAY);
+                        break;
+                }
             }
         }
         else if (isFlagged){
@@ -194,54 +215,61 @@ public class GridCell extends GameObject{
      */
     public void makeLabel(int x, int y){
         label.setOpaque(true);            // Make color fillable
-        System.out.print("Opaque || ");
+        //System.out.print("Opaque || ");
         label.setBackground(CELL_BACKGROUND); // Starting color
         label.setHorizontalAlignment(CENTER); // Align text
-        System.out.print("Center || ");
+        //System.out.print("Center || ");
         label.setBorder(BorderFactory.createBevelBorder(0)); 
         label.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
             public void mousePressed(MouseEvent e)  { 
-                if(e.getButton() == MouseEvent.BUTTON1){ // Left Click
-                    // Mark status as Click
-                    System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
-                    isClicked = true;
-                    setText();
+                if (canClick) {
+                    if(e.getButton() == MouseEvent.BUTTON1){ // Left Click
+                        // Mark status as Click
+                        System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
+                        isClicked = true;
+                        clickedOn();
+                    }
+                    else if(e.getButton() == MouseEvent.BUTTON2) { // Middle Click
+                        // check neighbours
+                        // Mark status as Click
+                        System.out.println("Button 2");
+                        label.setBackground(CELL_BACKGROUND); // Starting color
+                        label.setBorder(BorderFactory.createBevelBorder(1));
+                    }
+                    else if(e.getButton() == MouseEvent.BUTTON3) { // Right Click
+                        System.out.println("Button 3");
+                        isFlagged = true;
+                        clickedOn();
+                    }
                 }
-                if(e.getButton() == MouseEvent.BUTTON2) { // Middle Click
-                    // check neighbours
-                    // Mark status as Click
-                    System.out.println("Button 2");
-                    label.setBackground(CELL_BACKGROUND); // Starting color
-                    label.setBorder(BorderFactory.createBevelBorder(1));
-                }
-                if(e.getButton() == MouseEvent.BUTTON3) { // Right Click
-                    System.out.println("Button 3");
-                    isFlagged = true;
-                    setText();
-                }
+                
             }
             public void mouseReleased(MouseEvent e) { 
-                if(e.getButton() == MouseEvent.BUTTON2) { // Middle Click
-                    // If neighbours have bomb, but bomb count is flagged,
-                    // mark isClicked on neighbours as true
-                    
-                    // If bomb is incorrectly flagged, lose game
-                    System.out.println("Button 2");
-                    label.setBackground(CELL_BACKGROUND); // Starting color
-                    label.setBorder(BorderFactory.createBevelBorder(0));
+                if (canClick) {
+                    if(e.getButton() == MouseEvent.BUTTON2) { // Middle Click
+                        // If neighbours have bomb, but bomb count is flagged,
+                        // mark isClicked on neighbours as true
+
+                        // If bomb is incorrectly flagged, lose game
+                        System.out.println("Button 2");
+                        label.setBackground(CELL_BACKGROUND); // Starting color
+                        label.setBorder(BorderFactory.createBevelBorder(0));
+                    }
                 }
             }
             public void mouseEntered(MouseEvent e)  { }
             public void mouseExited(MouseEvent e)   { }
         });
-        System.out.print("Listen || ");
+        //System.out.print("Listen || ");
         label.setBounds(x, y, WIDTH, HEIGHT); // Position label
-        System.out.print("Bounds || ");
+        //System.out.print("Bounds || ");
         //setAnimations();
-        System.out.println("Animations");
+        //System.out.println("Animations");
     }
+    
+    
     
     /**
      * Set up all the animations for this character
