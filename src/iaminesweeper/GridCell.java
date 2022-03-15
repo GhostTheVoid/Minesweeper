@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
 import tools.Animation;
 import tools.GameObject;
+import tools.Image;
 
  
 /**
@@ -26,7 +27,7 @@ import tools.GameObject;
 public class GridCell extends GameObject{
     
     
-    // GLOBAL VARIABLES THIS IS A TEST
+    // GLOBAL VARIABLES
     // ================
     
     private JPanel          gamePanel;      // Reference to the panel for labels
@@ -52,15 +53,16 @@ public class GridCell extends GameObject{
     private final int CELL_3_TAG             = 3;  
     private final int CELL_4_TAG             = 4;
     private final int CELL_5_TAG             = 5;
-    private final int CELL_7_TAG             = 6;
-    private final int CELL_8_TAG             = 7;            
-    private final int CELL_CLICK_TAG         = 8;            
-    private final int CELL_BOMB_TAG          = 9;            
-    private final int CELL_FLAG_TAG          = 10;            
-    private final int CELL_UNKNOWN_CLICK_TAG = 11;            
-    private final int CELL_UNKNOWN_TAG       = 12;            
-    private final int CELL_BOMB_HIT_TAG      = 13;            
-    private final int CELL_BOMB_CHECKED_TAG  = 14;    
+    private final int CELL_6_TAG             = 6;
+    private final int CELL_7_TAG             = 7;
+    private final int CELL_8_TAG             = 8;            
+    private final int CELL_CLICK_TAG         = 9;            
+    private final int CELL_BOMB_TAG          = 10;            
+    private final int CELL_FLAG_TAG          = 11;            
+    private final int CELL_UNKNOWN_CLICK_TAG = 12;            
+    private final int CELL_UNKNOWN_TAG       = 13;            
+    private final int CELL_BOMB_HIT_TAG      = 14;            
+    private final int CELL_BOMB_CHECKED_TAG  = 15;    
     
 
     /**
@@ -78,16 +80,18 @@ public class GridCell extends GameObject{
      * Clears the label for a new matrix generation
      */
     public void clearCell() {
-        sprite.animate(CELL_DEFAULT_TAG);
+        //sprite2.hide();
+        label.setBackground(CELL_BACKGROUND); // Starting color
+        label.setBorder(BorderFactory.createBevelBorder(0)); 
     }
     
     /**
      * Sets this GridCell to act as a bomb
      */
     public void setBomb(){
-        sprite.animate(CELL_BOMB_TAG);
-        //label.setText(BOMB);     // Set bomb spot
-        //label.setBackground(CELL_BOMB);
+        //sprite2.animate(CELL_BOMB_TAG);
+        label.setText(BOMB);     // Set bomb spot
+        label.setBackground(CELL_BOMB);
         isBomb = true;
     }
      
@@ -97,6 +101,12 @@ public class GridCell extends GameObject{
      */
     public boolean isItBomb(){
         return label.getText().equals(BOMB);
+    }
+    
+    public void neighbours(int i){
+        //sprite2.hide();
+        
+        label.setText(""+i);
     }
     
     /**
@@ -126,10 +136,8 @@ public class GridCell extends GameObject{
     public void makeLabel(int x, int y){
         label.setOpaque(true);            // Make color fillable
         System.out.print("Opaque || ");
-        //label.setBackground(CELL_BACKGROUND); // Starting color
         label.setHorizontalAlignment(CENTER); // Align text
         System.out.print("Center || ");
-        //label.setBorder(BorderFactory.createBevelBorder(0)); 
         label.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
@@ -151,9 +159,11 @@ public class GridCell extends GameObject{
         System.out.print("Listen || ");
         label.setBounds(x, y, WIDTH, HEIGHT); // Position label
         System.out.print("Bounds || ");
-        setAnimations();
+        clearCell();
+        //setAnimations();
         System.out.println("Animations");
     }
+    
     
     /**
      * Set up all the animations for this character
@@ -164,74 +174,57 @@ public class GridCell extends GameObject{
     private void setAnimations() {
         System.out.print("(START)");
         String sheet = Constants.SPRITE_SHEET;
-        int    delay = Constants.CELL_ANIMATION_DELAY; 
         String tag   = Constants.CELL_DEFAULT_TAG;        
-        Animation cellDefault = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellDefault = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_1_TAG;        
-        Animation cell1 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell1 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_2_TAG;        
-        Animation cell2 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell2 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_3_TAG;        
-        Animation cell3 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);        
+        Image cell3 = Animator.getImage(sheet, label, settings, tag);        
         tag = Constants.CELL_4_TAG;        
-        Animation cell4 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell4 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_5_TAG;        
-        Animation cell5 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell5 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_6_TAG;        
-        Animation cell6 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell6 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_7_TAG;        
-        Animation cell7 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell7 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_8_TAG;        
-        Animation cell8 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cell8 = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_CLICK_TAG;        
-        Animation cellClick = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellClick = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_FLAG_TAG;        
-        Animation cellFlag = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellFlag = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_UNKNOWN_TAG;        
-        Animation cellUnknown = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellUnknown = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_UNKNOWN_CLICK_TAG;        
-        Animation cellUnknownClick = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellUnknownClick = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_BOMB_TAG;        
-        Animation cellBomb = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellBomb = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_BOMB_HIT_TAG;        
-        Animation cellBombHit = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellBombHit = Animator.getImage(sheet, label, settings, tag);
         tag = Constants.CELL_BOMB_CHECKED_TAG;        
-        Animation cellBombChecked = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+        Image cellBombChecked = Animator.getImage(sheet, label, settings, tag);
         System.out.print("(TAGS)");
-        LinkedList<Animation> cellAnimations = new LinkedList<>(); 
-        cellAnimations.add(cellDefault);
-        cellAnimations.add(cell1);
-        cellAnimations.add(cell2);
-        cellAnimations.add(cell3);
-        cellAnimations.add(cell4);
-        cellAnimations.add(cell5);
-        cellAnimations.add(cell6);
-        cellAnimations.add(cell7);
-        cellAnimations.add(cell8);
-        cellAnimations.add(cellClick);
-        cellAnimations.add(cellFlag);
-        cellAnimations.add(cellUnknown);
-        cellAnimations.add(cellUnknownClick);
-        cellAnimations.add(cellBomb);
-        cellAnimations.add(cellBombHit);
-        cellAnimations.add(cellBombChecked);
-        sprite.setAnimations(cellAnimations); 
+        LinkedList<Image> cellImages = new LinkedList<>(); 
+        cellImages.add(cellDefault);
+        cellImages.add(cell1);
+        cellImages.add(cell2);
+        cellImages.add(cell3);
+        cellImages.add(cell4);
+        cellImages.add(cell5);
+        cellImages.add(cell6);
+        cellImages.add(cell7);
+        cellImages.add(cell8);
+        cellImages.add(cellClick);
+        cellImages.add(cellFlag);
+        cellImages.add(cellUnknown);
+        cellImages.add(cellUnknownClick);
+        cellImages.add(cellBomb);
+        cellImages.add(cellBombHit);
+        cellImages.add(cellBombChecked);
+        sprite2.setImages(cellImages); 
         System.out.print("(SETS) ");
     }
 }

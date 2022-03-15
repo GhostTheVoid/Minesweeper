@@ -226,6 +226,7 @@ public class GameEngine {
                              LinkedList<String> settings) {
         grid[row][column] = new GridCell(new JLabel(), settings);// Create label
         gamePanel.add(grid[row][column].label);    // Add label to panel
+        System.out.print("["+(row+1)+"]["+(column+1)+"]: ");
         grid[row][column].makeLabel(x+2, y+2);
         
     }
@@ -250,7 +251,7 @@ public class GameEngine {
             for (int column = 0; column < columns; column++) {  // and columns
                 int bombCount = count(row,column);              // Count bombs
                 if (bombCount > 0) {                            // Not zero
-                    System.out.println("" + bombCount);
+                    grid[row][column].neighbours(bombCount);
                 }
             }
         }

@@ -30,7 +30,7 @@ public class Detector {
      * @return is overlapping (true) or not (false)
      */
     public boolean isOverLapping(GameObject target) {
-        if (!target.isAlive)                                                      return false;
+        //if (!target.isAlive)                                                      return false;
         if (isOverLappingVertically(target) && isOverLappingHorizontally(target)) return true;
         else                                                                      return false;
     }

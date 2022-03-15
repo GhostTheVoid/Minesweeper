@@ -17,12 +17,13 @@ public class GameObject {
     public Coordinates coordinates;
     /** The image used for this game object */
     public Sprite sprite;
+    public Sprite2 sprite2;
     /** Various methods to detect collision for the game object */
     public Detector detector;
     /** Various methods to react to collision for the game object */
     public Reactor reactor;    
     /** Flag determines if this object is alive in a game */
-    public boolean isAlive;
+    //public boolean isAlive;
     
     
     /**
@@ -31,7 +32,10 @@ public class GameObject {
      * @param image picture image used on a user interface
      */
     public GameObject(JLabel image) {
-        this(image,0);
+        //this(image,0);
+        //coordinates = new Coordinates(amount);        
+        sprite2      = new Sprite2(image);
+        spawn(2);
     }
     
     /**
@@ -44,31 +48,37 @@ public class GameObject {
                       int amount) {
         coordinates = new Coordinates(amount);        
         sprite      = new Sprite(image);
-        sprite.update(coordinates);
-        detector    = new Detector(coordinates);
-        reactor     = new Reactor(coordinates,detector); 
-        spawn();
+        //sprite.update(coordinates);
+        //detector    = new Detector(coordinates);
+        //reactor     = new Reactor(coordinates,detector); 
+        spawn(1);
     } 
         
     /** Updates the current location of the coordinates for the image */
     public void update() {
-        sprite.update(coordinates);
+        sprite2.update(coordinates);
     }
     
     /** Re-positions image in it's container based on game character's data */
     public void redraw() {
-        sprite.redraw(coordinates);
+        sprite2.redraw(coordinates);
     }
     
     /** Spawns the game object, makes it alive and visible */
-    public void spawn() {
-        isAlive = true;
-        sprite.show();
+    public void spawn(int killme) {
+        //isAlive = true;
+        if (killme == 1) {
+            sprite.show();
+        } 
+        else if (killme == 2){
+            sprite2.show();
+        }
+        
     }
     
     /** De-spawns the game object, makes it not alive and invisible */
     public void despawn() {
-        isAlive = false;
-        sprite.hide();
+        //isAlive = false;
+        sprite2.hide();
     }
 }

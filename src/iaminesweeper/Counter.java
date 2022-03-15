@@ -24,9 +24,9 @@ public class Counter {
     /** The image used for this game object */
     public Sprite sprite1, sprite2, sprite3;
     /** Various methods to detect collision for the game object */
-    public Detector detector;
+    //public Detector detector;
     /** Various methods to react to collision for the game object */
-    public Reactor reactor;    
+    //public Reactor reactor;    
     /** Flag determines if this object is alive in a game */
     public boolean isAlive;
     
