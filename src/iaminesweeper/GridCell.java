@@ -30,14 +30,14 @@ public class GridCell extends GameObject{
     // ================
     
     private JPanel          gamePanel;      // Reference to the panel for labels
-        
-    private final static int    WIDTH  = 16;            // Width of each label
-    private final static int    HEIGHT = WIDTH;         // Size of the labels
+    
     private final double RATIO = 4.85;                  // Ratio of labels
     private final Color  CELL_BACKGROUND = new Color(189,189,189); // Label background
     private final Color  CELL_BORDER     = Color.gray;  // Label border
     private final Color  CELL_BOMB       = Color.red;   // Bomb fill color
-    private final String BOMB = "X";                    // Bomb text
+    private final String BOMB           = Constants.CELL_BOMB;             // Bomb cell text
+    private final String BLANK          = Constants.CELL_BLANK;            // Blank cell text
+    private final int    INVALID_NUMBER = Constants.CELL_INVALID_NUMBER;   // Invalid number
     
     private final int CELL_FLAG_TAG          = 0;            
     private final int CELL_UNKNOWN_TAG       = 1;  // I have no idea what this does        
@@ -51,6 +51,7 @@ public class GridCell extends GameObject{
     
             
     public JLabel label;
+    public String matrix;      // Store values for the label
     public boolean isBomb;
     public boolean isFlagged;
     public boolean isClicked;
@@ -98,6 +99,73 @@ public class GridCell extends GameObject{
         }
     }
     
+    public void showCell(){
+        switch (neighbours) {
+            case 0:
+                label.setText("");     // Set bomb spot
+                //Find Blank Neighbours
+                break;
+            case 1:
+                System.out.println("1");
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(new Color(0, 0, 255));
+                break;
+            case 2:
+                System.out.println("2");
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(new Color(0, 128, 0));
+                break;
+            case 3:
+                System.out.println("4");
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(new Color(128, 0, 0));
+                break;
+            case 4:
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(new Color(0, 0, 128));
+                break;
+            case 5:
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(new Color(128, 0, 0));
+                break;
+            case 6:
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(new Color(0, 128, 128));
+                break;
+            case 7:
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(Color.BLACK);
+                break;
+            case 8:
+                label.setText("" + neighbours);     // Set bomb spot
+                label.setForeground(Color.DARK_GRAY);
+                break;
+        }
+    }
+    
+    public void revealCell(){
+        canClick = false;
+        label.setBackground(CELL_BACKGROUND); // Starting color
+        label.setBorder(BorderFactory.createBevelBorder(1));
+        if (isBomb) {
+            //sprite.animate(CELL_BOMB_TAG);
+            showBomb();
+            label.setBackground(Color.RED);
+            GameEngine.lostGame();
+        } else {
+            showCell();
+        }
+    }
+    
+    public void flagCell(){
+        if (isFlagged) {
+            
+        } else {
+            
+        }
+        
+    }
+    
     /**
      * tracks how many bombs neighbour this cell
      * 
@@ -122,7 +190,7 @@ public class GridCell extends GameObject{
      * @return the height of the label
      */
     public static int getHeight(){
-        return HEIGHT;
+        return Constants.CELL_HEIGHT;
     }
     
     /**
@@ -131,7 +199,7 @@ public class GridCell extends GameObject{
      * @return the Width of the label
      */
     public static int getWidth(){
-        return WIDTH;
+        return Constants.CELL_WIDTH;
     }
     
     public void setClickable(boolean click){
@@ -263,10 +331,64 @@ public class GridCell extends GameObject{
             public void mouseExited(MouseEvent e)   { }
         });
         //System.out.print("Listen || ");
-        label.setBounds(x, y, WIDTH, HEIGHT); // Position label
+        label.setBounds(x, y, Constants.CELL_WIDTH, Constants.CELL_HEIGHT); // Position label
         //System.out.print("Bounds || ");
         //setAnimations();
         //System.out.println("Animations");
+    }
+    
+    
+    
+    /**
+     * Reveals what is at this cell location (a number, bomb, or blank) with 
+     * text and a background color
+     * 
+     * @param row the row in the matrix to reveal
+     * @param column the column in the matrix to reveal
+     * @return this location is a blank (true) cell or not (false)
+     */
+    private boolean reveal(int row, int column) {
+        String text   = label.getText();    // Text from label
+        int    number = isNumber(text);                 // Possible number
+        if (text.equals(BLANK)) {                       // Blank spot
+            label.setBackground(CELL_REVEAL_BLANK);
+            label.setText(BLANK);
+            matrix = BLANK;
+            return true;                                // Continue revealing
+        }
+        else if (text.equals(BOMB)) {                   // Bomb spot
+            showBomb();
+            label.setBackground(Color.MAGENTA);
+            return false;
+        }
+        else if (number != INVALID_NUMBER) {            // A valid number spot
+            label.setBackground();
+            matrix = "" + isNumber(label.getText());
+            return false;
+        }
+        else {                                          // Error check
+            label.setBackground(Color.black);
+            return false;
+        }
+    }
+    
+    /**
+     * Determines if the passed text is a valid number or not
+     * 
+     * @param text the text to check
+     * @return the valid numbers (1-8) or not a valid number (-1) 
+     */
+    private int isNumber(String text) {
+        if      (text == null)     return INVALID_NUMBER;
+        else if (text.equals("1")) return Integer.parseInt(text);
+        else if (text.equals("2")) return Integer.parseInt(text);
+        else if (text.equals("3")) return Integer.parseInt(text);
+        else if (text.equals("4")) return Integer.parseInt(text);
+        else if (text.equals("5")) return Integer.parseInt(text);
+        else if (text.equals("6")) return Integer.parseInt(text);
+        else if (text.equals("7")) return Integer.parseInt(text);
+        else if (text.equals("8")) return Integer.parseInt(text);
+        else                       return INVALID_NUMBER;
     }
     
     

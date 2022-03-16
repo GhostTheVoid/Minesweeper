@@ -11,8 +11,12 @@ package iaminesweeper;
  */
 public class Constants {
     
-    public final static int    CELL_WIDTH  = 16;                   // Width of each label
-    public final static int    CELL_HEIGHT = CELL_WIDTH;           // Size of the labels
+    public final static int    CELL_WIDTH  = 16;            // Width of each label
+    public final static int    CELL_HEIGHT = CELL_WIDTH;    // Size of the labels
+    public final static double CELL_RATIO  = 4.85;          // Ratio of labels
+    public final static String CELL_BOMB           = "X";   // Bomb cell text
+    public final static String CELL_BLANK          = "";    // Blank cell text
+    public final static int    CELL_INVALID_NUMBER = -1;    // Invalid number
 
     public final static int    TIMER_MOVE_AMOUNT        = 0;
     public final static int    FACE_MOVE_AMOUNT         = 0;
