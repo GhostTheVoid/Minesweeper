@@ -186,7 +186,6 @@ public class GameEngine {
                 ranCol = numbers.random(0, columns-1);    // and column
             } while (grid[ranRow][ranCol].isItBomb());
             grid[ranRow][ranCol].setBomb();
-            matrix[ranRow][ranCol] = Constants.CELL_BOMB;
         }
         System.out.println("Rows " + rows + " by Columns " + columns + 
                 " with " + (rows * columns) + " cells, generated " + 
@@ -232,7 +231,7 @@ public class GameEngine {
      */
     private void createLabel(int row, int column, int x, int y, 
                              LinkedList<String> settings) {
-        grid[row][column] = new GridCell(new JLabel(), settings);// Create label
+        grid[row][column] = new GridCell(new JLabel(), settings, row, column); // Create cell
         gamePanel.add(grid[row][column].label);    // Add label to panel
         grid[row][column].makeLabel(x+2, y+2);
         
@@ -248,77 +247,29 @@ public class GameEngine {
             }
         }
     }
-
+    
     /**
-     * Traverse the matrix and count the number of neighbors that are bombs 
-     * around each cell
+     * When the user clicks on a spot of the grid, react
      */
-    private void countNeighbours() {
-        for (int row = 0; row < rows; row++) {                  // Traverse rows
-            for (int column = 0; column < columns; column++) {  // and columns
-                int bombCount = count(row,column);              // Count bombs
-                System.out.println(bombCount);
-                if (bombCount > 0) {                            // Not zero
-                    System.out.println(bombCount);
-                    grid[row][column].setNeighbours(bombCount);
-                }
-            }
+    public static void mouseClick(int row, int column) {
+        String text = "Clicked cell (" + row + ", " + column + ")";
+        if (grid[row][column].isItBomb()) {    // Bomb spot
+            grid[row][column].revealCell();
+            text += " found bomb!";
         }
-    }
-
-    /**
-     * Counts the number of neighbors that are bombs around this cell
-     * 
-     * @param row the row in the matrix for the label
-     * @param column the column in the matrix for the label
-     * @return the count of bombs around this cell
-     */
-    private int count(int row, int column) {
-        int count = 0;                              // Start a count
-        // Check the row above
-        if (row-1 > 0) {                            // Not outside grid
-            if (column-1 > 0)  {                    // Not outside grid
-                if (grid[row-1][column-1].isItBomb()) {
-                    count++;                        // Increase count
-                }
-            }
-            if (grid[row-1][column].isItBomb()) {
-                count++;                            // Increase count
-            }
-            if (column+1 < columns)  {              // Not outside grid
-                if (grid[row-1][column+1].isItBomb()) {
-                    count++;                        // Increase count
-                }
-            }      
+        else if (grid[row][column].reveal() == false) {
+            // If the spot is a number, just reveal that spot
+            grid[row][column].revealCell();
+            text += " found number!";
         }
-        // Check the same row        
-        if (column-1 > 0)  {                        // Not outside grid
-            if (grid[row][column-1].isItBomb()) {
-                count++;                            // Increase count
-            }
+        else {
+            // spot is a blank, reveal all spots around it
+            grid[row][column].revealCell();
+            text += " found blank, revealing all blanks!";
+            boolean[][] checked = new boolean[rows][columns];
+            revealCheck(row, column, checked);
         }
-        if (column+1 < columns)  {                  // Not outside grid
-            if (grid[row][column+1].isItBomb()) {
-                count++;                            // Increase count
-            }
-        }
-        // Check the row below
-        if (row+1 < rows) {                         // Not outside grid
-            if (column-1 > 0)  {                    // Not outside grid
-                if (grid[row+1][column-1].isItBomb()) {
-                    count++;                        // Increase count
-                }
-            }
-            if (grid[row+1][column].isItBomb()) {
-                count++;                            // Increase count
-            }
-            if (column+1 < columns)  {              // Not outside grid
-                if (grid[row+1][column+1].isItBomb()) {
-                    count++;                        // Increase count
-                }
-            }
-        }  
-        return count;                               /// Send back final count
+        System.out.println(text);
     }
     
     /**
@@ -329,11 +280,10 @@ public class GameEngine {
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
                 // Count spots of cells next to bombs, but not the bomb spots
-                if (!grid[row][column].isBomb) {
+                if (!grid[row][column].isItBomb()) {
                     int bombCount = count(row,column);            // Count bombs
                     if (bombCount > 0) {                          // Not zero
                         grid[row][column].setNeighbours(bombCount);
-                        matrix[row][column] = "" + bombCount;
                     }
                 }
             }
@@ -347,7 +297,7 @@ public class GameEngine {
      * @param column the column in the matrix for the label
      * @return the count of bombs around this cell
      */
-    private int count(int row, int column) {
+    private static int count(int row, int column) {
         // spots to check      coordinates of those spots
         // +---+---+---+    +---------+---------+---------+
         // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
@@ -364,35 +314,35 @@ public class GameEngine {
         if (rowIsInBounds(r)) {                     // Not outside grid
             c = column - 1;                         // Check spot #1
             if (columnIsInBounds(c)) {              // Not outside grid
-                if (grid[r][c].isBomb) count++; 
+                if (grid[r][c].isItBomb()) count++; 
             }
             c = column;                             // Check spot #2
-            if (grid[r][c].isBomb) count++; 
+            if (grid[r][c].isItBomb()) count++; 
             c = column + 1;                         // Check spot #3
             if (columnIsInBounds(c)) {              // Not outside grid
-                if (grid[r][c].isBomb) count++;  
+                if (grid[r][c].isItBomb()) count++;  
             }
         }
         r = row;                                    // Check the same row.......
         c = column - 1;                             // Check spot #4
         if (columnIsInBounds(c))  {                 // Not outside grid
-            if (grid[r][c].isBomb) count++;  
+            if (grid[r][c].isItBomb()) count++;  
         }
         c = column + 1;                             // Check spot #5
         if (columnIsInBounds(c))  {                 // Not outside grid
-            if (grid[r][c].isBomb) count++;  
+            if (grid[r][c].isItBomb()) count++;  
         }
         r = row + 1;                                // Check row below..........
         if (rowIsInBounds(r)) {                     // Not outside grid
             c = column - 1;                         // Check spot #6
             if (columnIsInBounds(c)) {              // Not outside grid
-                if (grid[r][c].isBomb) count++; 
+                if (grid[r][c].isItBomb()) count++; 
             }
             c = column;                             // Check spot #7
-            if (grid[r][c].isBomb) count++;  
+            if (grid[r][c].isItBomb()) count++;  
             c = column + 1;                         // Check spot #8
             if (columnIsInBounds(c)) {              // Not outside grid
-                if (grid[r][c].isBomb) count++;  
+                if (grid[r][c].isItBomb()) count++;  
             }
         }
         return count;                               // Send back final count
@@ -406,7 +356,7 @@ public class GameEngine {
      * @param column the column in the matrix to check
      * @param checked the matrix of flagged spots to check or not
      */
-    private void revealCheck(int row, int column, boolean[][] checked) {
+    private static void revealCheck(int row, int column, boolean[][] checked) {
         // spots to check      coordinates of those spots
         // +---+---+---+    +---------+---------+---------+
         // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
@@ -436,7 +386,7 @@ public class GameEngine {
      * @param column the column in the matrix to check
      * @param checked the matrix of flagged spots to check or not
      */
-    private void check(int row, int column, boolean[][] checked) {    
+    private static void check(int row, int column, boolean[][] checked) {    
         // First make sure we are not out of bounds in the spot to check
         if (rowIsInBounds(row) && columnIsInBounds(column)) {
             if (checked[row][column] == true) {     // Already checked here
@@ -445,8 +395,8 @@ public class GameEngine {
             else {                                  // Have not checked here
                 checked[row][column] = true;        // Mark spot as checked
             }
-            if (reveal(row,column) == true) {       // If spot is a space
-                revealCheck(row,column,checked);    // Check spots around it
+            if (grid[row][column].reveal() == true) {  // If spot is a space
+                revealCheck(row,column,checked);       // Check spots around it
             }
         }
     }
@@ -457,7 +407,7 @@ public class GameEngine {
      * @param row the row in the matrix to check
      * @return the row is in bounds (true) or out of bounds (false)
      */
-    private boolean rowIsInBounds(int row) {
+    private static boolean rowIsInBounds(int row) {
         if (row <  0)    return false;              // Before first row
         if (row >= rows) return false;              // After last row
         return true;                                // Valid row
@@ -469,28 +419,9 @@ public class GameEngine {
      * @param column the column in the matrix to check
      * @return the column is in bounds (true) or out of bounds (false)
      */
-    private boolean columnIsInBounds(int column) {
+    private static boolean columnIsInBounds(int column) {
         if (column <  0)       return false;            // Before first column
         if (column >= columns) return false;            // After last column
         return true;                                    // Valid row
-    }
-    
-    /**
-     * Determines if the passed text is a valid number or not
-     * 
-     * @param text the text to check
-     * @return the valid numbers (1-8) or not a valid number (-1) 
-     */
-    private int isNumber(String text) {
-        if      (text == null)     return Constants.CELL_INVALID_NUMBER;
-        else if (text.equals("1")) return Integer.parseInt(text);
-        else if (text.equals("2")) return Integer.parseInt(text);
-        else if (text.equals("3")) return Integer.parseInt(text);
-        else if (text.equals("4")) return Integer.parseInt(text);
-        else if (text.equals("5")) return Integer.parseInt(text);
-        else if (text.equals("6")) return Integer.parseInt(text);
-        else if (text.equals("7")) return Integer.parseInt(text);
-        else if (text.equals("8")) return Integer.parseInt(text);
-        else                       return Constants.CELL_INVALID_NUMBER;
     }
 }
