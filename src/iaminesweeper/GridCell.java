@@ -46,41 +46,37 @@ public class GridCell extends GameObject{
     private final int CELL_BOMB_HIT_TAG      = 4;  // The bomb that triggered the lost game         
     private final int CELL_BOMB_CHECKED_TAG  = 5;  // If a bomb was incorrectly flagged
     
-    private LinkedList<String> settings; // The settings for the animations
-    private int neighbours;              // How many bombs neighour this cell
+    private int row;            // The row index this cell is in
+    private int column;         // The column index this cell is in
+    private int neighbours;     // How many bombs neighour this cell
     
-            
-    public JLabel label;
-    public String matrix;      // Store values for the label
+    public JLabel  label;
+    public String  matrix;      // Store values for the label
     public boolean isBomb;
     public boolean isFlagged;
     public boolean isClicked;
     public boolean canClick;
     
-    private int row;               // The row index this cell is in
-    private int column;            // The column index this cell is in
-             
-      
     
-
+    
     /**
      * Default constructor, set class properties
      * @param label the label associated with the image for the character 
-     * @param settings the list of setting values for the images
      * @param row the row in the GameEngine matrix for the cell
      * @param column the column in the GameEngine matrix for the cell
      */
-    public GridCell(JLabel label, LinkedList<String> settings, int row, int column) {
+    public GridCell(JLabel label, int row, int column) {
         super(label);
         this.row        = row;
         this.column     = column;
-        this.settings   = settings;
         this.label      = label;
         setClickable(true);
     }
     
     
     
+    
+    // <editor-fold defaultstate="collapsed" desc="Accessors/Mutators"> 
     /**
      * Tracks how many bombs neighbour this cell
      * 
@@ -98,6 +94,33 @@ public class GridCell extends GameObject{
      */
     public void setClickable(boolean click){
         canClick = click;
+    }
+    
+    /**
+     * Sets this <code>GridCell</code> to act as a bomb.
+     */
+    public void setBomb(){
+        //sprite.animate(CELL_BOMB_TAG);
+        //label.setBackground(CELL_BOMB);
+        matrix = BOMB;
+        isBomb = true;
+    }
+    
+    public void setLblProperties(String text, Color foreground,
+                                 Color background, int borderType){
+        
+        if (text.equals("null")) {}
+        else label.setText(text);
+        
+        if (foreground != null) {
+            label.setForeground(foreground);
+        }
+        if (background != null) {
+            label.setBackground(background);
+        }
+        if (borderType == 0 || borderType == 1) {
+            label.setBorder(BorderFactory.createBevelBorder(borderType)); 
+        }
     }
     
     /**
@@ -122,22 +145,10 @@ public class GridCell extends GameObject{
      * Sets this <code>GridCell</code> to act as a bomb
      * @return <code>true</code> if and only if <code>isBomb</code> is true
      */
-    public boolean isItBomb(){
+    public boolean getBomb(){
         return isBomb;
     }
-    
-    
-    
-    /**
-     * Sets this <code>GridCell</code> to act as a bomb.
-     */
-    public void setBomb(){
-        //sprite.animate(CELL_BOMB_TAG);
-        //label.setBackground(CELL_BOMB);
-        matrix = BOMB;
-        isBomb = true;
-    }
-    
+    // </editor-fold> 
      
     
     // <editor-fold defaultstate="collapsed" desc="Cell Events"> 
@@ -146,9 +157,10 @@ public class GridCell extends GameObject{
      */
     public void clearCell() {
         //sprite.animate(CELL_DEFAULT_TAG);
-        label.setText("");     // Set bomb spot
-        label.setBackground(CELL_BACKGROUND); // Starting color
-        label.setBorder(BorderFactory.createBevelBorder(0)); 
+        setLblProperties("", null, CELL_BACKGROUND, 0);
+        //label.setText("");     // Set bomb spot
+        //label.setBackground(CELL_BACKGROUND); // Starting color
+        //label.setBorder(BorderFactory.createBevelBorder(0)); 
     }
     
     /**
@@ -156,11 +168,14 @@ public class GridCell extends GameObject{
      */
     public void showBomb(){
         if (isBomb) { // Error check
-            label.setText(BOMB);     // Set bomb spot
-            label.setForeground(Color.BLACK);
-            label.setBorder(BorderFactory.createBevelBorder(1));
+            setLblProperties(BOMB, Color.BLACK, null, 1);
+            //label.setText(BOMB);     // Set bomb spot
+            //label.setForeground(Color.BLACK);
+            //label.setBorder(BorderFactory.createBevelBorder(1));
         }
     }
+    
+    
     
     /**
      * Reveals the content of this cell, if it is not a bomb.
@@ -172,17 +187,14 @@ public class GridCell extends GameObject{
                 //Find Blank Neighbours
                 break;
             case 1:
-                System.out.println("1");
                 label.setText("" + neighbours);     // Set bomb spot
                 label.setForeground(new Color(0, 0, 255));
                 break;
             case 2:
-                System.out.println("2");
                 label.setText("" + neighbours);     // Set bomb spot
                 label.setForeground(new Color(0, 128, 0));
                 break;
             case 3:
-                System.out.println("4");
                 label.setText("" + neighbours);     // Set bomb spot
                 label.setForeground(new Color(128, 0, 0));
                 break;
@@ -222,10 +234,12 @@ public class GridCell extends GameObject{
         if (!isClicked) {
             if (isFlagged) {
                 isFlagged = false;
-                label.setBackground(CELL_BACKGROUND); // Starting color
+                setLblProperties("null", null, CELL_BACKGROUND, -1);
+                //label.setBackground(CELL_BACKGROUND); // Starting color
                 setClickable(true);
             } else {
                 isFlagged = true;
+                setLblProperties("null", null, Color.GREEN, 0);
                 label.setBackground(Color.GREEN);
                 setClickable(false);
             }
@@ -262,8 +276,6 @@ public class GridCell extends GameObject{
      * @return this location is a blank (true) cell or not (false)
      */
     public boolean reveal() {
-        String text   = label.getText();    // Text from label
-        int    number = isNumber(text);     // Possible number
         if (neighbours == 0) {              // Blank spot
             revealCell();
             matrix = BLANK;
@@ -310,7 +322,7 @@ public class GridCell extends GameObject{
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
             public void mousePressed(MouseEvent e)  { 
-                GameEngine.
+                Constants.gameEngine.mouseClick(e, BOMB);
                 if (e.getButton() == MouseEvent.BUTTON1) { // Left Click
                     // Mark status as Click
                     System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
@@ -385,22 +397,22 @@ public class GridCell extends GameObject{
         int    delay = Constants.CELL_ANIMATION_DELAY; 
         String tag   = Constants.CELL_FLAG_TAG;        
         Animation cellFlag = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.CELL_UNKNOWN_TAG;        
         Animation cellUnknown = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.CELL_UNKNOWN_CLICK_TAG;        
         Animation cellUnknownClick = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.CELL_BOMB_TAG;        
         Animation cellBomb = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.CELL_BOMB_HIT_TAG;        
         Animation cellBombHit = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.CELL_BOMB_CHECKED_TAG;        
         Animation cellBombChecked = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         System.out.print("(TAGS)");
         LinkedList<Animation> cellAnimations = new LinkedList<>(); 
         cellAnimations.add(cellFlag);

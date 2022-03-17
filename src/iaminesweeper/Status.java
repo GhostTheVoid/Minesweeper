@@ -27,12 +27,16 @@ public class Status extends GameCharacter{
     
     public Boolean isClicked;
     
-    
+    private final int FACE_DEFAULT_TAG   = 0;            
+    private final int FACE_RESET_TAG     = 1;            
+    private final int FACE_CLICK_TAG     = 2;    
+    private final int FACE_WIN_TAG       = 3;  
+    private final int FACE_LOSE_TAG      = 4;  
 
     /**
      * Default constructor, set class properties
      */
-    public Status(JLabel statusLabel, LinkedList<String> settings) {
+    public Status(JLabel statusLabel) {
         super(statusLabel, Constants.FACE_MOVE_AMOUNT,
                 Constants.FACE_TIMER_DELAY);
         this.statusLabel = statusLabel;
@@ -45,7 +49,7 @@ public class Status extends GameCharacter{
         };
         clickDelay = new Timer(50, delayAction);
         
-        setAnimations(statusLabel, settings); // build all animations
+        setAnimations(statusLabel); // build all animations
     }
     
     /**
@@ -54,26 +58,31 @@ public class Status extends GameCharacter{
      * 
      * @param evt the event type
      */
-    public void clickLbl(MouseEvent evt) {
+    public void clickStatus(MouseEvent evt) {
         if (evt.getID() == MouseEvent.MOUSE_PRESSED) {
-            sprite.animate(1);
+            animate(FACE_RESET_TAG);
         }
         else if (evt.getID() == MouseEvent.MOUSE_RELEASED){
             clickDelay.start();
         } 
     }
     
-    public void leftMouseBtnDown(){
-        
+    public void leftMouseBtnDown(MouseEvent evt){
+        if (evt.getID() == MouseEvent.MOUSE_PRESSED) {
+            animate(FACE_CLICK_TAG);
+        }
+        else if (evt.getID() == MouseEvent.MOUSE_RELEASED){
+            clickDelay.start();
+        } 
     }
     
     /** changes the animation set to the appropriate animation based on direction */
-    public void animate() {
-        
+    public void animate(int animation) {
+        sprite.animate(animation);
     }
     
     private void clickDelayAction() {
-        sprite.animate(0);
+        animate(FACE_DEFAULT_TAG);
         clickDelay.stop();
     }
     
@@ -82,30 +91,29 @@ public class Status extends GameCharacter{
      * Set up all the animations for this character
      * 
      * @param label the label to associate the animation with
-     * @param settings the list of animation settings
      */
-    private void setAnimations(JLabel label, LinkedList<String> settings) {
+    private void setAnimations(JLabel label) {
         String sheet = Constants.SPRITE_SHEET;
         int    delay = Constants.FACE_ANIMATION_DELAY; 
         String tag   = Constants.FACE_DEFAULT_TAG;        
         Animation faceDefault = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
-        tag = Constants.FACE_CLICK_TAG;        
-        Animation faceClick = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.FACE_RESET_TAG;        
         Animation faceReset = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
+        tag = Constants.FACE_CLICK_TAG;        
+        Animation faceClick = Animator.getAnimation(sheet, label, 
+                                                       delay, Constants.settings, tag);
         tag = Constants.FACE_WIN_TAG;        
         Animation faceWin = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);        
+                                                       delay, Constants.settings, tag);        
         tag = Constants.FACE_LOSE_TAG;        
         Animation faceLose = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         LinkedList<Animation> statusAnimations = new LinkedList<>(); 
         statusAnimations.add(faceDefault);
-        statusAnimations.add(faceClick);
         statusAnimations.add(faceReset);
+        statusAnimations.add(faceClick);
         statusAnimations.add(faceWin);
         statusAnimations.add(faceLose);
         sprite.setAnimations(statusAnimations);             

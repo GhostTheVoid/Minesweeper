@@ -18,8 +18,8 @@ public class FlagTracker extends Counter{
     /**
      * Default constructor, set class properties
      */
-    public FlagTracker(LinkedList<JLabel> flagLabels,  LinkedList<String> settings) {
-        super(flagLabels, settings);
+    public FlagTracker(LinkedList<JLabel> flagLabels) {
+        super(flagLabels);
     }
     
     private void findCount(){
@@ -27,7 +27,6 @@ public class FlagTracker extends Counter{
     }
     
     private void setCount(){
-        
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones
@@ -37,7 +36,6 @@ public class FlagTracker extends Counter{
                 hundreds++;         // Increase hundreds
             }
         }
-        
         updateAllLabels(ones, tens, hundreds);
     }
     

@@ -25,8 +25,8 @@ public class TimeTracker extends Counter{
      * 
      * @param settings
      */
-    public TimeTracker(LinkedList<JLabel> timerLabels, LinkedList<String> settings) {
-        super(timerLabels, settings);
+    public TimeTracker(LinkedList<JLabel> timerLabels) {
+        super(timerLabels);
         
         timer = new Timer(DELAY, new ActionListener() {
             @Override

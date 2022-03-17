@@ -1,6 +1,8 @@
 /** Required package class namespace */
 package iaminesweeper;
 
+import collections.LinkedList;
+
  
 /**
  * Constants.java - the various game constants
@@ -11,7 +13,7 @@ package iaminesweeper;
  */
 public class Constants {
     
-    public final static GameEngine GAME_ENGINE;
+    public static GameEngine gameEngine;
     
     public final static int    CELL_WIDTH  = 16;            // Width of each label
     public final static int    CELL_HEIGHT = CELL_WIDTH;    // Size of the labels
@@ -36,6 +38,8 @@ public class Constants {
     public final static String SETTINGS_DATA_FILE  = "/media/settings.txt";
     public final static String SPRITE_SHEET        = "/media/minesweeper.png";
     
+    public static LinkedList<String> settings; // The settings for the animations
+    
     // Num
     public final static String NUM_1_TAG                = "num1";
     public final static String NUM_2_TAG                = "num2";
@@ -51,8 +55,8 @@ public class Constants {
     public final static String NUM_BLANK_TAG            = "numBlank";
     // Face
     public final static String FACE_DEFAULT_TAG         = "faceDefault";
-    public final static String FACE_RESET_TAG           = "faceReset";
-    public final static String FACE_CLICK_TAG           = "faceClick";
+    public final static String FACE_CLICK_TAG           = "faceReset";
+    public final static String FACE_RESET_TAG           = "faceClick";
     public final static String FACE_WIN_TAG             = "faceWin";
     public final static String FACE_LOSE_TAG            = "faceLose";
     // Cells

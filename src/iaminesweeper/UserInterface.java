@@ -15,7 +15,6 @@ import java.awt.Desktop;
  */
 public class UserInterface extends javax.swing.JFrame {
     
-    GameEngine engine;
     Dimension screenSize;
     
     Color backgroundColor = new Color(195, 187, 184);
@@ -36,7 +35,7 @@ public class UserInterface extends javax.swing.JFrame {
         flagLabels.add(flagLblTen);
         flagLabels.add(flagLblHundred);
         
-        engine = new GameEngine(statusLbl, gamePnl,
+        Constants.gameEngine = new GameEngine(statusLbl, gamePnl,
                                 timerLabels,flagLabels,this);
     }
 
@@ -299,7 +298,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void statusLblMouseEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseEvent
         // TODO add your handling code here:
-        engine.generate();
+        Constants.gameEngine.restartGame(evt);
     }//GEN-LAST:event_statusLblMouseEvent
 
     private void menuGameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGameMouseClicked
@@ -309,14 +308,14 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void menuHelpMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuHelpMenuSelected
         // TODO add your handling code here:
-        engine.openURI("https://minesweepergame.com/strategy.php");
+        Constants.gameEngine.openURI("https://minesweepergame.com/strategy.php");
          
         
     }//GEN-LAST:event_menuHelpMenuSelected
 
     private void gamePnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gamePnlMouseClicked
         // TODO add your handling code here:
-        engine.mouseClick(evt, "Grid");
+        Constants.gameEngine.mouseClick(evt, "Grid");
     }//GEN-LAST:event_gamePnlMouseClicked
 
     

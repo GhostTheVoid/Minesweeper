@@ -39,7 +39,7 @@ public class Counter {
     /**
      * Default constructor, set class properties
      */
-    public Counter(LinkedList<JLabel> jLabels, LinkedList<String> settings) {
+    public Counter(LinkedList<JLabel> jLabels) {
         this.jLabels = jLabels;
 //        sprite1      = new Sprite(jLabels.get(0));
 //        sprite2      = new Sprite(jLabels.get(1));
@@ -123,40 +123,40 @@ public class Counter {
         int    delay = Constants.TIMER_ANIMATION_DELAY; 
         String tag   = Constants.NUM_1_TAG;        
         Animation num1 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_2_TAG;        
         Animation num2 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_3_TAG;        
         Animation num3 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_4_TAG;        
         Animation num4 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);        
+                                                       delay, Constants.settings, tag);        
         tag = Constants.NUM_5_TAG;        
         Animation num5 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_6_TAG;        
         Animation num6 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_7_TAG;        
         Animation num7 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_8_TAG;        
         Animation num8 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_9_TAG;        
         Animation num9 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_0_TAG;        
         Animation num0 = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_DASH_TAG;        
         Animation numDash = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag);
+                                                       delay, Constants.settings, tag);
         tag = Constants.NUM_BLANK_TAG;        
         Animation numBlank = Animator.getAnimation(sheet, label, 
-                                                       delay, settings, tag); //154
+                                                       delay, Constants.settings, tag); //154
         timerAnimations = new LinkedList<>(); 
         timerAnimations.add(num1);
         timerAnimations.add(num2);
