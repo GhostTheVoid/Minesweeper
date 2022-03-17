@@ -29,24 +29,29 @@ import tools.Numbers;
  */
 public class GameEngine {
     
+    // GAME OBJECTS
     private Player                  player;
     private static Status           status;
     private static TimeTracker      timeTracker;
-    private Flag                    flag;
+    private static GridCell[][] grid;        // A 2D array of GridCell objects
+    private FlagTracker             flagTracker;
     private LinkedList<GridCell>    gridCells;
-    private FileHandler             playerData;
-    private FileHandler             settingsFile;
+    // LABELS & PANELS
     private UserInterface   userInteface;   // Reference to the "view" (user interface)
     private JLabel          statusLabel;    // Reference to the label to update status
     private JPanel          gamePanel;      // Reference to the panel for labels
+    // FILES
+    private FileHandler             playerData;
+    private FileHandler             settingsFile;
     
-    private static GridCell[][] grid;        // A 2D array of JLabel objects
+    
+    
     private String[][] matrix;      // A 2D array to store values for the labels
     
     private static int rows;               // The number of rows for the matrix
     private static int columns;            // The number of columns for the matrix
     
-    public static boolean gameStarted;
+    public static boolean gameStarted; // Determines if the game is running or not
 
     /**
      * Default constructor, set class properties
@@ -74,7 +79,7 @@ public class GameEngine {
 //        }
 
         timeTracker = new TimeTracker(timerLabels, settings);
-        flag        = new Flag(flagLabels, settings);
+        flagTracker = new FlagTracker(flagLabels, settings);
         status      = new Status(statusLabel, settings);
         
         // set UI properties
@@ -83,49 +88,26 @@ public class GameEngine {
         userInteface.setLocationRelativeTo(null);
         userInteface.setVisible(true);
         
+        generate();
+        
         System.out.println("SHOW");
     }
     
-    /**
-     * Envolks an action if the user clicks their mouse
-     * 
-     * @param evt       The MouseEvent envoked
-     * @param object    The name of the object put through
-     */
-    public void mouseClick(MouseEvent evt, String object){
-        //If on grid
-        if (object.equals("Grid")){
-            if (!gameStarted){
-                gameStarted = true;
-                timeTracker.start();
-            }
-        }
-        else if (object.equals("Status")){
-            restartGame(evt);
-        }
-        else if (object.equals("Grid")){
-            System.out.println("Grid index " + "ddd" + "was clicked! Was it a bomb?: " + "True");
-        }
-    }
+    // <editor-fold defaultstate="collapsed" desc="Game States"> 
     
     /**
-     * Opens a webpage in the default browser
-     * 
-     * @return If the file opening was sucessful, return true. If unsucessful,
-     *          return false.
+     * On the first click
      */
-    public boolean openURI(String uri){
-        Desktop desktop = Desktop.isDesktopSupported()?Desktop.getDesktop():null;
-        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-            try {
-                desktop.browse(new URI(uri));
-                System.out.println("File Opening Sucessful!");
-                return true;
-            } catch (Exception e) {
-                System.out.println("File Opening Unsucsessful: " + e.toString());
-            }
+    public void startGame(){
+        if (gameStarted) {
+            System.out.println("Game already running!");
         }
-        return false;
+        else {
+            System.out.println("Game has started!");
+            gameStarted = true;
+            timeTracker.start();
+        }
+        
     }
     
     /**
@@ -159,6 +141,50 @@ public class GameEngine {
         }  
     }
     
+    // </editor-fold>  
+    
+    // <editor-fold defaultstate="collapsed" desc="Events"> 
+    /**
+     * Envolks an action if the user clicks their mouse
+     * 
+     * @param evt       The MouseEvent envoked
+     * @param object    The name of the object put through
+     */
+    public void mouseClick(MouseEvent evt, String object){
+        //If on grid
+        if (object.equals("Grid")){
+            if (!gameStarted){
+                startGame();
+            }
+            System.out.println("Grid index " + "ddd" + "was clicked! Was it a bomb?: " + "True");
+        }
+        else if (object.equals("Status")){
+            restartGame(evt);
+        }
+    }
+    
+    /**
+     * Opens a webpage in the default browser
+     * 
+     * @return If the file opening was sucessful, return true. If unsucessful,
+     *          return false.
+     */
+    public boolean openURI(String uri){
+        Desktop desktop = Desktop.isDesktopSupported()?Desktop.getDesktop():null;
+        if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+            try {
+                desktop.browse(new URI(uri));
+                System.out.println("File Opening Sucessful!");
+                return true;
+            } catch (Exception e) {
+                System.out.println("File Opening Unsucsessful: " + e.toString());
+            }
+        }
+        return false;
+    }
+    
+    
+    
     /**
      * The user's keyboard event of pressing a key to respond to
      * 
@@ -168,11 +194,14 @@ public class GameEngine {
         player.keypress(event);
     }
     
+    // </editor-fold>  
     
+    // <editor-fold defaultstate="collapsed" desc="Grid Cells"> 
     /**
      * Method connected to the UI button to generate a new matrix
      */
     public void generate() {
+        System.out.println("New grid to generate");
         clearGrid(); // Clear the design
         // Calculate the number of bombs based on the size of the matrix
         //int numberOfBombs = (int)(((double)(rows * columns)) / Constants.CELL_RATIO);
@@ -424,4 +453,6 @@ public class GameEngine {
         if (column >= columns) return false;            // After last column
         return true;                                    // Valid row
     }
+    
+    // </editor-fold>  
 }

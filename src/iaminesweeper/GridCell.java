@@ -57,9 +57,8 @@ public class GridCell extends GameObject{
     public boolean isClicked;
     public boolean canClick;
     
-    
-    private int row;               // The number of rows for the matrix
-    private int column;            // The number of columns for the matrix
+    private int row;               // The row index this cell is in
+    private int column;            // The column index this cell is in
              
       
     
@@ -80,15 +79,7 @@ public class GridCell extends GameObject{
         setClickable(true);
     }
     
-    /**
-     * Clears the label for a new matrix generation
-     */
-    public void clearCell() {
-        //sprite.animate(CELL_DEFAULT_TAG);
-        label.setText("");     // Set bomb spot
-        label.setBackground(CELL_BACKGROUND); // Starting color
-        label.setBorder(BorderFactory.createBevelBorder(0)); 
-    }
+    
     
     /**
      * Tracks how many bombs neighbour this cell
@@ -136,6 +127,7 @@ public class GridCell extends GameObject{
     }
     
     
+    
     /**
      * Sets this <code>GridCell</code> to act as a bomb.
      */
@@ -144,6 +136,19 @@ public class GridCell extends GameObject{
         //label.setBackground(CELL_BOMB);
         matrix = BOMB;
         isBomb = true;
+    }
+    
+     
+    
+    // <editor-fold defaultstate="collapsed" desc="Cell Events"> 
+    /**
+     * Clears the label for a new matrix generation
+     */
+    public void clearCell() {
+        //sprite.animate(CELL_DEFAULT_TAG);
+        label.setText("");     // Set bomb spot
+        label.setBackground(CELL_BACKGROUND); // Starting color
+        label.setBorder(BorderFactory.createBevelBorder(0)); 
     }
     
     /**
@@ -251,6 +256,44 @@ public class GridCell extends GameObject{
     }
     
     /**
+     * Reveals what is at this cell location (a number, bomb, or blank) with 
+     * text and a background color
+     * 
+     * @return this location is a blank (true) cell or not (false)
+     */
+    public boolean reveal() {
+        String text   = label.getText();    // Text from label
+        int    number = isNumber(text);     // Possible number
+        if (neighbours == 0) {              // Blank spot
+            revealCell();
+            matrix = BLANK;
+            return true;                                // Continue revealing
+        }
+        else if (isBomb) {                   // Bomb spot
+            revealCell();
+            label.setBackground(Color.MAGENTA);
+            return false;
+        }
+        else if (isFlagged){
+            System.out.println("Cell flagged, unable to complete");
+            return false;
+        }
+        else if (neighbours != INVALID_NUMBER) {            // A valid number spot
+            revealCell();
+            //label.setBackground(Color.blue);
+            matrix = "" + isNumber(label.getText());
+            return false;
+        }
+        else {                                          // Error check
+            label.setBackground(Color.black);
+            return false;
+        }
+    }
+    // </editor-fold> 
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="Create Labels"> 
+    /**
      * Creates a label object on the panel of the passed size
      * 
      * @param x the x coordinate to draw the label in the panel
@@ -267,7 +310,7 @@ public class GridCell extends GameObject{
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
             public void mousePressed(MouseEvent e)  { 
-                
+                GameEngine.
                 if (e.getButton() == MouseEvent.BUTTON1) { // Left Click
                     // Mark status as Click
                     System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
@@ -306,43 +349,8 @@ public class GridCell extends GameObject{
         //setAnimations();
         //System.out.println("Animations");
     }
+    // </editor-fold>  
     
-    
-    
-    /**
-     * Reveals what is at this cell location (a number, bomb, or blank) with 
-     * text and a background color
-     * 
-     * @return this location is a blank (true) cell or not (false)
-     */
-    public boolean reveal() {
-        String text   = label.getText();    // Text from label
-        int    number = isNumber(text);     // Possible number
-        if (neighbours == 0) {              // Blank spot
-            revealCell();
-            matrix = BLANK;
-            return true;                                // Continue revealing
-        }
-        else if (isBomb) {                   // Bomb spot
-            revealCell();
-            label.setBackground(Color.MAGENTA);
-            return false;
-        }
-        else if (isFlagged){
-            System.out.println("Cell flagged, unable to complete");
-            return false;
-        }
-        else if (neighbours != INVALID_NUMBER) {            // A valid number spot
-            revealCell();
-            //label.setBackground(Color.blue);
-            matrix = "" + isNumber(label.getText());
-            return false;
-        }
-        else {                                          // Error check
-            label.setBackground(Color.black);
-            return false;
-        }
-    }
     
     /**
      * Determines if the passed text is a valid number or not

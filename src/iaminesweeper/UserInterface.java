@@ -299,7 +299,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void statusLblMouseEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseEvent
         // TODO add your handling code here:
-        engine.mouseClick(evt, "Status");
+        engine.generate();
     }//GEN-LAST:event_statusLblMouseEvent
 
     private void menuGameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGameMouseClicked

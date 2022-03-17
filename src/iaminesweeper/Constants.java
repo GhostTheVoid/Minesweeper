@@ -11,6 +11,8 @@ package iaminesweeper;
  */
 public class Constants {
     
+    public final static GameEngine GAME_ENGINE;
+    
     public final static int    CELL_WIDTH  = 16;            // Width of each label
     public final static int    CELL_HEIGHT = CELL_WIDTH;    // Size of the labels
     public final static double CELL_RATIO  = 4.85;          // Ratio of labels

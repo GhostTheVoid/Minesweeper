@@ -5,20 +5,20 @@ import collections.LinkedList;
 import javax.swing.JLabel;
 
 /**
- * Flag.java - description
- *
- * -----------------------
+ * FlagTracker.java - description
+
+ -----------------------
  * @author Marissa Rowles
  * @since 18-Feb-2022
  */
-public class Flag extends Counter{
+public class FlagTracker extends Counter{
     
     private int count;
 
     /**
      * Default constructor, set class properties
      */
-    public Flag(LinkedList<JLabel> flagLabels,  LinkedList<String> settings) {
+    public FlagTracker(LinkedList<JLabel> flagLabels,  LinkedList<String> settings) {
         super(flagLabels, settings);
     }
     
