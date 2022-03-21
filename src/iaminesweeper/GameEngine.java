@@ -68,8 +68,6 @@ public class GameEngine {
         settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
         //check for game settings
         Constants.settings = settingsFile.read();
-        setGrid(); 
-        
         
         // check for saved data
 //        LinkedList<String> data = playerData.read();
@@ -81,6 +79,10 @@ public class GameEngine {
         timeTracker = new TimeTracker(timerLabels);
         flagTracker = new FlagTracker(flagLabels);
         status      = new Status(statusLabel);
+        prepareGrid();
+        
+        setGrid(); 
+        flagTracker.findCount();
         
         generate();
         
@@ -200,6 +202,11 @@ public class GameEngine {
     // </editor-fold>  
     
     // <editor-fold defaultstate="collapsed" desc="Grid Cells"> 
+    
+    public void prepareGrid (){
+        Difficulties.setDifficulty(0);
+    }
+    
     /**
      * Method connected to the UI button to generate a new matrix
      */
@@ -224,6 +231,7 @@ public class GameEngine {
                 " with " + (rows * columns) + " cells, generated " + 
                 bombCount + " bombs");              // Update status
         countNeighbours();                              // Count all neighbors
+        FlagTracker.findCount(); // Find how many bombs will be in the grid
     }
 
     /**
@@ -232,8 +240,10 @@ public class GameEngine {
     private void setGrid() {
         // Get the size of the panel to draw inside of, and calculate how many
         // labels (based on their sizes) we can have in each row/column
-        rows    = gamePanel.getHeight() / GridCell.getHeight();
-        columns = gamePanel.getWidth()  / GridCell.getWidth();
+        rows    = Difficulties.rowCount;
+        columns = Difficulties.columnCount;
+//        rows    = gamePanel.getHeight() / GridCell.getHeight();
+//        columns = gamePanel.getWidth()  / GridCell.getWidth();
         // Instantiate the matrix
         grid = new GridCell[rows][columns];
         // Now loop through and build all the labels each at a (x,y) location
@@ -249,7 +259,7 @@ public class GameEngine {
             }
             // Move y location past this row for the next row
             y += GridCell.getHeight();
-        }  
+        } 
     }
     
     /**

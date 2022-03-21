@@ -41,6 +41,7 @@ public class TimeTracker extends Counter{
      * and then starts the timer.
      */
     public void start(){
+        System.out.println("Reached");
         if (!timer.isRunning()) {
             setInt(0, 0, 0);
             timer.start();
@@ -61,20 +62,20 @@ public class TimeTracker extends Counter{
         else System.out.println("Timer is already stopped!");
     }
     
-    /**
-     * The logic associated with each update of the label object
-     */
-    @Override
-    protected void updateCounter(){
-        ones++;                     // Increase ones
-        if (ones == 10) {           // Roll over to next digit
-            ones = 0;               // Rest ones
-            tens++;                 // Increase tens
-            if (tens == 10) {       // Roll over to next digit
-                tens = 0;           // Reset tens
-                hundreds++;         // Increase hundreds
-            }
-        }
-        updateAllLabels(ones, tens, hundreds);
-    }
+//    /**
+//     * The logic associated with each update of the label object
+//     */
+//    @Override
+//    protected static void updateCounter(){
+//        ones++;                     // Increase ones
+//        if (ones == 10) {           // Roll over to next digit
+//            ones = 0;               // Rest ones
+//            tens++;                 // Increase tens
+//            if (tens == 10) {       // Roll over to next digit
+//                tens = 0;           // Reset tens
+//                hundreds++;         // Increase hundreds
+//            }
+//        }
+//        updateAllLabels(ones, tens, hundreds);
+//    }
 }

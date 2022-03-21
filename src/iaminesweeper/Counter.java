@@ -31,10 +31,10 @@ public class Counter {
     public boolean isAlive;
     
     // Global properties (variables)
-    protected int    ones, tens, hundreds;
+    protected static int    ones, tens, hundreds;
     protected LinkedList<Animation> animations1, animations2, animations3;
     
-    private LinkedList<JLabel> jLabels;
+    private static LinkedList<JLabel> jLabels;
 
     /**
      * Default constructor, set class properties
@@ -65,10 +65,10 @@ public class Counter {
      * @param tens     int representing the tens spot
      * @param hundreds int representing the hundreds spot
      */
-    protected void setInt(int ones, int tens, int hundreds){
-        this.ones = ones;
-        this.tens = tens;
-        this.hundreds = hundreds;
+    protected static void setInt(int ones, int tens, int hundreds){
+        Counter.ones = ones;
+        Counter.tens = tens;
+        Counter.hundreds = hundreds;
         
         updateAllLabels(ones, tens, hundreds);
     }
@@ -76,7 +76,7 @@ public class Counter {
     /**
      * The logic associated with each update of the label object
      */
-    protected void updateCounter(){
+    protected static void updateCounter(){
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones
@@ -95,7 +95,7 @@ public class Counter {
      * @param num the int that will replace the current label
      * @param label 
      */
-    private void updateLabel(int num, JLabel label) {
+    private static void updateLabel(int num, JLabel label) {
         label.setText(num+"");
     }
     
@@ -106,7 +106,7 @@ public class Counter {
      * @param tens the int that will be put into the tens spot
      * @param hundreds the int that will be put into the hundreds spot
      */
-    protected void updateAllLabels(int ones, int tens, int hundreds) {
+    protected static void updateAllLabels(int ones, int tens, int hundreds) {
         updateLabel(ones, jLabels.get(0));
         updateLabel(tens, jLabels.get(1));
         updateLabel(hundreds, jLabels.get(2));

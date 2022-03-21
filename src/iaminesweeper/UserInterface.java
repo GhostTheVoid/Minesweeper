@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.event.ChangeListener;
 
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -87,18 +88,33 @@ public class UserInterface extends javax.swing.JFrame {
         easyMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
         easyMenuRdBtn.setSelected(true);
         easyMenuRdBtn.setText("<html><b>Beginner:</b> &nbsp;&emsp;&emsp; 9 &emsp;&emsp;&ensp; 9 &emsp;&emsp;&ensp; 10</html>");
+        easyMenuRdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdActionPerformed(evt);
+            }
+        });
         menuPopup.add(easyMenuRdBtn);
 
         medMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
         gridBtnGrp.add(medMenuRdBtn);
         medMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
         medMenuRdBtn.setText("<html><b>Intermediate:</b>&nbsp;&ensp; 16 &emsp;&emsp;16 &emsp;&emsp;&nbsp; 40</html>");
+        medMenuRdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdActionPerformed(evt);
+            }
+        });
         menuPopup.add(medMenuRdBtn);
 
         hardMenuRdBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.foreground"));
         gridBtnGrp.add(hardMenuRdBtn);
         hardMenuRdBtn.setForeground(javax.swing.UIManager.getDefaults().getColor("MenuItem.background"));
         hardMenuRdBtn.setText("<html><b>Expert:</b> &nbsp;&emsp;&emsp;&emsp; 16 &emsp;&emsp; 30 &emsp;&emsp; 99</html>");
+        hardMenuRdBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdActionPerformed(evt);
+            }
+        });
         menuPopup.add(hardMenuRdBtn);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -317,6 +333,19 @@ public class UserInterface extends javax.swing.JFrame {
         // TODO add your handling code here:
         Constants.gameEngine.mouseClick(evt, "Grid");
     }//GEN-LAST:event_gamePnlMouseClicked
+
+    private void rdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdActionPerformed
+        int evtHash = evt.getSource().hashCode(); // Get the hashCode of the RadioButton
+        if (evtHash == easyMenuRdBtn.hashCode()){
+            Difficulties.setDifficulty(0);
+        }
+        else if (evtHash == medMenuRdBtn.hashCode()){
+            //Difficulties.setDifficulty(1);
+        }
+        else if (evtHash == hardMenuRdBtn.hashCode()){
+            //Difficulties.setDifficulty(2);
+        }
+    }//GEN-LAST:event_rdActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

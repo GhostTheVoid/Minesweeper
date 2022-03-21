@@ -13,7 +13,9 @@ import collections.LinkedList;
  */
 public class Constants {
     
+    //SHARED GAME SETTINGS
     public static GameEngine gameEngine;
+    public static Difficulties difficulties;
     
     public final static int    CELL_WIDTH  = 16;            // Width of each label
     public final static int    CELL_HEIGHT = CELL_WIDTH;    // Size of the labels

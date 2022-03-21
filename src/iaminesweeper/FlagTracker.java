@@ -2,6 +2,7 @@
 package iaminesweeper;
  
 import collections.LinkedList;
+import java.util.Scanner;
 import javax.swing.JLabel;
 
 /**
@@ -13,7 +14,7 @@ import javax.swing.JLabel;
  */
 public class FlagTracker extends Counter{
     
-    private int count;
+    private static int count;
 
     /**
      * Default constructor, set class properties
@@ -22,11 +23,27 @@ public class FlagTracker extends Counter{
         super(flagLabels);
     }
     
-    private void findCount(){
+    public static void findCount(){
+        System.out.println("DEFAULT = " + Difficulties.bombCount);
+        count = Difficulties.bombCount;
         
+        int[] countArry = {0,0,0};
+        countArry = String.valueOf(count).chars().map(Character::getNumericValue).toArray();
+        String text = "Count = ";
+        for (int i = 0; i < countArry.length; i++) {
+            text += countArry[i];
+        }
+        System.out.println(text);
+        
+        System.out.println("BOMB COUNT: ");
+        System.out.print("Ones = " + ones);
+        System.out.print(" || Tens = " + tens);
+        System.out.println(" || Hundreds = " + hundreds);
     }
     
-    private void setCount(){
+    
+    
+    private static void setCount(){
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones
@@ -42,7 +59,7 @@ public class FlagTracker extends Counter{
     /**
      * The logic associated with each update of the label object
      */
-    private void updateCount(){
+    private static void updateCount(){
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones
