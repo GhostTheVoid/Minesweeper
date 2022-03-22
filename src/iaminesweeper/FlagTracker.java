@@ -26,21 +26,43 @@ public class FlagTracker extends Counter{
     public static void findCount(){
         System.out.println("DEFAULT = " + Difficulties.bombCount);
         count = Difficulties.bombCount;
-        
         int[] countArry = {0,0,0};
-        countArry = String.valueOf(count).chars().map(Character::getNumericValue).toArray();
-        String text = "Count = ";
-        for (int i = 0; i < countArry.length; i++) {
-            text += countArry[i];
-        }
-        System.out.println(text);
         
+        if (count >= 999) {
+            setInt(9, 9, 9);
+        }
+        else{
+            countArry = getDigits(count);
+        }
+        
+        System.out.println("ARRAY = " + countArry[2] + countArry[1] + countArry[0]);
         System.out.println("BOMB COUNT: ");
         System.out.print("Ones = " + ones);
         System.out.print(" || Tens = " + tens);
         System.out.println(" || Hundreds = " + hundreds);
     }
     
+    
+    private static int[] getDigits(int number) {
+        String countText = "" + number;
+        String[] countStg = countText.split("");
+        int[] array = new int[3];
+        
+        array[0] = Integer.parseInt(countStg[0]);
+        array[1] = 0;
+        array[2] = 0;
+        
+        if (countText.length() == 3) {    
+            array[1] = Integer.parseInt(countStg[1]);
+            array[2] = Integer.parseInt(countStg[2]);
+        }
+        else if (countText.length() == 2) {    
+            array[1] = Integer.parseInt(countStg[1]);
+        }
+        
+        System.out.println("FINISHED ARRAY = " + array[0] + array[1] + array[2]);
+        return array;
+    }
     
     
     private static void setCount(){
