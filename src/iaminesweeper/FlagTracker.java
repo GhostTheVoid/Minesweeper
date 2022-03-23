@@ -23,13 +23,21 @@ public class FlagTracker extends Counter {
         super(flagLabels);
     }
     
+    public static int getRemainingBombs(){
+        return remainingBombs;
+    }
+    
+    public static void raiseRemainingBombs(){
+        setRemainingBombs(remainingBombs + 1);
+    }
+    
     public static void lowerRemainingBombs(){
         setRemainingBombs(remainingBombs - 1);
     }
     
     /**
      * Changes the bomb count
-     * @param i 
+     * @param i the new amount to set the bombs
      */
     public static void setRemainingBombs(int i){
         remainingBombs = i;

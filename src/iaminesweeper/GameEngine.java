@@ -317,23 +317,28 @@ public class GameEngine {
     
     // <editor-fold defaultstate="collapsed" desc="Middle Click"> 
     
-    /**
-     * Traverse the matrix and count the number of neighbors that are bombs 
-     * around each cell
-     */
-    private void countNeighbours() {
+    public static void showNeighbours(){
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
-                // Count spots of cells next to bombs, but not the bomb spots
-                if (!grid[row][column].isFlagged) {
-                    int bombCount = count(row,column);            // Count bombs
-                    if (bombCount > 0) {                          // Not zero
-                        grid[row][column].setNeighbours(bombCount);
-                    }
+                //If click is on number spot & neighbourCount is fuffilled, Show can work.
+                // Show spots of cells on and around clicked Cell, Unless flagged
+                if (!grid[row][column].isFlagged || !grid[row][column].isClicked) {
+                    
                 }
             }
         }
     }
+    
+    public static void hideNeighbours(){
+        for (int row = 0; row < rows; row++) {                  // Traverse rows
+            for (int column = 0; column < columns; column++) {  // and columns
+                // Show spots of cells on and around clicked Cell, Unless flagged
+                grid[row][column].showCell();
+            }
+        }
+    }
+    
+    
 
     
 
