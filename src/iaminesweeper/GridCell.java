@@ -288,7 +288,6 @@ public class GridCell extends GameObject{
     public boolean reveal() {
         if (neighbours == 0) {              // Blank spot
             revealCell();
-            matrix = BLANK;
             return true;                                // Continue revealing
         }
         else if (isBomb) {                   // Bomb spot
@@ -308,6 +307,20 @@ public class GridCell extends GameObject{
         }
         else {                                          // Error check
             label.setBackground(Color.black);
+            return false;
+        }
+    }
+    
+    public boolean reveal2(){
+//        if (neighbours <= 8 && neighbours >= 0) {              // Blank spot
+//            revealCell();
+//            return true;                                // Continue revealing
+//        }
+        
+        if (!isFlagged){
+            return true;
+        }
+        else {
             return false;
         }
     }
@@ -341,7 +354,7 @@ public class GridCell extends GameObject{
                     // check neighbours
                     // Mark status as Click
                     //System.out.println("Button 2");
-                    GameEngine.showNeighbours();
+                    GameEngine.showNeighbours(row, column);
                 } else if (e.getButton() == MouseEvent.BUTTON3) { // Right Click
                     flagCell();
                 }

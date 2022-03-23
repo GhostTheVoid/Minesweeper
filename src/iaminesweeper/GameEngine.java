@@ -317,25 +317,20 @@ public class GameEngine {
     
     // <editor-fold defaultstate="collapsed" desc="Middle Click"> 
     
-    public static void showNeighbours(){
-        for (int row = 0; row < rows; row++) {                  // Traverse rows
-            for (int column = 0; column < columns; column++) {  // and columns
-                //If click is on number spot & neighbourCount is fuffilled, Show can work.
-                // Show spots of cells on and around clicked Cell, Unless flagged
-                if (!grid[row][column].isFlagged || !grid[row][column].isClicked) {
-                    
-                }
-            }
+    public static void showNeighbours(int row, int column){
+        if (grid[row][column].isFlagged) {    // Bomb spot
+            grid[row][column].revealCell();
+        }
+        else {
+            // spot is a blank, reveal all spots around it
+            grid[row][column].revealCell();
+            boolean[][] checked = new boolean[rows][columns];
+            revealCheck(row, column, checked);
         }
     }
     
     public static void hideNeighbours(){
-        for (int row = 0; row < rows; row++) {                  // Traverse rows
-            for (int column = 0; column < columns; column++) {  // and columns
-                // Show spots of cells on and around clicked Cell, Unless flagged
-                grid[row][column].showCell();
-            }
-        }
+        
     }
     
     
@@ -389,8 +384,8 @@ public class GameEngine {
             else {                                  // Have not checked here
                 checked[row][column] = true;        // Mark spot as checked
             }
-            if (grid[row][column].reveal() == true) {  // If spot is a space
-                revealCheck(row,column,checked);       // Check spots around it
+            if (grid[row][column].reveal2() == true) {  // If spot is a space
+                
             }
         }
     }
