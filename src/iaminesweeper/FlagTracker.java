@@ -2,7 +2,6 @@
 package iaminesweeper;
  
 import collections.LinkedList;
-import java.util.Scanner;
 import javax.swing.JLabel;
 
 /**
@@ -12,9 +11,9 @@ import javax.swing.JLabel;
  * @author Marissa Rowles
  * @since 18-Feb-2022
  */
-public class FlagTracker extends Counter{
+public class FlagTracker extends Counter {
     
-    private static int count;
+    private static int[] count = {0,0,0};
 
     /**
      * Default constructor, set class properties
@@ -23,74 +22,55 @@ public class FlagTracker extends Counter{
         super(flagLabels);
     }
     
+    /**
+     * Divides up the count and sets the Associated JLabels
+     */
     public static void findCount(){
-        System.out.println("DEFAULT = " + Difficulties.bombCount);
-        count = Difficulties.bombCount;
-        int[] countArry = {0,0,0};
+        int num = Difficulties.bombCount;
         
-        if (count >= 999) {
-            setInt(9, 9, 9);
-        }
-        else{
-            countArry = getDigits(count);
-        }
+        // The counter cannot hold numbers greater than 999
+        if (num >= 999) setInt(9, 9, 9); 
+        else count = getDigits(num);
         
-        System.out.println("ARRAY = " + countArry[2] + countArry[1] + countArry[0]);
-        System.out.println("BOMB COUNT: ");
-        System.out.print("Ones = " + ones);
-        System.out.print(" || Tens = " + tens);
-        System.out.println(" || Hundreds = " + hundreds);
+        setInt(count[0], count[1], count[2]);
     }
     
     
+    /**
+     * Gets each individual digit of a given number
+     * 
+     * @param number the number given
+     * @return an array, in which index location holds one digit
+     */
     private static int[] getDigits(int number) {
-        String countText = "" + number;
-        String[] countStg = countText.split("");
-        int[] array = new int[3];
+        int[] array         = {0,0,0};
+        String countText    = "" + number;
+        String[] countStg   = countText.split("");
+        array[0]            = toInt(countStg[0]);
         
-        array[0] = Integer.parseInt(countStg[0]);
-        array[1] = 0;
-        array[2] = 0;
-        
-        if (countText.length() == 3) {    
-            array[1] = Integer.parseInt(countStg[1]);
-            array[2] = Integer.parseInt(countStg[2]);
+        if (countStg.length >= 2){     // If number has more than 2 digits
+            array[0] = toInt(countStg[1]);
+            array[1] = toInt(countStg[0]);
+            if (countStg.length == 3){ // If number has more than 3 digits
+                array[0]   = toInt(countStg[2]);
+                array[1]   = toInt(countStg[1]);
+                array[2]   = toInt(countStg[0]);
+            }
         }
-        else if (countText.length() == 2) {    
-            array[1] = Integer.parseInt(countStg[1]);
-        }
-        
-        System.out.println("FINISHED ARRAY = " + array[0] + array[1] + array[2]);
         return array;
     }
     
-    
-    private static void setCount(){
-        ones++;                     // Increase ones
-        if (ones == 10) {           // Roll over to next digit
-            ones = 0;               // Rest ones
-            tens++;                 // Increase tens
-            if (tens == 10) {       // Roll over to next digit
-                tens = 0;           // Reset tens
-                hundreds++;         // Increase hundreds
-            }
-        }
-        updateAllLabels(ones, tens, hundreds);
-    }
-    
     /**
-     * The logic associated with each update of the label object
+     * Turns the String into an int
+     * If numTxt's value is above 0, if so, parses the String into an
+     * integer. If equal to 0, returns a 0.
+     * 
+     * @param numTxt the number, contained as a string
+     * @return The given number returned as an Int
      */
-    private static void updateCount(){
-        ones++;                     // Increase ones
-        if (ones == 10) {           // Roll over to next digit
-            ones = 0;               // Rest ones
-            tens++;                 // Increase tens
-            if (tens == 10) {       // Roll over to next digit
-                tens = 0;           // Reset tens
-                hundreds++;         // Increase hundreds
-            }
-        }
-        updateAllLabels(ones, tens, hundreds);
-    }
+    private static int toInt(String numTxt){
+        int num = 0; // Stays 0 if numtext is 0
+        if (Integer.parseInt(numTxt) > 0) num = Integer.parseInt(numTxt);
+        return num;
+    } 
 }
