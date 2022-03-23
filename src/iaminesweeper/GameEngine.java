@@ -79,12 +79,8 @@ public class GameEngine {
         timeTracker = new TimeTracker(timerLabels);
         flagTracker = new FlagTracker(flagLabels);
         status      = new Status(statusLabel);
-        prepareGrid();
         
-        setGrid(); 
-        flagTracker.findCount();
-        
-        generate();
+        newGame();
         
         // set UI properties
         userInteface.getContentPane().setSize(new Dimension(162, 204));
@@ -98,6 +94,13 @@ public class GameEngine {
     }
     
     // <editor-fold defaultstate="collapsed" desc="Game States"> 
+    
+    public void newGame(){
+        prepareGrid();
+        setGrid(); 
+        flagTracker.setRemainingBombs(Difficulties.bombCount);
+        generate();
+    }
     
     /**
      * On the first click
@@ -126,8 +129,7 @@ public class GameEngine {
         
         // Check for new game board
         // Create new game board
-        setGrid();
-        generate();
+        newGame();
         
         // Reset timer to zero
         
@@ -161,7 +163,6 @@ public class GameEngine {
             if (!gameStarted){
                 startGame();
             }
-            System.out.println("Grid index " + "ddd" + "was clicked! Was it a bomb?: " + "True");
         }
         else if (object.equals("Status")){
             restartGame(evt);
@@ -230,7 +231,7 @@ public class GameEngine {
         System.out.println("Rows " + rows + " by Columns " + columns + 
                 " with " + (rows * columns) + " cells, generated " + 
                 bombCount + " bombs");              // Update status
-        countNeighbours();                              // Count all neighbors
+        countNeighboursBomb();                              // Count all neighbors
         FlagTracker.findCount(); // Find how many bombs will be in the grid
     }
 
@@ -308,16 +309,96 @@ public class GameEngine {
             grid[row][column].revealCell();
             text += " found blank, revealing all blanks!";
             boolean[][] checked = new boolean[rows][columns];
-            revealCheck(row, column, checked);
+            revealCheckBomb(row, column, checked);
         }
         System.out.println(text);
     }
+    
+    
+    // <editor-fold defaultstate="collapsed" desc="Middle Click"> 
     
     /**
      * Traverse the matrix and count the number of neighbors that are bombs 
      * around each cell
      */
     private void countNeighbours() {
+        for (int row = 0; row < rows; row++) {                  // Traverse rows
+            for (int column = 0; column < columns; column++) {  // and columns
+                // Count spots of cells next to bombs, but not the bomb spots
+                if (!grid[row][column].isFlagged) {
+                    int bombCount = count(row,column);            // Count bombs
+                    if (bombCount > 0) {                          // Not zero
+                        grid[row][column].setNeighbours(bombCount);
+                    }
+                }
+            }
+        }
+    }
+
+    
+
+    /**
+     * Reveals the spots around this location (row,column) as number spots
+     * or blank spots
+     * 
+     * @param row the row in the matrix to check
+     * @param column the column in the matrix to check
+     * @param checked the matrix of flagged spots to check or not
+     */
+    private static void revealCheck(int row, int column, boolean[][] checked) {
+        // spots to check      coordinates of those spots
+        // +---+---+---+    +---------+---------+---------+
+        // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        // | 4 | X | 5 |    | r  ,c-1 | r  ,c   | r  ,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        // | 6 | 7 | 8 |    | r+1,c-1 | r+1,c   | r+1,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        
+        check(row-1,column-1,checked);      // Check spot #1
+        check(row-1,column  ,checked);      // Check spot #2
+        check(row-1,column+1,checked);      // Check spot #3
+        check(row  ,column-1,checked);      // Check spot #4
+        // DO NOT CHECK THE SAME SPOT WE ARE ON (row,column) ....
+        check(row  ,column+1,checked);      // Check spot #5
+        check(row+1,column-1,checked);      // Check spot #6
+        check(row+1,column  ,checked);      // Check spot #7
+        check(row+1,column+1,checked);      // Check spot #8
+    }
+    
+    /**
+     * Checks this spot (row,column) to make sure it is in bounds, and then
+     * reveals what is at this location (a number, bomb, or blank) and 
+     * recursively checks the other blank spots around it
+     * 
+     * @param row the row in the matrix to check
+     * @param column the column in the matrix to check
+     * @param checked the matrix of flagged spots to check or not
+     */
+    private static void check(int row, int column, boolean[][] checked) {    
+        // First make sure we are not out of bounds in the spot to check
+        if (rowIsInBounds(row) && columnIsInBounds(column)) {
+            if (checked[row][column] == true) {     // Already checked here
+                return;                             // Leave method
+            }       
+            else {                                  // Have not checked here
+                checked[row][column] = true;        // Mark spot as checked
+            }
+            if (grid[row][column].reveal() == true) {  // If spot is a space
+                revealCheck(row,column,checked);       // Check spots around it
+            }
+        }
+    }
+    
+    // </editor-fold> 
+    
+    // <editor-fold defaultstate="collapsed" desc="Bomb Neighbours"> 
+    
+    /**
+     * Traverse the matrix and count the number of neighbors that are bombs 
+     * around each cell
+     */
+    private void countNeighboursBomb() {
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
                 // Count spots of cells next to bombs, but not the bomb spots
@@ -331,6 +412,60 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Reveals the spots around this location (row,column) as number spots
+     * or blank spots
+     * 
+     * @param row the row in the matrix to check
+     * @param column the column in the matrix to check
+     * @param checked the matrix of flagged spots to check or not
+     */
+    private static void revealCheckBomb(int row, int column, boolean[][] checked) {
+        // spots to check      coordinates of those spots
+        // +---+---+---+    +---------+---------+---------+
+        // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        // | 4 | X | 5 |    | r  ,c-1 | r  ,c   | r  ,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        // | 6 | 7 | 8 |    | r+1,c-1 | r+1,c   | r+1,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        
+        checkBomb(row-1,column-1,checked);      // Check spot #1
+        checkBomb(row-1,column  ,checked);      // Check spot #2
+        checkBomb(row-1,column+1,checked);      // Check spot #3
+        checkBomb(row  ,column-1,checked);      // Check spot #4
+        // DO NOT CHECK THE SAME SPOT WE ARE ON (row,column) ....
+        checkBomb(row  ,column+1,checked);      // Check spot #5
+        checkBomb(row+1,column-1,checked);      // Check spot #6
+        checkBomb(row+1,column  ,checked);      // Check spot #7
+        checkBomb(row+1,column+1,checked);      // Check spot #8
+    }
+    
+    /**
+     * Checks this spot (row,column) to make sure it is in bounds, and then
+     * reveals what is at this location (a number, bomb, or blank) and 
+     * recursively checks the other blank spots around it
+     * 
+     * @param row the row in the matrix to check
+     * @param column the column in the matrix to check
+     * @param checked the matrix of flagged spots to check or not
+     */
+    private static void checkBomb(int row, int column, boolean[][] checked) {    
+        // First make sure we are not out of bounds in the spot to check
+        if (rowIsInBounds(row) && columnIsInBounds(column)) {
+            if (checked[row][column] == true) {     // Already checked here
+                return;                             // Leave method
+            }       
+            else {                                  // Have not checked here
+                checked[row][column] = true;        // Mark spot as checked
+            }
+            if (grid[row][column].reveal() == true) {  // If spot is a space
+                revealCheckBomb(row,column,checked);   // Check spots around it
+            }
+        }
+    }
+    // </editor-fold> 
+    
     /**
      * Counts the number of neighbors that are bombs around this cell
      * 
@@ -387,59 +522,6 @@ public class GameEngine {
             }
         }
         return count;                               // Send back final count
-    }
-
-    /**
-     * Reveals the spots around this location (row,column) as number spots
-     * or blank spots
-     * 
-     * @param row the row in the matrix to check
-     * @param column the column in the matrix to check
-     * @param checked the matrix of flagged spots to check or not
-     */
-    private static void revealCheck(int row, int column, boolean[][] checked) {
-        // spots to check      coordinates of those spots
-        // +---+---+---+    +---------+---------+---------+
-        // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
-        // +---+---+---+    +---------+---------+---------+
-        // | 4 | X | 5 |    | r  ,c-1 | r  ,c   | r  ,c+1 |
-        // +---+---+---+    +---------+---------+---------+
-        // | 6 | 7 | 8 |    | r+1,c-1 | r+1,c   | r+1,c+1 |
-        // +---+---+---+    +---------+---------+---------+
-        
-        check(row-1,column-1,checked);      // Check spot #1
-        check(row-1,column  ,checked);      // Check spot #2
-        check(row-1,column+1,checked);      // Check spot #3
-        check(row  ,column-1,checked);      // Check spot #4
-        // DO NOT CHECK THE SAME SPOT WE ARE ON (row,column) ....
-        check(row  ,column+1,checked);      // Check spot #5
-        check(row+1,column-1,checked);      // Check spot #6
-        check(row+1,column  ,checked);      // Check spot #7
-        check(row+1,column+1,checked);      // Check spot #8
-    }
-    
-    /**
-     * Checks this spot (row,column) to make sure it is in bounds, and then
-     * reveals what is at this location (a number, bomb, or blank) and 
-     * recursively checks the other blank spots around it
-     * 
-     * @param row the row in the matrix to check
-     * @param column the column in the matrix to check
-     * @param checked the matrix of flagged spots to check or not
-     */
-    private static void check(int row, int column, boolean[][] checked) {    
-        // First make sure we are not out of bounds in the spot to check
-        if (rowIsInBounds(row) && columnIsInBounds(column)) {
-            if (checked[row][column] == true) {     // Already checked here
-                return;                             // Leave method
-            }       
-            else {                                  // Have not checked here
-                checked[row][column] = true;        // Mark spot as checked
-            }
-            if (grid[row][column].reveal() == true) {  // If spot is a space
-                revealCheck(row,column,checked);       // Check spots around it
-            }
-        }
     }
 
     /**

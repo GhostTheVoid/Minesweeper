@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 public class FlagTracker extends Counter {
     
     private static int[] count = {0,0,0};
+    private static int remainingBombs;
 
     /**
      * Default constructor, set class properties
@@ -22,15 +23,41 @@ public class FlagTracker extends Counter {
         super(flagLabels);
     }
     
+    public static void lowerRemainingBombs(){
+        setRemainingBombs(remainingBombs - 1);
+    }
+    
+    /**
+     * Changes the bomb count
+     * @param i 
+     */
+    public static void setRemainingBombs(int i){
+        remainingBombs = i;
+        findCount();
+    }
+    
     /**
      * Divides up the count and sets the Associated JLabels
      */
     public static void findCount(){
-        int num = Difficulties.bombCount;
+        // The counter cannot hold numbers greater than 999
+        if (remainingBombs >= 999) setInt(9, 9, 9); 
+        else count = getDigits(remainingBombs);
+        
+        setInt(count[0], count[1], count[2]);
+    }
+    
+    /**
+     * Divides up the count and sets the Associated JLabels
+     * 
+     * @param bombCount How many bombs there will be
+     */
+    public static void findCount(int bombCount){
+        remainingBombs = bombCount;
         
         // The counter cannot hold numbers greater than 999
-        if (num >= 999) setInt(9, 9, 9); 
-        else count = getDigits(num);
+        if (remainingBombs >= 999) setInt(9, 9, 9); 
+        else count = getDigits(remainingBombs);
         
         setInt(count[0], count[1], count[2]);
     }

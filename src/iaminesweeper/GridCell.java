@@ -153,7 +153,7 @@ public class GridCell extends GameObject{
     
     // <editor-fold defaultstate="collapsed" desc="Cell Events"> 
     /**
-     * Clears the label for a new matrix generation
+     * Clears the label
      */
     public void clearCell() {
         //sprite.animate(CELL_DEFAULT_TAG);
@@ -161,6 +161,15 @@ public class GridCell extends GameObject{
         //label.setText("");     // Set bomb spot
         //label.setBackground(CELL_BACKGROUND); // Starting color
         //label.setBorder(BorderFactory.createBevelBorder(0)); 
+    }
+    
+    /**
+     * Reveals the cell as blank
+     */
+    public void showBlank(){
+        label.setBackground(CELL_BACKGROUND); // Starting color
+        label.setBorder(BorderFactory.createBevelBorder(1));
+        label.setText("");
     }
     
     /**
@@ -175,47 +184,44 @@ public class GridCell extends GameObject{
         }
     }
     
-    
-    
     /**
      * Reveals the content of this cell, if it is not a bomb.
      */
     public void showCell(){
         switch (neighbours) {
             case 0:
-                label.setText("");     // Set bomb spot
-                //Find Blank Neighbours
+                showBlank();
                 break;
             case 1:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(new Color(0, 0, 255));
                 break;
             case 2:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours); 
                 label.setForeground(new Color(0, 128, 0));
                 break;
             case 3:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(new Color(128, 0, 0));
                 break;
             case 4:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(new Color(0, 0, 128));
                 break;
             case 5:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(new Color(128, 0, 0));
                 break;
             case 6:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(new Color(0, 128, 128));
                 break;
             case 7:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(Color.BLACK);
                 break;
             case 8:
-                label.setText("" + neighbours);     // Set bomb spot
+                label.setText("" + neighbours);
                 label.setForeground(Color.DARK_GRAY);
                 break;
         }
@@ -331,8 +337,7 @@ public class GridCell extends GameObject{
                     // check neighbours
                     // Mark status as Click
                     System.out.println("Button 2");
-                    label.setBackground(CELL_BACKGROUND); // Starting color
-                    label.setBorder(BorderFactory.createBevelBorder(1));
+                    showBlank();
                 } else if (e.getButton() == MouseEvent.BUTTON3) { // Right Click
                     System.out.println("Button 3");
                     flagCell();
@@ -342,13 +347,13 @@ public class GridCell extends GameObject{
             public void mouseReleased(MouseEvent e) { 
                 if (canClick) {
                     if(e.getButton() == MouseEvent.BUTTON2) { // Middle Click
-                        // If neighbours have bomb, but bomb count is flagged,
+                        clearCell();
+                        
+                        
+                        // If neighbours have bomb, but bomb is flagged,
                         // mark isClicked on neighbours as true
 
                         // If bomb is incorrectly flagged, lose game
-                        System.out.println("Button 2");
-                        label.setBackground(CELL_BACKGROUND); // Starting color
-                        label.setBorder(BorderFactory.createBevelBorder(0));
                     }
                 }
             }
