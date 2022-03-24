@@ -53,9 +53,10 @@ public class GridCell extends GameObject{
     public JLabel  label;
     public String  matrix;      // Store values for the label
     public boolean isBomb;
-    public boolean isFlagged;
+    private boolean isFlagged;
     public boolean isClicked;
     public boolean canClick;
+    public boolean neighboursFlagged;
     
     
     
@@ -146,6 +147,10 @@ public class GridCell extends GameObject{
      */
     public boolean getBomb(){
         return isBomb;
+    }
+    
+    public boolean isCellFlagged (){
+        return isFlagged;
     }
     // </editor-fold> 
      
@@ -312,17 +317,21 @@ public class GridCell extends GameObject{
     }
     
     public boolean reveal2(){
-//        if (neighbours <= 8 && neighbours >= 0) {              // Blank spot
-//            revealCell();
-//            return true;                                // Continue revealing
-//        }
         
-        if (!isFlagged){
+        if (isFlagged){ // If spot is flagged 
             return true;
         }
-        else {
+        else { // If spot is not flagged 
             return false;
         }
+    }
+    
+    public boolean isNeighboursFufilled(int flagged) {
+        if (flagged == neighbours) {
+            System.out.println("Flags fuffiled at: R" + row + " C" + column );
+            return true;
+        }
+        else return false;
     }
     // </editor-fold> 
     
@@ -363,7 +372,7 @@ public class GridCell extends GameObject{
             public void mouseReleased(MouseEvent e) { 
                 if (e.getButton() == MouseEvent.BUTTON2) { // Middle Click
                     System.out.println("Neighbour = " + neighbours);
-                    GameEngine.hideNeighbours();
+                    GameEngine.hideNeighbours(row, column);
 
                     // If neighbours have bomb, but bomb is flagged,
                     // mark isClicked on neighbours as true

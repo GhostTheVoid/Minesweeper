@@ -318,8 +318,22 @@ public class GameEngine {
     // <editor-fold defaultstate="collapsed" desc="Middle Click"> 
     
     public static void showNeighbours(int row, int column){
-        if (grid[row][column].isFlagged) {    // Bomb spot
+        if (grid[row][column].isCellFlagged()) {    // Flag spot
+            boolean[][] checked = new boolean[rows][columns];
+            revealBorder(row, column, checked);
+        }
+        else {
+            // spot is a blank, reveal all spots around it
             grid[row][column].revealCell();
+            boolean[][] checked = new boolean[rows][columns];
+            revealBorder(row, column, checked);
+        }
+    }
+    
+    public static void hideNeighbours(int row, int column){
+        if (grid[row][column].isCellFlagged()) {    // Flag spot
+            boolean[][] checked = new boolean[rows][columns];
+            revealCheck(row, column, checked);
         }
         else {
             // spot is a blank, reveal all spots around it
@@ -329,8 +343,57 @@ public class GameEngine {
         }
     }
     
-    public static void hideNeighbours(){
+    /**
+     * Reveals the spots around this location (row,column) as number spots
+     * or blank spots
+     * 
+     * @param row the row in the matrix to check
+     * @param column the column in the matrix to check
+     * @param checked the matrix of flagged spots to check or not
+     */
+    private static void revealBorder(int row, int column, boolean[][] checked) {
+        // spots to check      coordinates of those spots
+        // +---+---+---+    +---------+---------+---------+
+        // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        // | 4 | X | 5 |    | r  ,c-1 | r  ,c   | r  ,c+1 |
+        // +---+---+---+    +---------+---------+---------+
+        // | 6 | 7 | 8 |    | r+1,c-1 | r+1,c   | r+1,c+1 |
+        // +---+---+---+    +---------+---------+---------+
         
+        pressBorder(row-1,column-1,checked);      // Check spot #1
+        pressBorder(row-1,column  ,checked);      // Check spot #2
+        pressBorder(row-1,column+1,checked);      // Check spot #3
+        pressBorder(row  ,column-1,checked);      // Check spot #4
+        // DO NOT CHECK THE SAME SPOT WE ARE ON (row,column) ....
+        pressBorder(row  ,column+1,checked);      // Check spot #5
+        pressBorder(row+1,column-1,checked);      // Check spot #6
+        pressBorder(row+1,column  ,checked);      // Check spot #7
+        pressBorder(row+1,column+1,checked);      // Check spot #8
+    }
+    
+    /**
+     * Checks this spot (row,column) to make sure it is in bounds, and then
+     * "presses" down on the cell if it is not flagged
+     * 
+     * @param row the row in the matrix to check
+     * @param column the column in the matrix to check
+     * @param checked the matrix of flagged spots to check or not
+     */
+    private static void pressBorder(int row, int column, boolean[][] checked) {    
+        // First make sure we are not out of bounds in the spot to check
+        if (rowIsInBounds(row) && columnIsInBounds(column)) {
+            if (checked[row][column] == true) {     // Already checked here
+                return;                             // Leave method
+            }       
+            else {                                  // Have not checked here
+                checked[row][column] = true;        // Mark spot as checked
+            }
+            
+            if (grid[row][column].reveal2() == false) {  // If spot is not a flag
+                grid[row][column].showCell();
+            }
+        }
     }
     
     
@@ -369,7 +432,7 @@ public class GameEngine {
     /**
      * Checks this spot (row,column) to make sure it is in bounds, and then
      * reveals what is at this location (a number, bomb, or blank) and 
-     * recursively checks the other blank spots around it
+     * recursively checks the cells neighbouring this cell
      * 
      * @param row the row in the matrix to check
      * @param column the column in the matrix to check
@@ -384,8 +447,12 @@ public class GameEngine {
             else {                                  // Have not checked here
                 checked[row][column] = true;        // Mark spot as checked
             }
-            if (grid[row][column].reveal2() == true) {  // If spot is a space
-                
+            
+            if (grid[row][column].reveal2() == true) {  // If spot is a flag
+                if (grid[row][column].isNeighboursFufilled(count(row, column))) {
+                    grid[row][column].revealCell();
+                    revealCheckBomb(row, column, checked);
+                }
             }
         }
     }
