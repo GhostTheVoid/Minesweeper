@@ -36,7 +36,7 @@ public class UserInterface extends javax.swing.JFrame {
         flagLabels.add(flagLblTen);
         flagLabels.add(flagLblHundred);
         
-        Constants.gameEngine = new GameEngine(statusLbl, gamePnl,
+        Globals.gameEngine = new GameEngine(statusLbl, gamePnl,
                                 timerLabels,flagLabels,this);
     }
 
@@ -314,7 +314,7 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void statusLblMouseEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseEvent
         // TODO add your handling code here:
-        Constants.gameEngine.restartGame(evt);
+        Globals.gameEngine.restartGame(evt);
     }//GEN-LAST:event_statusLblMouseEvent
 
     private void menuGameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGameMouseClicked
@@ -324,14 +324,14 @@ public class UserInterface extends javax.swing.JFrame {
 
     private void menuHelpMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuHelpMenuSelected
         // TODO add your handling code here:
-        Constants.gameEngine.openURI("https://minesweepergame.com/strategy.php");
+        Globals.gameEngine.openURI("https://minesweepergame.com/strategy.php");
          
         
     }//GEN-LAST:event_menuHelpMenuSelected
 
     private void gamePnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gamePnlMouseClicked
         // TODO add your handling code here:
-        Constants.gameEngine.mouseClick(evt, "Grid");
+        Globals.gameEngine.mouseClick(evt, "Grid");
     }//GEN-LAST:event_gamePnlMouseClicked
 
     private void rdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdActionPerformed

@@ -3,7 +3,7 @@ package iaminesweeper;
 
 import collections.LinkedList;
 import javax.swing.JLabel;
-import iaminesweeper.Constants;
+import iaminesweeper.Globals;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -35,9 +35,9 @@ public class GridCell extends GameObject{
     private final Color  CELL_BACKGROUND = new Color(189,189,189); // Label background
     private final Color  CELL_BORDER     = Color.gray;  // Label border
     private final Color  CELL_BOMB       = Color.red;   // Bomb fill color
-    private final String BOMB           = Constants.CELL_BOMB;             // Bomb cell text
-    private final String BLANK          = Constants.CELL_BLANK;            // Blank cell text
-    private final int    INVALID_NUMBER = Constants.CELL_INVALID_NUMBER;   // Invalid number
+    private final String BOMB           = Globals.CELL_BOMB;             // Bomb cell text
+    private final String BLANK          = Globals.CELL_BLANK;            // Blank cell text
+    private final int    INVALID_NUMBER = Globals.CELL_INVALID_NUMBER;   // Invalid number
     
     private final int CELL_FLAG_TAG          = 0;            
     private final int CELL_UNKNOWN_TAG       = 1;  // I have no idea what this does        
@@ -129,7 +129,7 @@ public class GridCell extends GameObject{
      * @return the height of the label
      */
     public static int getHeight(){
-        return Constants.CELL_HEIGHT;
+        return Globals.CELL_HEIGHT;
     }
     
     /**
@@ -138,7 +138,7 @@ public class GridCell extends GameObject{
      * @return the Width of the label
      */
     public static int getWidth(){
-        return Constants.CELL_WIDTH;
+        return Globals.CELL_WIDTH;
     }
     
     /**
@@ -354,7 +354,7 @@ public class GridCell extends GameObject{
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
             public void mousePressed(MouseEvent e)  { 
-                Constants.gameEngine.mouseClick(e, BOMB);
+                Globals.gameEngine.mouseClick(e, BOMB);
                 if (e.getButton() == MouseEvent.BUTTON1) { // Left Click
                     // Mark status as Click
                     System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
@@ -384,7 +384,7 @@ public class GridCell extends GameObject{
             public void mouseExited(MouseEvent e)   { }
         });
         //System.out.print("Listen || ");
-        label.setBounds(x, y, Constants.CELL_WIDTH, Constants.CELL_HEIGHT); // Position label
+        label.setBounds(x, y, Globals.CELL_WIDTH, Globals.CELL_HEIGHT); // Position label
         //System.out.print("Bounds || ");
         //setAnimations();
         //System.out.println("Animations");
@@ -421,26 +421,26 @@ public class GridCell extends GameObject{
      */
     private void setAnimations() {
         System.out.print("(START)");
-        String sheet = Constants.SPRITE_SHEET;
-        int    delay = Constants.CELL_ANIMATION_DELAY; 
-        String tag   = Constants.CELL_FLAG_TAG;        
+        String sheet = Globals.SPRITE_SHEET;
+        int    delay = Globals.CELL_ANIMATION_DELAY; 
+        String tag   = Globals.CELL_FLAG_TAG;        
         Animation cellFlag = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.CELL_UNKNOWN_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.CELL_UNKNOWN_TAG;        
         Animation cellUnknown = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.CELL_UNKNOWN_CLICK_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.CELL_UNKNOWN_CLICK_TAG;        
         Animation cellUnknownClick = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.CELL_BOMB_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.CELL_BOMB_TAG;        
         Animation cellBomb = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.CELL_BOMB_HIT_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.CELL_BOMB_HIT_TAG;        
         Animation cellBombHit = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.CELL_BOMB_CHECKED_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.CELL_BOMB_CHECKED_TAG;        
         Animation cellBombChecked = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
+                                                       delay, Globals.settings, tag);
         System.out.print("(TAGS)");
         LinkedList<Animation> cellAnimations = new LinkedList<>(); 
         cellAnimations.add(cellFlag);

@@ -64,10 +64,10 @@ public class GameEngine {
         this.statusLabel    = statusLabel;      // or "form" references
         this.gamePanel      = gamePanel;
         
-        playerData   = new FileHandler(Constants.PLAYER_DATA_FILE);
-        settingsFile = new FileHandler(Constants.SETTINGS_DATA_FILE); 
+        playerData   = new FileHandler(Globals.PLAYER_DATA_FILE);
+        settingsFile = new FileHandler(Globals.SETTINGS_DATA_FILE); 
         //check for game settings
-        Constants.settings = settingsFile.read();
+        Globals.settings = settingsFile.read();
         
         // check for saved data
 //        LinkedList<String> data = playerData.read();
@@ -214,7 +214,7 @@ public class GameEngine {
     public void generate() {
         clearGrid(); // Clear the design
         // Calculate the number of bombs based on the size of the matrix
-        //int numberOfBombs = (int)(((double)(rows * columns)) / Constants.CELL_RATIO);
+        //int numberOfBombs = (int)(((double)(rows * columns)) / Globals.CELL_RATIO);
         int numberOfBombs = 10; //TEMPORARY
         Numbers numbers = new Numbers();    // Class to generate randoms
         int ranRow = 0;               // Variables for random locations

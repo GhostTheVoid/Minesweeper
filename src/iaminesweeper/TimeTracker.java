@@ -15,7 +15,7 @@ import javax.swing.Timer;
  * @author Marissa Rowles
  * @since 16-Feb-2022
  */
-public class TimeTracker extends Globals{
+public class TimeTracker extends Counter{
     
     private Timer timer;
     private final int DELAY = 1000;

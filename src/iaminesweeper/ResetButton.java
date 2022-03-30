@@ -37,8 +37,8 @@ public class ResetButton extends GameCharacter{
      * Default constructor, set class properties
      */
     public ResetButton(JLabel statusLabel) {
-        super(statusLabel, Constants.FACE_MOVE_AMOUNT,
-                Constants.FACE_TIMER_DELAY);
+        super(statusLabel, Globals.FACE_MOVE_AMOUNT,
+                Globals.FACE_TIMER_DELAY);
         this.statusLabel = statusLabel;
         
         ActionListener delayAction = new ActionListener() {
@@ -93,23 +93,23 @@ public class ResetButton extends GameCharacter{
      * @param label the label to associate the animation with
      */
     private void setAnimations(JLabel label) {
-        String sheet = Constants.SPRITE_SHEET;
-        int    delay = Constants.FACE_ANIMATION_DELAY; 
-        String tag   = Constants.FACE_DEFAULT_TAG;        
+        String sheet = Globals.SPRITE_SHEET;
+        int    delay = Globals.FACE_ANIMATION_DELAY; 
+        String tag   = Globals.FACE_DEFAULT_TAG;        
         Animation faceDefault = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.FACE_RESET_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.FACE_RESET_TAG;        
         Animation faceReset = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.FACE_CLICK_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.FACE_CLICK_TAG;        
         Animation faceClick = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
-        tag = Constants.FACE_WIN_TAG;        
+                                                       delay, Globals.settings, tag);
+        tag = Globals.FACE_WIN_TAG;        
         Animation faceWin = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);        
-        tag = Constants.FACE_LOSE_TAG;        
+                                                       delay, Globals.settings, tag);        
+        tag = Globals.FACE_LOSE_TAG;        
         Animation faceLose = Animator.getAnimation(sheet, label, 
-                                                       delay, Constants.settings, tag);
+                                                       delay, Globals.settings, tag);
         LinkedList<Animation> statusAnimations = new LinkedList<>(); 
         statusAnimations.add(faceDefault);
         statusAnimations.add(faceReset);
