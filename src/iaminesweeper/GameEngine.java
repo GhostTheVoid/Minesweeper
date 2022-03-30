@@ -31,7 +31,7 @@ public class GameEngine {
     
     // GAME OBJECTS
     private Player                  player;
-    private static Status           status;
+    private static ResetButton           status;
     private static TimeTracker      timeTracker;
     private static GridCell[][] grid;        // A 2D array of GridCell objects
     private FlagTracker             flagTracker;
@@ -78,7 +78,7 @@ public class GameEngine {
 
         timeTracker = new TimeTracker(timerLabels);
         flagTracker = new FlagTracker(flagLabels);
-        status      = new Status(statusLabel);
+        status      = new ResetButton(statusLabel);
         
         newGame();
         

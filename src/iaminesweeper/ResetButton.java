@@ -14,13 +14,13 @@ import tools.GameCharacter;
 import tools.GameObject;
 
 /**
- * Status.java - description
- *
- * -----------------------
+ * ResetButton.java - description
+
+ -----------------------
  * @author Marissa Rowles
  * @since 18-Feb-2022
  */
-public class Status extends GameCharacter{
+public class ResetButton extends GameCharacter{
     
     private JLabel statusLabel;
     private Timer clickDelay;
@@ -36,7 +36,7 @@ public class Status extends GameCharacter{
     /**
      * Default constructor, set class properties
      */
-    public Status(JLabel statusLabel) {
+    public ResetButton(JLabel statusLabel) {
         super(statusLabel, Constants.FACE_MOVE_AMOUNT,
                 Constants.FACE_TIMER_DELAY);
         this.statusLabel = statusLabel;

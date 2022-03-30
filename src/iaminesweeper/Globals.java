@@ -11,13 +11,13 @@ import tools.Reactor;
 import tools.Sprite;
 
 /**
- * Counter.java - description
- *
- * -----------------------
+ * Globals.java - description
+
+ -----------------------
  * @author Marissa Rowles
  * @since 28-Feb-2022
  */
-public class Counter {
+public class Globals {
     
     /** Coordinates to store data on position and movement */    
     public Coordinates coordinates;
@@ -39,7 +39,7 @@ public class Counter {
     /**
      * Default constructor, set class properties
      */
-    public Counter(LinkedList<JLabel> jLabels) {
+    public Globals(LinkedList<JLabel> jLabels) {
         this.jLabels = jLabels;
 //        sprite1      = new Sprite(jLabels.get(0));
 //        sprite2      = new Sprite(jLabels.get(1));
@@ -66,9 +66,9 @@ public class Counter {
      * @param hundreds int representing the hundreds spot
      */
     protected static void setInt(int ones, int tens, int hundreds){
-        Counter.ones = ones;
-        Counter.tens = tens;
-        Counter.hundreds = hundreds;
+        Globals.ones = ones;
+        Globals.tens = tens;
+        Globals.hundreds = hundreds;
         
         updateAllLabels(ones, tens, hundreds);
     }
@@ -200,7 +200,7 @@ public class Counter {
      * @return a "clone" of the object using new memory
      */
     @Override
-    public Counter clone() {
+    public Globals clone() {
         return this;
     }
     

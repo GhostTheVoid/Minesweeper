@@ -11,7 +11,7 @@ import javax.swing.JLabel;
  * @author Marissa Rowles
  * @since 18-Feb-2022
  */
-public class FlagTracker extends Counter {
+public class FlagTracker extends Globals {
     
     private static int[] count = {0,0,0};
     private static int remainingBombs;
