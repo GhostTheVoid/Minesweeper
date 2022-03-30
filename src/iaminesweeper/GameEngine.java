@@ -30,7 +30,7 @@ import tools.Numbers;
 public class GameEngine {
     
     // GAME OBJECTS
-    private Player                  player;
+    //private Player                  player;
     private static ResetButton           status;
     private static TimeTracker      timeTracker;
     private static GridCell[][] grid;        // A 2D array of GridCell objects
@@ -197,7 +197,7 @@ public class GameEngine {
      * @param event the keyboard event registered
      */
     public void keypress(KeyEvent event) {
-        player.keypress(event);
+        //player.keypress(event);
     }
     
     // </editor-fold>  
