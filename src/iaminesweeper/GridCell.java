@@ -197,6 +197,7 @@ public class GridCell extends GameObject{
      * Reveals the content of this cell
      */
     public void showCell(){
+        label.setBorder(BorderFactory.createBevelBorder(1));
         if (isBomb) {
             //sprite.animate(CELL_BOMB_TAG);
             showBomb();
@@ -277,7 +278,7 @@ public class GridCell extends GameObject{
             if (!isClicked) {
                 setClickable(false);
                 label.setBackground(CELL_BACKGROUND); // Starting color
-                label.setBorder(BorderFactory.createBevelBorder(1));
+                
                 showCell();
                 isClicked = true;
             }     
@@ -317,7 +318,6 @@ public class GridCell extends GameObject{
     }
     
     public boolean reveal2(){
-        
         if (isFlagged){ // If spot is flagged 
             return true;
         }
@@ -358,12 +358,12 @@ public class GridCell extends GameObject{
                 if (e.getButton() == MouseEvent.BUTTON1) { // Left Click
                     // Mark status as Click
                     System.out.println("Clicked on Grid, was cell a bomb?: " + isBomb);
-                    GameEngine.mouseClick(row, column);
+                    GameGrid.mouseClick(row, column);
                 } else if (e.getButton() == MouseEvent.BUTTON2) { // Middle Click
                     // check neighbours
                     // Mark status as Click
                     //System.out.println("Button 2");
-                    GameEngine.showNeighbours(row, column);
+                    GameGrid.showNeighbours(row, column);
                 } else if (e.getButton() == MouseEvent.BUTTON3) { // Right Click
                     flagCell();
                 }
@@ -372,7 +372,7 @@ public class GridCell extends GameObject{
             public void mouseReleased(MouseEvent e) { 
                 if (e.getButton() == MouseEvent.BUTTON2) { // Middle Click
                     System.out.println("Neighbour = " + neighbours);
-                    GameEngine.hideNeighbours(row, column);
+                    GameGrid.hideNeighbours(row, column);
 
                     // If neighbours have bomb, but bomb is flagged,
                     // mark isClicked on neighbours as true

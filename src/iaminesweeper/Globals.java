@@ -14,7 +14,8 @@ import collections.LinkedList;
 public class Globals {
     
     //SHARED GAME SETTINGS
-    public static GameEngine gameEngine;
+    public static GameEngine   gameEngine;
+    public static GameGrid     gameGrid;
     public static Difficulties difficulties;
     
     public final static int    CELL_WIDTH  = 16;            // Width of each label
