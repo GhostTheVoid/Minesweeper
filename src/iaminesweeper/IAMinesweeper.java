@@ -4,7 +4,7 @@ package iaminesweeper;
 /** required imports */
 
 /** 
-* IAMinesweeper.java - 
+* IAMinesweeper.java - The main class, calls UserInterface.
 *
 * @author Marissa Rowles
 * @teacher Mr. Wachs 

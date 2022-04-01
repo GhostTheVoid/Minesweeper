@@ -11,7 +11,8 @@ import tools.Reactor;
 import tools.Sprite;
 
 /**
- * Counter.java - description
+ * Counter.java - Breaks up numbers into their singular digits, 
+ * and assigns these digits to labels. Resets with the grid.
 
  -----------------------
  * @author Marissa Rowles
@@ -49,12 +50,6 @@ public class Counter {
 //        setAnimations(jLabels.get(1), settings, sprite2, animations2); // build label2 animations
 //        setAnimations(jLabels.get(2), settings, sprite3, animations3); // build label3 animations
         
-    }
-    
-    
-
-    protected void getInt() {
-        System.out.println(hundreds + "" + tens + "" + ones);
     }
     
     /**

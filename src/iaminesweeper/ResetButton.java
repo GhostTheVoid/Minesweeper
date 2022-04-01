@@ -14,7 +14,7 @@ import tools.GameCharacter;
 import tools.GameObject;
 
 /**
- * ResetButton.java - description
+ * ResetButton.java - Tracks the time the user has been playing the current game. 
 
  -----------------------
  * @author Marissa Rowles
@@ -67,6 +67,11 @@ public class ResetButton extends GameCharacter{
         } 
     }
     
+    /**
+     * Tracks when the user is calling events on the button
+     * 
+     * @param evt the type of event used
+     */
     public void leftMouseBtnDown(MouseEvent evt){
         if (evt.getID() == MouseEvent.MOUSE_PRESSED) {
             animate(FACE_CLICK_TAG);
@@ -76,11 +81,17 @@ public class ResetButton extends GameCharacter{
         } 
     }
     
-    /** changes the animation set to the appropriate animation based on direction */
+    /** 
+     * Changes the animation set to the 
+     * appropriate animation based on direction 
+     */
     public void animate(int animation) {
         sprite.animate(animation);
     }
     
+    /**
+     * Runs when the user releases the click on resetButton
+     */
     private void clickDelayAction() {
         animate(FACE_DEFAULT_TAG);
         clickDelay.stop();

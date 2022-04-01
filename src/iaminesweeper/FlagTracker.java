@@ -5,8 +5,10 @@ import collections.LinkedList;
 import javax.swing.JLabel;
 
 /**
- * FlagTracker.java - description
-
+ * FlagTracker.java - Tracks of how many flags the user has left. 
+ * With every flag placed on the grid, the counter goes down, 
+ * with every removed flag, the counter goes up.
+ * 
  -----------------------
  * @author Marissa Rowles
  * @since 18-Feb-2022
@@ -14,7 +16,7 @@ import javax.swing.JLabel;
 public class FlagTracker extends Counter {
     
     private static int[] count = {0,0,0};
-    private static int remainingBombs;
+    private static int remainingFlags;
 
     /**
      * Default constructor, set class properties
@@ -23,24 +25,34 @@ public class FlagTracker extends Counter {
         super(flagLabels);
     }
     
-    public static int getRemainingBombs(){
-        return remainingBombs;
+    /**
+     * Gets how many flags the user has left 
+     * @return 
+     */
+    public static int getRemainingFlags(){
+        return remainingFlags;
     }
     
-    public static void raiseRemainingBombs(){
-        setRemainingBombs(remainingBombs + 1);
+    /**
+     * Raises how many flags the user can place
+     */
+    public static void raiseRemainingFlags(){
+        setRemainingFlags(remainingFlags + 1);
     }
     
-    public static void lowerRemainingBombs(){
-        setRemainingBombs(remainingBombs - 1);
+    /**
+     * Lowers how many flags the user can place
+     */
+    public static void lowerRemainingFlags(){
+        setRemainingFlags(remainingFlags - 1);
     }
     
     /**
      * Changes the bomb count
      * @param i the new amount to set the bombs
      */
-    public static void setRemainingBombs(int i){
-        remainingBombs = i;
+    public static void setRemainingFlags(int i){
+        remainingFlags = i;
         findCount();
     }
     
@@ -49,8 +61,8 @@ public class FlagTracker extends Counter {
      */
     public static void findCount(){
         // The counter cannot hold numbers greater than 999
-        if (remainingBombs >= 999) setInt(9, 9, 9); 
-        else count = getDigits(remainingBombs);
+        if (remainingFlags >= 999) setInt(9, 9, 9); 
+        else count = getDigits(remainingFlags);
         
         setInt(count[0], count[1], count[2]);
     }
@@ -61,11 +73,11 @@ public class FlagTracker extends Counter {
      * @param bombCount How many bombs there will be
      */
     public static void findCount(int bombCount){
-        remainingBombs = bombCount;
+        remainingFlags = bombCount;
         
         // The counter cannot hold numbers greater than 999
-        if (remainingBombs >= 999) setInt(9, 9, 9); 
-        else count = getDigits(remainingBombs);
+        if (remainingFlags >= 999) setInt(9, 9, 9); 
+        else count = getDigits(remainingFlags);
         
         setInt(count[0], count[1], count[2]);
     }

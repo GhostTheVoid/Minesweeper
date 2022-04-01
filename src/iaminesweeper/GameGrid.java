@@ -6,7 +6,7 @@ import javax.swing.JPanel;
 import tools.Numbers;
 
 /**
- * GameGrid.java - description
+ * GameGrid.java - Sets up and manages the game's playing grid
  *
  * @author Marissa Rowles
  * @since Mar. 30, 2022
@@ -39,12 +39,17 @@ public class GameGrid {
         }  
     }
     
-    public void generateNew(){
-        prepareGrid();
+    /**
+     * prepares and generates a new grid
+     */
+    public void generateNewGrid(){
+        Difficulties.setDifficulty(0);
         setGrid();
     }
     
-
+    /**
+     * Sets the 
+     */
     public void prepareGrid (){
         Difficulties.setDifficulty(0);
     }
@@ -72,7 +77,7 @@ public class GameGrid {
         System.out.println("Rows " + rows + " by Columns " + columns + 
                 " with " + (rows * columns) + " cells, generated " + 
                 bombCount + " bombs");              // Update status
-        countNeighboursBomb();                              // Count all neighbors
+        countNeighbours();                              // Count all neighbors
         FlagTracker.findCount(); // Find how many bombs will be in the grid
     }
 
@@ -126,7 +131,7 @@ public class GameGrid {
     private void clearGrid() {
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
-                grid[row][column].clearCell();
+                grid[row][column].unclickCell();
             }
         }
     }
@@ -174,13 +179,13 @@ public class GameGrid {
     public static void hideNeighbours(int row, int column){
         if (grid[row][column].isCellFlagged()) {    // Flag spot
             boolean[][] checked = new boolean[rows][columns];
-            revealCheck(row, column, checked);
+            revealBorder(row, column, checked);
         }
         else {
             // spot is a blank, reveal all spots around it
             grid[row][column].revealCell();
             boolean[][] checked = new boolean[rows][columns];
-            revealCheck(row, column, checked);
+            revealBorder(row, column, checked);
         }
     }
     
@@ -231,16 +236,12 @@ public class GameGrid {
                 checked[row][column] = true;        // Mark spot as checked
             }
             
-            if (!grid[row][column].reveal2()) {  // If spot is not flagged
+            if (!grid[row][column].isCellFlagged()) {  // If spot is not flagged
                 grid[row][column].showCell();
             }
         }
     }
     
-    
-
-    
-
     /**
      * Reveals the spots around this location (row,column) as number spots
      * or blank spots
@@ -249,7 +250,7 @@ public class GameGrid {
      * @param column the column in the matrix to check
      * @param checked the matrix of flagged spots to check or not
      */
-    private static void revealCheck(int row, int column, boolean[][] checked) {
+    private static void hiBorder(int row, int column, boolean[][] checked) {
         // spots to check      coordinates of those spots
         // +---+---+---+    +---------+---------+---------+
         // | 1 | 2 | 3 |    | r-1,c-1 | r-1,c   | r-1,c+1 |
@@ -259,27 +260,26 @@ public class GameGrid {
         // | 6 | 7 | 8 |    | r+1,c-1 | r+1,c   | r+1,c+1 |
         // +---+---+---+    +---------+---------+---------+
         
-        check(row-1,column-1,checked);      // Check spot #1
-        check(row-1,column  ,checked);      // Check spot #2
-        check(row-1,column+1,checked);      // Check spot #3
-        check(row  ,column-1,checked);      // Check spot #4
+        hideBorder(row-1,column-1,checked);      // Check spot #1
+        hideBorder(row-1,column  ,checked);      // Check spot #2
+        hideBorder(row-1,column+1,checked);      // Check spot #3
+        hideBorder(row  ,column-1,checked);      // Check spot #4
         // DO NOT CHECK THE SAME SPOT WE ARE ON (row,column) ....
-        check(row  ,column+1,checked);      // Check spot #5
-        check(row+1,column-1,checked);      // Check spot #6
-        check(row+1,column  ,checked);      // Check spot #7
-        check(row+1,column+1,checked);      // Check spot #8
+        hideBorder(row  ,column+1,checked);      // Check spot #5
+        hideBorder(row+1,column-1,checked);      // Check spot #6
+        hideBorder(row+1,column  ,checked);      // Check spot #7
+        hideBorder(row+1,column+1,checked);      // Check spot #8
     }
     
     /**
      * Checks this spot (row,column) to make sure it is in bounds, and then
-     * reveals what is at this location (a number, bomb, or blank) and 
-     * recursively checks the cells neighbouring this cell
+     * "presses" down on the cell if it is not flagged
      * 
      * @param row the row in the matrix to check
      * @param column the column in the matrix to check
      * @param checked the matrix of flagged spots to check or not
      */
-    private static void check(int row, int column, boolean[][] checked) {    
+    private static void hideBorder(int row, int column, boolean[][] checked) {    
         // First make sure we are not out of bounds in the spot to check
         if (rowIsInBounds(row) && columnIsInBounds(column)) {
             if (checked[row][column] == true) {     // Already checked here
@@ -289,11 +289,9 @@ public class GameGrid {
                 checked[row][column] = true;        // Mark spot as checked
             }
             
-            if (grid[row][column].reveal2() == true) {  // If spot is a flag
-                if (grid[row][column].isNeighboursFufilled(count(row, column))) {
-                    grid[row][column].revealCell();
-                    revealCheckBomb(row, column, checked);
-                }
+            if (!grid[row][column].isCellFlagged()) {  // If spot is not flagged
+                if (grid[row][column].neighboursFlagged)
+                grid[row][column].showBlank();
             }
         }
     }
@@ -306,7 +304,7 @@ public class GameGrid {
      * Traverse the matrix and count the number of neighbors that are bombs 
      * around each cell
      */
-    private void countNeighboursBomb() {
+    private void countNeighbours() {
         for (int row = 0; row < rows; row++) {                  // Traverse rows
             for (int column = 0; column < columns; column++) {  // and columns
                 // Count spots of cells next to bombs, but not the bomb spots

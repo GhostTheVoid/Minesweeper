@@ -39,13 +39,6 @@ public class GridCell extends GameObject{
     private final String BLANK          = Globals.CELL_BLANK;            // Blank cell text
     private final int    INVALID_NUMBER = Globals.CELL_INVALID_NUMBER;   // Invalid number
     
-    private final int CELL_FLAG_TAG          = 0;            
-    private final int CELL_UNKNOWN_TAG       = 1;  // I have no idea what this does        
-    private final int CELL_UNKNOWN_CLICK_TAG = 2;            
-    private final int CELL_BOMB_TAG          = 3;  
-    private final int CELL_BOMB_HIT_TAG      = 4;  // The bomb that triggered the lost game         
-    private final int CELL_BOMB_CHECKED_TAG  = 5;  // If a bomb was incorrectly flagged
-    
     private int row;            // The row index this cell is in
     private int column;         // The column index this cell is in
     private int neighbours;     // How many bombs neighour this cell
@@ -53,8 +46,8 @@ public class GridCell extends GameObject{
     public JLabel  label;
     public String  matrix;      // Store values for the label
     public boolean isBomb;
-    private boolean isFlagged;
     public boolean isClicked;
+    private boolean isFlagged;
     public boolean canClick;
     public boolean neighboursFlagged;
     
@@ -106,6 +99,14 @@ public class GridCell extends GameObject{
         isBomb = true;
     }
     
+    /**
+     * Set the properties of the label.
+     * 
+     * @param text The text the label will display
+     * @param foreground The color to change the foreground too
+     * @param background The color to change the background too
+     * @param borderType the style of border the Bevel will be changed to
+     */
     public void setLblProperties(String text, Color foreground,
                                  Color background, int borderType){
         
@@ -149,22 +150,26 @@ public class GridCell extends GameObject{
         return isBomb;
     }
     
+    /**
+     * Checks if the cell has been flagged
+     * 
+     * @return if isFlagged = true, return true. if false, return false.
+     */
     public boolean isCellFlagged (){
         return isFlagged;
     }
     // </editor-fold> 
      
     
-    // <editor-fold defaultstate="collapsed" desc="Cell Events"> 
+    // <editor-fold defaultstate="collapsed" desc="Cell Events">
+    
     /**
-     * Clears the label
+     * Sets the label back to an "Unclicked" state
      */
-    public void clearCell() {
-        //sprite.animate(CELL_DEFAULT_TAG);
-        setLblProperties("", null, CELL_BACKGROUND, 0);
-        //label.setText("");     // Set bomb spot
-        //label.setBackground(CELL_BACKGROUND); // Starting color
-        //label.setBorder(BorderFactory.createBevelBorder(0)); 
+    public void unclickCell() {
+        label.setBackground(CELL_BACKGROUND); // Starting color
+        label.setBorder(BorderFactory.createBevelBorder(0));
+        label.setText("");
     }
     
     /**
@@ -177,7 +182,7 @@ public class GridCell extends GameObject{
     }
     
     /**
-     * Reveals the cell as blank
+     * Reveals the cell as a number
      */
     public void showNum(Color color){
         label.setText("" + this.neighbours);
@@ -249,15 +254,15 @@ public class GridCell extends GameObject{
      */
     public void flagCell(){
         if (!isClicked) {
-            if (FlagTracker.getRemainingBombs() > 0 || isFlagged) {
+            if (FlagTracker.getRemainingFlags() > 0 || isFlagged) {
                 if (isFlagged) {
-                    FlagTracker.raiseRemainingBombs();
+                    FlagTracker.raiseRemainingFlags();
                     isFlagged = false;
                     setLblProperties("null", null, CELL_BACKGROUND, -1);
                     //label.setBackground(CELL_BACKGROUND); // Starting color
                     setClickable(true);
                 } else if (!isFlagged) {
-                    FlagTracker.lowerRemainingBombs();
+                    FlagTracker.lowerRemainingFlags();
                     isFlagged = true;
                     setLblProperties("null", null, Color.GREEN, 0);
                     label.setBackground(Color.GREEN);
@@ -317,15 +322,13 @@ public class GridCell extends GameObject{
         }
     }
     
-    public boolean reveal2(){
-        if (isFlagged){ // If spot is flagged 
-            return true;
-        }
-        else { // If spot is not flagged 
-            return false;
-        }
-    }
-    
+    /**
+     * Compares how many surrounding cells are flagged to the amount of bombs
+     * Neighbouring
+     * 
+     * @param flagged how many items Neighbouring are flagged
+     * @return true = Neighbours are the same as the flagged
+     */
     public boolean isNeighboursFufilled(int flagged) {
         if (flagged == neighbours) {
             System.out.println("Flags fuffiled at: R" + row + " C" + column );

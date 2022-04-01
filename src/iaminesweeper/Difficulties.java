@@ -4,7 +4,7 @@ package iaminesweeper;
 import java.awt.Dimension;
 
 /**
- * Difficulties.java - description
+ * Difficulties.java - Tracks how many bombs, rows, and columns should be placed
  *
  * -----------------------
  * @author Marissa Rowles
@@ -28,14 +28,26 @@ public class Difficulties {
     private final static int EX_ROW_COUNT      = 30;
     private final static int EX_COLUMN_COUNT   = 16;
     
+    /**
+     * Gets how many bombs should be placed on generation
+     * @return the bomb amount
+     */
     public static int getBombCount(){
         return bombCount;
     }
     
+    /**
+     * Gets how many rows should be made on generation
+     * @return the row amount
+     */
     public static int getRowCount(){
         return rowCount;
     }
     
+    /**
+     * Gets how many columns should be made on generation
+     * @return the columns amount
+     */
     public static int getColumnCount(){
         return columnCount;
     }

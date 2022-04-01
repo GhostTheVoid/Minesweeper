@@ -31,6 +31,7 @@ public class TimeTracker extends Counter{
         timer = new Timer(DELAY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //For every tick, update the inherited counter
                 updateCounter();
             }
         });
@@ -61,21 +62,4 @@ public class TimeTracker extends Counter{
         }
         else System.out.println("Timer is already stopped!");
     }
-    
-//    /**
-//     * The logic associated with each update of the label object
-//     */
-//    @Override
-//    protected static void updateCounter(){
-//        ones++;                     // Increase ones
-//        if (ones == 10) {           // Roll over to next digit
-//            ones = 0;               // Rest ones
-//            tens++;                 // Increase tens
-//            if (tens == 10) {       // Roll over to next digit
-//                tens = 0;           // Reset tens
-//                hundreds++;         // Increase hundreds
-//            }
-//        }
-//        updateAllLabels(ones, tens, hundreds);
-//    }
 }
