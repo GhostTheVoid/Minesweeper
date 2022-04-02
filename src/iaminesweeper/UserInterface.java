@@ -3,15 +3,12 @@ package iaminesweeper;
 import collections.LinkedList;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
-import javax.swing.event.ChangeListener;
-
-import java.awt.Desktop;
-import java.awt.event.ActionEvent;
 
 /**
- *
+ * UserInterface.java - the user interface view for this application
+ * 
+ * -----------------------
  * @author m.rowles
  */
 public class UserInterface extends javax.swing.JFrame {
@@ -27,17 +24,19 @@ public class UserInterface extends javax.swing.JFrame {
         screenSize = new Dimension(162, 204);
         initComponents();
         
+        // Adds the three timerLabels into a linkedList for TimeTracker Usage
         LinkedList<JLabel> timerLabels = new LinkedList<>();
         timerLabels.add(timerLblOne);
         timerLabels.add(timerLblTen);
         timerLabels.add(timerLblHundred);
+        // Adds the three flagLabels into a linkedList for FlagTracker Usage
         LinkedList<JLabel> flagLabels = new LinkedList<>();
         flagLabels.add(flagLblOne);
         flagLabels.add(flagLblTen);
         flagLabels.add(flagLblHundred);
         
-        Globals.gameEngine = new GameEngine(statusLbl, gamePnl,
-                                timerLabels,flagLabels,this);
+        Globals.gameEngine = new GameEngine(statusLbl, timerLabels, flagLabels,
+                                            gamePnl, this);
     }
 
     /**
@@ -313,32 +312,26 @@ public class UserInterface extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void statusLblMouseEvent(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_statusLblMouseEvent
-        // TODO add your handling code here:
         Globals.gameEngine.restartGame(evt);
     }//GEN-LAST:event_statusLblMouseEvent
 
     private void menuGameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGameMouseClicked
-        // TODO add your handling code here:
         menuPopup.show(this, 10, 55);
     }//GEN-LAST:event_menuGameMouseClicked
 
     private void menuHelpMenuSelected(javax.swing.event.MenuEvent evt) {//GEN-FIRST:event_menuHelpMenuSelected
-        // TODO add your handling code here:
         Globals.gameEngine.openURI("https://minesweepergame.com/strategy.php");
-         
-        
     }//GEN-LAST:event_menuHelpMenuSelected
 
     private void gamePnlMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_gamePnlMouseClicked
-        // TODO add your handling code here:
         Globals.gameEngine.mouseClick(evt, "Grid");
     }//GEN-LAST:event_gamePnlMouseClicked
 
     private void rdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdActionPerformed
-        int evtHash = evt.getSource().hashCode(); // Get the hashCode of the RadioButton
-        if (evtHash == easyMenuRdBtn.hashCode()){
-            Difficulties.setDifficulty(0);
-        }
+        // Get the hashCode of the RadioButton
+        int evtHash = evt.getSource().hashCode(); 
+        if (evtHash == easyMenuRdBtn.hashCode()) Difficulties.setDifficulty(0);
+        // Temporarily Disabled until UI can be resized.
         else if (evtHash == medMenuRdBtn.hashCode()){
             //Difficulties.setDifficulty(1);
         }

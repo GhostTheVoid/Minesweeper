@@ -2,7 +2,6 @@
 package iaminesweeper;
  
 import collections.LinkedList;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import tools.Animation;
 import tools.Coordinates;
@@ -13,8 +12,8 @@ import tools.Sprite;
 /**
  * Counter.java - Breaks up numbers into their singular digits, 
  * and assigns these digits to labels. Resets with the grid.
-
- -----------------------
+ * 
+ * -----------------------
  * @author Marissa Rowles
  * @since 28-Feb-2022
  */
@@ -46,7 +45,7 @@ public class Counter {
 //        sprite2      = new Sprite(jLabels.get(1));
 //        sprite3      = new Sprite(jLabels.get(2));
 //        
-//        setAnimations(jLabels.get(0), settings, sprite1, animations1);  // build label animations
+//        setAnimations(jLabels.get(0), settings, sprite1, animations1); // build label animations
 //        setAnimations(jLabels.get(1), settings, sprite2, animations2); // build label2 animations
 //        setAnimations(jLabels.get(2), settings, sprite3, animations3); // build label3 animations
         
@@ -102,8 +101,8 @@ public class Counter {
      * @param hundreds the int that will be put into the hundreds spot
      */
     protected static void updateAllLabels(int ones, int tens, int hundreds) {
-        updateLabel(ones, jLabels.get(0));
-        updateLabel(tens, jLabels.get(1));
+        updateLabel(ones,     jLabels.get(0));
+        updateLabel(tens,     jLabels.get(1));
         updateLabel(hundreds, jLabels.get(2));
     }
     

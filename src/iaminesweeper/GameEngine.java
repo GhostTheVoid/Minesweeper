@@ -2,22 +2,14 @@
 package iaminesweeper;
  
 import collections.LinkedList;
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import tools.FileHandler;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.net.URI;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import static javax.swing.SwingConstants.CENTER;
-import tools.Numbers;
 
 /**
  * GameEngine.java -  this class runs all the logic for this game. It received
@@ -30,13 +22,10 @@ import tools.Numbers;
 public class GameEngine {
     
     // GAME OBJECTS
-    //private Player                  player;
-    private static ResetButton           status;
-    private static TimeTracker      timeTracker;
-    private static GameGrid         gameGrid;
-    //private static GridCell[][] grid;        // A 2D array of GridCell objects
-    private FlagTracker             flagTracker;
-    //private LinkedList<GridCell>    gridCells;
+    private static ResetButton status;
+    private static TimeTracker timeTracker;
+    private static FlagTracker flagTracker;
+    private static GameGrid    gameGrid;
     // LABELS & PANELS
     private UserInterface   userInteface;   // Reference to the "view" (user interface)
     private JLabel          statusLabel;    // Reference to the label to update status
@@ -50,11 +39,19 @@ public class GameEngine {
     public static boolean gameStarted; // Determines if the game is running or not
 
     /**
-     * Default constructor, set class properties
+     * Constructor for the class, sets class property data
+     * 
+     * @param statusLabel the label image for the corresponding object
+     * @param timerLabels the label image list for the corresponding object
+     * @param flagLabels  the label image list for the corresponding object
+     * @param gamePanel   the panel which contains the grid for the game
+     * @param userInteface the user interface container for the game 
      */
-    public GameEngine(JLabel statusLabel, JPanel gamePanel,
-            LinkedList<JLabel> timerLabels, LinkedList<JLabel> flagLabels, 
-            UserInterface userInteface) {
+    public GameEngine(JLabel statusLabel, 
+                      LinkedList<JLabel> timerLabels, 
+                      LinkedList<JLabel> flagLabels, 
+                      JPanel gamePanel, 
+                      UserInterface userInteface) {
         
         this.userInteface   = userInteface;     // Connect this class (engine)
         this.statusLabel    = statusLabel;      // or "form" references
@@ -71,7 +68,6 @@ public class GameEngine {
 //            JOptionPane.showMessageDialog(ui, "Previous score for " +
 //                    data.get(0) + " was " + data.get(1) + " points!");
 //        }
-
         timeTracker = new TimeTracker(timerLabels);
         flagTracker = new FlagTracker(flagLabels);
         status      = new ResetButton(statusLabel);
@@ -84,10 +80,6 @@ public class GameEngine {
         userInteface.setResizable(false);
         userInteface.setLocationRelativeTo(null);
         userInteface.setVisible(true);
-        
-        
-        
-        System.out.println("SHOW");
     }
     
     // <editor-fold defaultstate="collapsed" desc="Game States"> 
@@ -109,8 +101,7 @@ public class GameEngine {
             System.out.println("Game has started!");
             gameStarted = true;
             timeTracker.start();
-        }
-        
+        } 
     }
     
     /**
@@ -121,8 +112,7 @@ public class GameEngine {
      */
     public void restartGame(MouseEvent evt){
         status.clickStatus(evt);
-        timeTracker.stop();
-        
+        timeTracker.stop(); // Stop the timer
         // Check for new game board
         // Create new game board
         newGame();
