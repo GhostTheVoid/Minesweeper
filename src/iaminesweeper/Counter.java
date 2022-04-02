@@ -20,24 +20,22 @@ import tools.Sprite;
 public class Counter {
     
     /** Coordinates to store data on position and movement */    
-    public Coordinates coordinates;
     /** The image used for this game object */
     public Sprite sprite1, sprite2, sprite3;
     /** Various methods to detect collision for the game object */
-    public Detector detector;
     /** Various methods to react to collision for the game object */
-    public Reactor reactor;    
     /** Flag determines if this object is alive in a game */
-    public boolean isAlive;
     
     // Global properties (variables)
-    protected static int    ones, tens, hundreds;
+    protected static int            ones, tens, hundreds;
     protected LinkedList<Animation> animations1, animations2, animations3;
     
     private static LinkedList<JLabel> jLabels;
 
     /**
      * Default constructor, set class properties
+     * 
+     * @param jLabels the set of JLabels the object will use
      */
     public Counter(LinkedList<JLabel> jLabels) {
         this.jLabels = jLabels;
@@ -86,8 +84,8 @@ public class Counter {
     /**
      * Update one of the label objects to match with the data provided
      * 
-     * @param num the int that will replace the current label
-     * @param label 
+     * @param num   the int that will replace the current label
+     * @param label the label to be updated
      */
     private static void updateLabel(int num, JLabel label) {
         label.setText(num+"");
@@ -109,10 +107,13 @@ public class Counter {
     /**
      * Set up all the animations for this character
      * 
-     * @param label the label to associate the animation with
-     * @param settings the list of animation settings
+     * @param label        the label to associate the animation with
+     * @param settings     the list of animation settings
+     * @param sprite       the sprite object associated with the animation set
+     * @param timerAnimations the LinkedList associated with the animation set
      */
-    private void setAnimations(JLabel label, LinkedList<String> settings, Sprite sprite, LinkedList<Animation> timerAnimations) {
+    private void setAnimations(JLabel label, LinkedList<String> settings, 
+            Sprite sprite, LinkedList<Animation> timerAnimations) {
         String sheet = Globals.SPRITE_SHEET;
         int    delay = Globals.TIMER_ANIMATION_DELAY; 
         String tag   = Globals.NUM_1_TAG;        

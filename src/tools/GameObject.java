@@ -21,8 +21,8 @@ public class GameObject {
     public Detector detector;
     /** Various methods to react to collision for the game object */
     public Reactor reactor;    
-    /** Flag determines if this object is alive in a game */
-    public boolean isAlive;
+    /** Flag determines if this object is active in a game */
+    public boolean isActive;
     
     
     /**
@@ -62,13 +62,13 @@ public class GameObject {
     
     /** Spawns the game object, makes it alive and visible */
     public void spawn() {
-        isAlive = true;
+        isActive = true;
         sprite.show();
     }
     
     /** De-spawns the game object, makes it not alive and invisible */
     public void despawn() {
-        isAlive = false;
+        isActive = false;
         sprite.hide();
     }
 }
