@@ -4,6 +4,7 @@ package tools;
  
 /**
  * Reactor.java - methods to react to collisions in various ways
+ * !TO BE EDITED!
  *
  * -----------------------
  * @author Marissa Rowles

@@ -207,7 +207,7 @@ public class GridCell extends GameObject{
             //sprite.animate(CELL_BOMB_TAG);
             showBomb();
             label.setBackground(Color.RED);
-            GameEngine.lostGame();
+            Globals.gameEngine.lostGame();
         } 
         else {
             switch (neighbours) {
@@ -256,13 +256,13 @@ public class GridCell extends GameObject{
         if (!isClicked) {
             if (FlagTracker.getRemainingFlags() > 0 || isFlagged) {
                 if (isFlagged) {
-                    FlagTracker.raiseRemainingFlags();
+                    Globals.flagTracker.raiseRemainingFlags();
                     isFlagged = false;
                     setLblProperties("null", null, CELL_BACKGROUND, -1);
                     //label.setBackground(CELL_BACKGROUND); // Starting color
                     setClickable(true);
                 } else if (!isFlagged) {
-                    FlagTracker.lowerRemainingFlags();
+                    Globals.flagTracker.lowerRemainingFlags();
                     isFlagged = true;
                     setLblProperties("null", null, Color.GREEN, 0);
                     label.setBackground(Color.GREEN);
@@ -357,6 +357,7 @@ public class GridCell extends GameObject{
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
             public void mousePressed(MouseEvent e)  { 
+                GameEngine.startGame();
                 Globals.gameEngine.mouseClick(e, BOMB);
                 if (e.getButton() == MouseEvent.BUTTON1) { // Left Click
                     // Mark status as Click

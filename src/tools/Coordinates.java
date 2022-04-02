@@ -5,6 +5,7 @@ package tools;
 /**
  * Coordinates.java - stores data on position and movement as well as methods 
  * to move those values
+ * !TO BE EDITED!
  *
  * -----------------------
  * @author Marissa Rowles

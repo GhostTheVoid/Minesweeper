@@ -44,7 +44,7 @@ public class TimeTracker extends Counter{
     public void start(){
         System.out.println("Reached");
         if (!timer.isRunning()) {
-            setInt(0, 0, 0);
+            super.setInt(0, 0, 0);
             timer.start();
             System.out.println("Timer Started!");
         }

@@ -22,10 +22,10 @@ import javax.swing.JPanel;
 public class GameEngine {
     
     // GAME OBJECTS
-    private static ResetButton status;
-    private static TimeTracker timeTracker;
-    private static FlagTracker flagTracker;
+    private static ResetButton resetButton;
     private static GameGrid    gameGrid;
+    private TimeTracker timeTracker;
+    private FlagTracker flagTracker;
     // LABELS & PANELS
     private UserInterface   userInteface;   // Reference to the "view" (user interface)
     private JLabel          statusLabel;    // Reference to the label to update status
@@ -68,10 +68,10 @@ public class GameEngine {
 //            JOptionPane.showMessageDialog(ui, "Previous score for " +
 //                    data.get(0) + " was " + data.get(1) + " points!");
 //        }
-        timeTracker = new TimeTracker(timerLabels);
-        flagTracker = new FlagTracker(flagLabels);
-        status      = new ResetButton(statusLabel);
-        gameGrid    = new GameGrid(gamePanel);
+        Globals.timeTracker = new TimeTracker(timerLabels);
+        Globals.flagTracker = new FlagTracker(flagLabels);
+        Globals.resetButton = new ResetButton(statusLabel);
+        Globals.gameGrid    = new GameGrid(gamePanel, timeTracker, flagTracker, resetButton);
         
         newGame();
         
@@ -85,9 +85,9 @@ public class GameEngine {
     // <editor-fold defaultstate="collapsed" desc="Game States"> 
     
     public void newGame(){
-        gameGrid.generateNewGrid(); 
-        flagTracker.setRemainingFlags(Difficulties.bombCount);
-        gameGrid.generate();
+        Globals.gameGrid.generateNewGrid(); 
+        Globals.flagTracker.setRemainingFlags(Difficulties.bombCount);
+        Globals.gameGrid.generate();
     }
     
     /**
@@ -100,7 +100,7 @@ public class GameEngine {
         else {
             System.out.println("Game has started!");
             gameStarted = true;
-            timeTracker.start();
+            Globals.timeTracker.start();
         } 
     }
     
@@ -111,8 +111,9 @@ public class GameEngine {
      * @param evt the event type
      */
     public void restartGame(MouseEvent evt){
-        status.clickStatus(evt);
-        timeTracker.stop(); // Stop the timer
+        Globals.resetButton.clickStatus(evt);
+        Globals.timeTracker.stop(); // Stop the timer
+        gameStarted=false;
         // Check for new game board
         // Create new game board
         newGame();
@@ -123,10 +124,11 @@ public class GameEngine {
     }
     
     
-    public static void lostGame(){
-        timeTracker.stop();
+    public void lostGame(){
+        Globals.timeTracker.stop();
+        Globals.resetButton.animate(4);
         gameStarted = false;
-        GameGrid.lostGame(); 
+        Globals.gameGrid.lostGame(); 
     }
     
     // </editor-fold>  

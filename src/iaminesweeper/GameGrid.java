@@ -21,6 +21,10 @@ public class GameGrid {
     private JLabel          statusLabel;    // Reference to the label to update status
     private JPanel          gamePanel;      // Reference to the panel for labels
     
+    private static ResetButton resetButton;
+    private TimeTracker timeTracker;
+    public FlagTracker flagTracker;
+    
     private String[][] matrix;      // A 2D array to store values for the labels
     
     private static int rows;               // The number of rows for the matrix
@@ -37,6 +41,13 @@ public class GameGrid {
                 grid[row][column].setClickable(false);
             }
         }  
+    }
+
+    GameGrid(JPanel gamePanel, TimeTracker timeTracker, FlagTracker flagTracker, ResetButton resetButton) {
+        this.gamePanel   = gamePanel;
+        this.flagTracker = flagTracker;
+        this.timeTracker = timeTracker;
+        this.resetButton = resetButton;
     }
     
     /**
@@ -78,7 +89,7 @@ public class GameGrid {
                 " with " + (rows * columns) + " cells, generated " + 
                 bombCount + " bombs");              // Update status
         countNeighbours();                              // Count all neighbors
-        FlagTracker.findCount(); // Find how many bombs will be in the grid
+        Globals.flagTracker.findCount(); // Find how many bombs will be in the grid
     }
 
     /**

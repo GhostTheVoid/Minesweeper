@@ -36,14 +36,14 @@ public class FlagTracker extends Counter {
     /**
      * Raises how many flags the user can place
      */
-    public static void raiseRemainingFlags(){
+    public void raiseRemainingFlags(){
         setRemainingFlags(remainingFlags + 1);
     }
     
     /**
      * Lowers how many flags the user can place
      */
-    public static void lowerRemainingFlags(){
+    public void lowerRemainingFlags(){
         setRemainingFlags(remainingFlags - 1);
     }
     
@@ -51,7 +51,7 @@ public class FlagTracker extends Counter {
      * Changes the bomb count
      * @param i the new amount to set the bombs
      */
-    public static void setRemainingFlags(int i){
+    public void setRemainingFlags(int i){
         remainingFlags = i;
         findCount();
     }
@@ -59,7 +59,7 @@ public class FlagTracker extends Counter {
     /**
      * Divides up the count and sets the Associated JLabels
      */
-    public static void findCount(){
+    public void findCount(){
         // The counter cannot hold numbers greater than 999
         if (remainingFlags >= 999) setInt(9, 9, 9); 
         else count = getDigits(remainingFlags);
@@ -72,7 +72,7 @@ public class FlagTracker extends Counter {
      * 
      * @param bombCount How many bombs there will be
      */
-    public static void findCount(int bombCount){
+    public void findCount(int bombCount){
         remainingFlags = bombCount;
         
         // The counter cannot hold numbers greater than 999

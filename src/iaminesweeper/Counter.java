@@ -27,10 +27,10 @@ public class Counter {
     /** Flag determines if this object is alive in a game */
     
     // Global properties (variables)
-    protected static int            ones, tens, hundreds;
+    protected int            ones, tens, hundreds;
     protected LinkedList<Animation> animations1, animations2, animations3;
     
-    private static LinkedList<JLabel> jLabels;
+    private LinkedList<JLabel> jLabels;
 
     /**
      * Default constructor, set class properties
@@ -39,6 +39,7 @@ public class Counter {
      */
     public Counter(LinkedList<JLabel> jLabels) {
         this.jLabels = jLabels;
+        System.out.println(jLabels.toString());
 //        sprite1      = new Sprite(jLabels.get(0));
 //        sprite2      = new Sprite(jLabels.get(1));
 //        sprite3      = new Sprite(jLabels.get(2));
@@ -46,7 +47,6 @@ public class Counter {
 //        setAnimations(jLabels.get(0), settings, sprite1, animations1); // build label animations
 //        setAnimations(jLabels.get(1), settings, sprite2, animations2); // build label2 animations
 //        setAnimations(jLabels.get(2), settings, sprite3, animations3); // build label3 animations
-        
     }
     
     /**
@@ -57,10 +57,10 @@ public class Counter {
      * @param tens     int representing the tens spot
      * @param hundreds int representing the hundreds spot
      */
-    protected static void setInt(int ones, int tens, int hundreds){
-        Counter.ones = ones;
-        Counter.tens = tens;
-        Counter.hundreds = hundreds;
+    protected void setInt(int ones, int tens, int hundreds){
+        this.ones = ones;
+        this.tens = tens;
+        this.hundreds = hundreds;
         
         updateAllLabels(ones, tens, hundreds);
     }
@@ -68,7 +68,7 @@ public class Counter {
     /**
      * The logic associated with each update of the label object
      */
-    protected static void updateCounter(){
+    protected void updateCounter(){
         ones++;                     // Increase ones
         if (ones == 10) {           // Roll over to next digit
             ones = 0;               // Rest ones
@@ -98,7 +98,7 @@ public class Counter {
      * @param tens the int that will be put into the tens spot
      * @param hundreds the int that will be put into the hundreds spot
      */
-    protected static void updateAllLabels(int ones, int tens, int hundreds) {
+    protected void updateAllLabels(int ones, int tens, int hundreds) {
         updateLabel(ones,     jLabels.get(0));
         updateLabel(tens,     jLabels.get(1));
         updateLabel(hundreds, jLabels.get(2));

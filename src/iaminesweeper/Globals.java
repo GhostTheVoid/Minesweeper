@@ -19,6 +19,10 @@ public class Globals {
     public static GameGrid     gameGrid;
     public static Difficulties difficulties;
     
+    public static ResetButton resetButton;
+    public static TimeTracker timeTracker;
+    public static FlagTracker flagTracker;
+    
     // PUBLIC FINAL STATIC
     // ================
     
