@@ -23,7 +23,6 @@ public class GameEngine {
     
     // GAME OBJECTS
     private static ResetButton resetButton;
-    private static GameGrid    gameGrid;
     private TimeTracker timeTracker;
     private FlagTracker flagTracker;
     // LABELS & PANELS

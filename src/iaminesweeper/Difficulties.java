@@ -1,7 +1,5 @@
 /** Required package class namespace */
 package iaminesweeper;
- 
-import java.awt.Dimension;
 
 /**
  * Difficulties.java - Tracks how many bombs, rows, and columns should be placed
@@ -15,6 +13,9 @@ public class Difficulties {
     public static int bombCount     = 10;
     public static int rowCount      = 9;
     public static int columnCount   = 9;
+    
+    // DIFFICULTY VARIABLES
+    // ================
 
     private final static int BEG_BOMB_COUNT     = 10;
     private final static int BEG_ROW_COUNT      = 9;

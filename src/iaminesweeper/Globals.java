@@ -13,7 +13,8 @@ import collections.LinkedList;
  */
 public class Globals {
     
-    //SHARED GAME SETTINGS
+    // SHARED GAME SETTINGS
+    // ================
     
     public static GameEngine   gameEngine;
     public static GameGrid     gameGrid;
