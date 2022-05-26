@@ -19,17 +19,8 @@ import tools.Sprite;
  */
 public class Counter {
     
-    /** Coordinates to store data on position and movement */    
-    /** The image used for this game object */
-    public Sprite sprite1, sprite2, sprite3;
-    /** Various methods to detect collision for the game object */
-    /** Various methods to react to collision for the game object */
-    /** Flag determines if this object is alive in a game */
-    
     // Global properties (variables)
     protected int            ones, tens, hundreds;
-    protected LinkedList<Animation> animations1, animations2, animations3;
-    
     private LinkedList<JLabel> jLabels;
 
     /**
@@ -40,13 +31,6 @@ public class Counter {
     public Counter(LinkedList<JLabel> jLabels) {
         this.jLabels = jLabels;
         System.out.println(jLabels.toString());
-//        sprite1      = new Sprite(jLabels.get(0));
-//        sprite2      = new Sprite(jLabels.get(1));
-//        sprite3      = new Sprite(jLabels.get(2));
-//        
-//        setAnimations(jLabels.get(0), settings, sprite1, animations1); // build label animations
-//        setAnimations(jLabels.get(1), settings, sprite2, animations2); // build label2 animations
-//        setAnimations(jLabels.get(2), settings, sprite3, animations3); // build label3 animations
     }
     
     /**
@@ -103,70 +87,6 @@ public class Counter {
         updateLabel(tens,     jLabels.get(1));
         updateLabel(hundreds, jLabels.get(2));
     }
-    
-    /**
-     * Set up all the animations for this character
-     * 
-     * @param label        the label to associate the animation with
-     * @param settings     the list of animation settings
-     * @param sprite       the sprite object associated with the animation set
-     * @param timerAnimations the LinkedList associated with the animation set
-     */
-    private void setAnimations(JLabel label, LinkedList<String> settings, 
-            Sprite sprite, LinkedList<Animation> timerAnimations) {
-        String sheet = Globals.SPRITE_SHEET;
-        int    delay = Globals.TIMER_ANIMATION_DELAY; 
-        String tag   = Globals.NUM_1_TAG;        
-        Animation num1 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_2_TAG;        
-        Animation num2 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_3_TAG;        
-        Animation num3 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_4_TAG;        
-        Animation num4 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);        
-        tag = Globals.NUM_5_TAG;        
-        Animation num5 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_6_TAG;        
-        Animation num6 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_7_TAG;        
-        Animation num7 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_8_TAG;        
-        Animation num8 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_9_TAG;        
-        Animation num9 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_0_TAG;        
-        Animation num0 = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_DASH_TAG;        
-        Animation numDash = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.NUM_BLANK_TAG;        
-        Animation numBlank = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag); //154
-        timerAnimations = new LinkedList<>(); 
-        timerAnimations.add(num1);
-        timerAnimations.add(num2);
-        timerAnimations.add(num3);
-        timerAnimations.add(num4);
-        timerAnimations.add(num5);
-        timerAnimations.add(num6);
-        timerAnimations.add(num7);
-        timerAnimations.add(num8);
-        timerAnimations.add(num9);
-        timerAnimations.add(num0);
-        timerAnimations.add(numDash);
-        timerAnimations.add(numBlank);
-        sprite.setAnimations(timerAnimations);             
-    }
      
     /**
      * String representation of this object
@@ -198,41 +118,4 @@ public class Counter {
     public Counter clone() {
         return this;
     }
-    
-//    num1
-//    1
-//    0,0,13,23
-//    num2
-//    1
-//    7,0,13,23
-//    num3
-//    1
-//    18,0,13,23
-//    num4
-//    1
-//    42,0,13,23
-//    num5
-//    1
-//    56,0,13,23
-//    num6
-//    1
-//    70,0,13,23
-//    num7
-//    1
-//    84,0,13,23
-//    num8
-//    1
-//    98,0,13,23
-//    num9
-//    1
-//    112,0,13,23
-//    num0
-//    1
-//    126,0,13,23
-//    numDash
-//    1
-//    140,0,13,23
-//    numBlank
-//    1
-//    140,0,13,23
 }

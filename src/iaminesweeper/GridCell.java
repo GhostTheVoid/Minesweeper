@@ -67,9 +67,6 @@ public class GridCell extends GameObject{
         setClickable(true);
     }
     
-    
-    
-    
     // <editor-fold defaultstate="collapsed" desc="Accessors/Mutators"> 
     /**
      * Tracks how many bombs neighbour this cell
@@ -394,7 +391,6 @@ public class GridCell extends GameObject{
         //System.out.println("Animations");
     }
     // </editor-fold>  
-    
     
     /**
      * Determines if the passed text is a valid number or not

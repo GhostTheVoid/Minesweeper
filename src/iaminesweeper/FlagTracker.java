@@ -70,7 +70,7 @@ public class FlagTracker extends Counter {
     /**
      * Divides up the count and sets the Associated JLabels
      * 
-     * @param bombCount How many bombs there will be
+     * @param bombCount How many bombs there will be on grid generation
      */
     public void findCount(int bombCount){
         remainingFlags = bombCount;
@@ -81,7 +81,6 @@ public class FlagTracker extends Counter {
         
         setInt(count[0], count[1], count[2]);
     }
-    
     
     /**
      * Gets each individual digit of a given number
