@@ -5,7 +5,6 @@ import collections.LinkedList;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import tools.FileHandler;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.net.URI;
 import javax.swing.JLabel;
@@ -21,19 +20,13 @@ import javax.swing.JPanel;
  */
 public class GameEngine {
     
-    // GAME OBJECTS
-    private static ResetButton resetButton;
-    private TimeTracker timeTracker;
-    private FlagTracker flagTracker;
     // LABELS & PANELS
     private UserInterface   userInteface;   // Reference to the "view" (user interface)
     private JLabel          statusLabel;    // Reference to the label to update status
     private JPanel          gamePanel;      // Reference to the panel for labels
     // FILES
-    private FileHandler             playerData;
-    private FileHandler             settingsFile;
-    
-    
+    private FileHandler     playerData;
+    private FileHandler     settingsFile;
     
     public static boolean gameStarted; // Determines if the game is running or not
 
@@ -58,19 +51,13 @@ public class GameEngine {
         
         playerData   = new FileHandler(Globals.PLAYER_DATA_FILE);
         settingsFile = new FileHandler(Globals.SETTINGS_DATA_FILE); 
-        //check for game settings
+        //check for game settings (for animation)
         Globals.settings = settingsFile.read();
         
-        // check for saved data
-//        LinkedList<String> data = playerData.read();
-//        if (data != null) {
-//            JOptionPane.showMessageDialog(ui, "Previous score for " +
-//                    data.get(0) + " was " + data.get(1) + " points!");
-//        }
         Globals.timeTracker = new TimeTracker(timerLabels);
         Globals.flagTracker = new FlagTracker(flagLabels);
         Globals.resetButton = new ResetButton(statusLabel);
-        Globals.gameGrid    = new GameGrid(gamePanel, timeTracker, flagTracker, resetButton);
+        Globals.gameGrid    = new GameGrid(gamePanel, Globals.flagTracker);
         
         newGame();
         
@@ -83,24 +70,25 @@ public class GameEngine {
     
     // <editor-fold defaultstate="collapsed" desc="Game States"> 
     
-    public void newGame(){
+    /**
+     * Runs on the first generation of the game after the project opens,
+     * Generates a new base grid, sets a base for flags, and pre-generates
+     * a grid so they player can start playing immedietly.
+     */
+    private void newGame(){
         Globals.gameGrid.generateNewGrid(); 
         Globals.flagTracker.setRemainingFlags(Difficulties.bombCount);
         Globals.gameGrid.generate();
     }
     
     /**
-     * On the first click
+     * Runs on the first click of a new game
      */
     public static void startGame(){
-        if (gameStarted) {
-            System.out.println("Game already running!");
-        }
-        else {
-            System.out.println("Game has started!");
+        if (!gameStarted) {
             gameStarted = true;
             Globals.timeTracker.start();
-        } 
+        }
     }
     
     /**
@@ -112,17 +100,16 @@ public class GameEngine {
     public void restartGame(MouseEvent evt){
         Globals.resetButton.clickStatus(evt);
         Globals.timeTracker.stop(); // Stop the timer
-        gameStarted=false;
-        // Check for new game board
-        // Create new game board
+        gameStarted = false; 
         newGame();
-        
-        // Reset timer to zero
-        
-        // Reset Flags to default
     }
     
-    
+    /**
+     * When the player hits a bomb, runs this method to:
+     * Stop the timer, set the <code>resetButton</code> sprite to "lost", 
+     * sets <code>gameStarted = false<code>, 
+     * and runs <code>gameGrid.lostGame()</code>
+     */
     public void lostGame(){
         Globals.timeTracker.stop();
         Globals.resetButton.animate(4);
@@ -142,13 +129,9 @@ public class GameEngine {
     public void mouseClick(MouseEvent evt, String object){
         //If on grid
         if (object.equals("Grid")){
-            if (!gameStarted){
-                startGame();
-            }
+            if (!gameStarted) startGame();
         }
-        else if (object.equals("Status")){
-            restartGame(evt);
-        }
+        else if (object.equals("Status")) restartGame(evt);
     }
     
     /**
@@ -170,15 +153,5 @@ public class GameEngine {
         }
         return false;
     }
-    
-    /**
-     * The user's keyboard event of pressing a key to respond to
-     * 
-     * @param event the keyboard event registered
-     */
-    public void keypress(KeyEvent event) {
-        //player.keypress(event);
-    }
-    
     // </editor-fold>  
 }

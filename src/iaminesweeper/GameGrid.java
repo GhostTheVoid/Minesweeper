@@ -14,24 +14,19 @@ import tools.Numbers;
  */
 public class GameGrid {
     
+    private static GridCell[][]  grid;      // A 2D array of GridCell objects
+    private static int rows, columns; // The number of rows & columns for the matrix
+    private final JPanel GAME_PANEL; // Reference to the panel for labels
     
-    private static GridCell[][] grid;        // A 2D array of GridCell objects
-    private LinkedList<GridCell>    gridCells;
-    private UserInterface   userInteface;   // Reference to the "view" (user interface)
-    private JLabel          statusLabel;    // Reference to the label to update status
-    private JPanel          gamePanel;      // Reference to the panel for labels
-    
-    private static ResetButton resetButton;
-    private TimeTracker timeTracker;
     public FlagTracker flagTracker;
-    
-    private String[][] matrix;      // A 2D array to store values for the labels
-    
-    private static int rows;               // The number of rows for the matrix
-    private static int columns;            // The number of columns for the matrix
 
     GameGrid(JPanel gamePanel) {
-        this.gamePanel = gamePanel;
+        this.GAME_PANEL = gamePanel;
+    }
+    
+    GameGrid(JPanel gamePanel, FlagTracker flagTracker) {
+        this.GAME_PANEL  = gamePanel;
+        this.flagTracker = flagTracker;
     }
     
     public static void lostGame(){
@@ -41,13 +36,6 @@ public class GameGrid {
                 grid[row][column].setClickable(false);
             }
         }  
-    }
-
-    GameGrid(JPanel gamePanel, TimeTracker timeTracker, FlagTracker flagTracker, ResetButton resetButton) {
-        this.gamePanel   = gamePanel;
-        this.flagTracker = flagTracker;
-        this.timeTracker = timeTracker;
-        this.resetButton = resetButton;
     }
     
     /**
@@ -59,9 +47,9 @@ public class GameGrid {
     }
     
     /**
-     * Sets the 
+     * Sets the difficulty and adjusts the frame accordingly
      */
-    public void prepareGrid (){
+    public void prepareGrid(){
         Difficulties.setDifficulty(0);
     }
     
@@ -131,7 +119,7 @@ public class GameGrid {
      */
     private void createLabel(int row, int column, int x, int y) {
         grid[row][column] = new GridCell(new JLabel(), row, column); // Create cell
-        gamePanel.add(grid[row][column].label);    // Add label to panel
+        GAME_PANEL.add(grid[row][column].label);    // Add label to panel
         grid[row][column].makeLabel(x+2, y+2);
         
     }
