@@ -199,7 +199,6 @@ public class GridCell extends GameObject{
     public void showCell(){
         label.setBorder(borderLowered);
         if (isBomb) {
-            //sprite.animate(CELL_BOMB_TAG);
             showBomb();
             label.setBackground(Color.RED);
             Globals.gameEngine.lostGame();
