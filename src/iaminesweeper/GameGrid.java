@@ -88,8 +88,6 @@ public class GameGrid {
         // labels (based on their sizes) we can have in each row/column
         rows    = Difficulties.rowCount;
         columns = Difficulties.columnCount;
-//        rows    = gamePanel.getHeight() / GridCell.getHeight();
-//        columns = gamePanel.getWidth()  / GridCell.getWidth();
         // Instantiate the matrix
         grid = new GridCell[rows][columns];
         // Now loop through and build all the labels each at a (x,y) location

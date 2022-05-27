@@ -49,11 +49,12 @@ public class GridCell extends GameObject{
     
     public JLabel  label;
     public String  matrix;      // Store values for the label
+    
     public boolean isBomb;
     public boolean isClicked;
-    private boolean isFlagged;
     public boolean canClick;
     public boolean neighboursFlagged;
+    private boolean isFlagged;
     
     
     
@@ -165,6 +166,7 @@ public class GridCell extends GameObject{
         label.setBackground(CELL_BACKGROUND); // Starting color
         label.setBorder(borderRaised);
         label.setText("");
+        isFlagged = false;
     }
     
     /**
