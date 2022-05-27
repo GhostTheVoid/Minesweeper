@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import static javax.swing.SwingConstants.CENTER;
+import javax.swing.border.Border;
 import tools.Animation;
 import tools.GameObject;
 
@@ -38,6 +39,9 @@ public class GridCell extends GameObject{
     private final String BOMB           = Globals.CELL_BOMB;             // Bomb cell text
     private final String BLANK          = Globals.CELL_BLANK;            // Blank cell text
     private final int    INVALID_NUMBER = Globals.CELL_INVALID_NUMBER;   // Invalid number
+    
+    private final Border borderLowered = BorderFactory.createBevelBorder(1);
+    private final Border borderRaised  = BorderFactory.createBevelBorder(0);
     
     private int row;            // The row index this cell is in
     private int column;         // The column index this cell is in
@@ -102,23 +106,17 @@ public class GridCell extends GameObject{
      * @param text The text the label will display
      * @param foreground The color to change the foreground too
      * @param background The color to change the background too
-     * @param borderType the style of border the Bevel will be changed to
+     * @param borderType the style of border the Bevel will be changed to 
+     * (true = raised, false = lowered)
      */
     public void setLblProperties(String text, Color foreground,
-                                 Color background, int borderType){
+                                 Color background, boolean borderType){
+        if (!text.equals("null")) label.setText(text);
         
-        if (text.equals("null")) {}
-        else label.setText(text);
-        
-        if (foreground != null) {
-            label.setForeground(foreground);
-        }
-        if (background != null) {
-            label.setBackground(background);
-        }
-        if (borderType == 0 || borderType == 1) {
-            label.setBorder(BorderFactory.createBevelBorder(borderType)); 
-        }
+        if (foreground != null) label.setForeground(foreground);
+        if (background != null) label.setBackground(background);
+        if (borderType)         label.setBorder(borderRaised); 
+        else                    label.setBorder(borderLowered); 
     }
     
     /**
@@ -165,7 +163,7 @@ public class GridCell extends GameObject{
      */
     public void unclickCell() {
         label.setBackground(CELL_BACKGROUND); // Starting color
-        label.setBorder(BorderFactory.createBevelBorder(0));
+        label.setBorder(borderRaised);
         label.setText("");
     }
     
@@ -174,7 +172,7 @@ public class GridCell extends GameObject{
      */
     public void showBlank(){
         label.setBackground(CELL_BACKGROUND); // Starting color
-        label.setBorder(BorderFactory.createBevelBorder(1));
+        label.setBorder(borderLowered);
         label.setText("");
     }
     
@@ -191,7 +189,7 @@ public class GridCell extends GameObject{
      */
     public void showBomb(){
         if (isBomb) { // Error check
-            setLblProperties(BOMB, Color.BLACK, null, 1);
+            setLblProperties(BOMB, Color.BLACK, null, false);
         }
     }
     
@@ -199,7 +197,7 @@ public class GridCell extends GameObject{
      * Reveals the content of this cell
      */
     public void showCell(){
-        label.setBorder(BorderFactory.createBevelBorder(1));
+        label.setBorder(borderLowered);
         if (isBomb) {
             //sprite.animate(CELL_BOMB_TAG);
             showBomb();
@@ -255,13 +253,13 @@ public class GridCell extends GameObject{
                 if (isFlagged) {
                     Globals.flagTracker.raiseRemainingFlags();
                     isFlagged = false;
-                    setLblProperties("null", null, CELL_BACKGROUND, -1);
+                    setLblProperties("null", null, CELL_BACKGROUND, true);
                     //label.setBackground(CELL_BACKGROUND); // Starting color
                     setClickable(true);
                 } else if (!isFlagged) {
                     Globals.flagTracker.lowerRemainingFlags();
                     isFlagged = true;
-                    setLblProperties("null", null, Color.GREEN, 0);
+                    setLblProperties("null", null, Color.GREEN, true);
                     label.setBackground(Color.GREEN);
                     setClickable(false);
                 }
@@ -349,7 +347,7 @@ public class GridCell extends GameObject{
         label.setBackground(CELL_BACKGROUND); // Starting color
         label.setHorizontalAlignment(CENTER); // Align text
         //System.out.print("Center || ");
-        label.setBorder(BorderFactory.createBevelBorder(0)); 
+        label.setBorder(borderRaised); 
         label.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {}
             /** When the user clicks on a spot of the grid, react */
@@ -384,11 +382,7 @@ public class GridCell extends GameObject{
             public void mouseEntered(MouseEvent e)  { }
             public void mouseExited(MouseEvent e)   { }
         });
-        //System.out.print("Listen || ");
         label.setBounds(x, y, Globals.CELL_WIDTH, Globals.CELL_HEIGHT); // Position label
-        //System.out.print("Bounds || ");
-        //setAnimations();
-        //System.out.println("Animations");
     }
     // </editor-fold>  
     
@@ -409,47 +403,5 @@ public class GridCell extends GameObject{
         else if (text.equals("7")) return Integer.parseInt(text);
         else if (text.equals("8")) return Integer.parseInt(text);
         else                       return INVALID_NUMBER;
-    }
-    
-    
-    
-    /**
-     * Set up all the animations for this character
-     * 
-     * @param label the label to associate the animation with
-     * @param settings the list of animation settings
-     */
-    private void setAnimations() {
-        System.out.print("(START)");
-        String sheet = Globals.SPRITE_SHEET;
-        int    delay = Globals.CELL_ANIMATION_DELAY; 
-        String tag   = Globals.CELL_FLAG_TAG;        
-        Animation cellFlag = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.CELL_UNKNOWN_TAG;        
-        Animation cellUnknown = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.CELL_UNKNOWN_CLICK_TAG;        
-        Animation cellUnknownClick = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.CELL_BOMB_TAG;        
-        Animation cellBomb = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.CELL_BOMB_HIT_TAG;        
-        Animation cellBombHit = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        tag = Globals.CELL_BOMB_CHECKED_TAG;        
-        Animation cellBombChecked = Animator.getAnimation(sheet, label, 
-                                                       delay, Globals.settings, tag);
-        System.out.print("(TAGS)");
-        LinkedList<Animation> cellAnimations = new LinkedList<>(); 
-        cellAnimations.add(cellFlag);
-        cellAnimations.add(cellUnknown);
-        cellAnimations.add(cellUnknownClick);
-        cellAnimations.add(cellBomb);
-        cellAnimations.add(cellBombHit);
-        cellAnimations.add(cellBombChecked);
-        sprite.setAnimations(cellAnimations); 
-        System.out.print("(SETS) ");
     }
 }
