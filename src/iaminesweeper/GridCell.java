@@ -235,7 +235,6 @@ public class GridCell extends GameObject{
                     break;
             }
         }
-        
     }
     
     /**
